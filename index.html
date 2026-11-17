@@ -763,6 +763,7 @@ body.v5 .v5page ~ .modal{z-index:38}
 <div class="phone" id="app"></div>
 <script>
 // =============== utilidades ===============
+var V5CAL={atp:.64,wta:.565,cl:-.017,gr:.02,k:.0028,v:2.5,ero:.0008,bp:.0015};function v5B0(A){return(CIRC()==='WTA'?V5CAL.wta:V5CAL.atp)+({clay:V5CAL.cl,grass:V5CAL.gr}[A&&A.surf]||0)}function v5Ac(x){return(CIRC()==='WTA'?.02:.085)*({grass:1.45,clay:.7}[x.surf]||1)}
 let RNG=Math.random;const R=()=>RNG(), ri=(a,b)=>Math.floor(a+R()*(b-a+1)), pick=a=>a[Math.floor(R()*a.length)];
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const gauss=()=>{let u=0,v=0;while(!u)u=R();while(!v)v=R();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
@@ -1185,10 +1186,10 @@ function eff(id,surf,tacK,opp){
  const p=IDX.get(id),f=envB(COUNTRIES[p.c][0],p.fs,surf)+cq(p)*.35+.8,cl=climateOf(CUR_EV,S.w);let sv=p.r+p.b+f,rt=p.r-p.b+f;if(cl==='indoor'||cl==='altitude')sv+=p.b*.3;return{sv,rt,me:p.r,v:2,fi:p.r*.85+(p.fit??.5)*15};
 }
 function simMatch(A,B,bo5,rec){
- const fa=gauss()*A.v,fb=gauss()*B.v;
- let pA=clamp(.64+.0045*((A.sv+fa)-(B.rt+fb)),.4,.88),pB=clamp(.64+.0045*((B.sv+fb)-(A.rt+fa)),.4,.88);
+ const fa=gauss()*A.v*V5CAL.v,fb=gauss()*B.v*V5CAL.v,b0=v5B0(A);
+ let pA=clamp(b0+V5CAL.k*((A.sv+fa)-(B.rt+fb)),.33,.88),pB=clamp(b0+V5CAL.k*((B.sv+fb)-(A.rt+fa)),.33,.88);
  const mt=.003*(A.me-B.me);
- const mk=x=>({pts:0,sp:0,spw:0,f1:0,f1w:0,s2:0,s2w:0,ace:0,df:0,bpo:0,bpw:0,win:0,ue:0,f1r:clamp(.58+(x.sv-60)*.002,.5,.72),ac:clamp(.05+(x.sv-60)*.003,.015,.2),dfr:clamp(.065-(x.me-60)*.0008,.02,.11)});
+ const mk=x=>({surf:A.surf,pts:0,sp:0,spw:0,f1:0,f1w:0,s2:0,s2w:0,ace:0,df:0,bpo:0,bpw:0,win:0,ue:0,f1r:clamp(.58+(x.sv-60)*.002,.5,.72),ac:clamp(v5Ac(x)+(x.sv-60)*.003,.01,.25),dfr:clamp(.065-(x.me-60)*.0008,.02,.11)});
  const SA=mk(A),SB=mk(B),TL=rec?[]:null;
  const sp=(srvA,p)=>{if(!rec)return{w:R()<p,ev:null};
   const sv=srvA?SA:SB,rv=srvA?SB:SA;let w,ev=null;sv.sp++;const p1=Math.min(.95,p+.1);
@@ -1207,13 +1208,13 @@ function simMatch(A,B,bo5,rec){
     a>b?ga++:gb++;tb=Math.min(a,b);srvA=!first;break}
    let a=0,b=0;const sA=srvA;
    for(;;){const rP=sA?b:a,sP=sA?a:b,bp=rP>=3&&rP>sP;if(bp&&rec)(sA?SB:SA).bpo++;
-    const r=sp(sA,sA?pA:pB);const aw=sA?r.w:!r.w;aw?a++:b++;let ev=r.ev;
+    const r=sp(sA,(sA?pA:pB)+(bp?clamp(V5CAL.bp*(((sA?A:B).me??60)-((sA?B:A).me??60)),-.03,.03):0));const aw=sA?r.w:!r.w;aw?a++:b++;let ev=r.ev;
     const gA=a>=4&&a-b>=2,gB=b>=4&&b-a>=2;
     if(bp&&!r.w){if(rec)(sA?SB:SA).bpw++;ev='brk'}else if(bp&&rec)ev=ev==='ace'?'ace':'save';
     if(gA)ga++;if(gB)gb++;
     if(rec)TL.push({s:sets.slice(),g:[ga,gb],p:gA||gB?[0,0]:[a,b],srv:gA||gB?!sA:sA,ev:gA||gB?(ev==='brk'?'brk':ev==='ace'?'ace':'game'):ev,aw});
     if(gA||gB)break}
-   srvA=!srvA;
+   srvA=!srvA;{const G0=sets.reduce((s,x)=>s+x[0]+x[1],0)+ga+gb;if(G0>12){pA-=V5CAL.ero*clamp(1.35-(A.fi??60)/100,.3,1);pB-=V5CAL.ero*clamp(1.35-(B.fi??60)/100,.3,1)}}
    if((ga>=6||gb>=6)&&Math.abs(ga-gb)>=2)break;
   }
   ga>gb?sa++:sb++;sets.push([ga,gb,tb]);
@@ -1227,7 +1228,7 @@ function award(id,t,idx){
  const v=t.pts[idx]||0;
  if(id==='me'){
   if(v>0)(t.cat==='pro'?S.me.ptsPro:S.me.ptsJr).push([S.w,v]);
-  const pr=(t.prize||[])[idx]||0;const fee=pr*(TAXR()+AGENT());S.me.money+=pr-fee;S.me.st.prize+=pr;S.me.wkInc=(S.me.wkInc||0)+pr;S.me.st.fees=(S.me.st.fees||0)+fee;return{v,pr};
+  const pr=(t.prize||[])[idx]||0;const fee=pr*(v5Tax()+AGENT()+v5CoachCut());S.me.money+=pr-fee;S.me.st.prize+=pr;S.me.wkInc=(S.me.wkInc||0)+pr;S.me.st.fees=(S.me.st.fees||0)+fee;return{v,pr};
  }
  if(id!=null&&v>0)IDX.get(id).pts.push([S.w,v]);
 }
@@ -1520,7 +1521,7 @@ function playMatch(pre){
   if(res.win&&!res.inj){T.q.step++;
    if(T.q.step>=T.q.n){if(t.qpts)(t.cat==='pro'?S.me.ptsPro:S.me.ptsJr).push([S.w,t.qpts]);T.log.push({c:'win',t:`✅ Classificado para a chave principal!${t.qpts?' +'+t.qpts+' pts':''}`});T.q=null;insertMe()}
    else T.q.opp=qualiOpp(t);
-  }else finishTour(res.win?'Abandono (lesão)':'Qualifying',null);
+  }else if(!res.win&&!res.inj&&v5LL(T,t)){}else finishTour(res.win?'Abandono (lesão)':'Qualifying',null);
   save();render();return;
  }
  const n=T.br.length,opp=oppOf(),stage=roundName(n);
@@ -1998,7 +1999,7 @@ function endWeek(){
  m.fol=Math.round(m.fol+(target-m.fol)*(target>m.fol?.02:.004)+m.fol*L.fol/100);fixFol();
  if(m.injury>0)m.injury--;
  const hT=clamp(42+16*genE()+L.hl+m.physio*7+(ctLv()===4?5:ctLv()>=2?2:0)+assetSum('hl')-(m.energy<25?8:0)-((m.load||0)>75?6:0),10,100);m.health=clamp((m.health??60)+(hT-(m.health??60))*.02,0,100);
- {const a=meAgeF(),pk=peakAge();if(a>pk){const rate=(.8+.6*(a-pk))*(1.4-cond()/100*.6)/52;ATTR.forEach(([k])=>{if(k!=='me')m.attrs[k]=Math.max(10,m.attrs[k]-rate*(k==='fi'?1.3:k==='sv'?.8:1))})}}
+ {const a=meAgeF(),pk=peakAge();if(a>pk){const rate=(.8+.6*(a-pk))*(1.4-cond()/100*.6)/52;ATTR.forEach(([k])=>{if(k!=='me')m.attrs[k]=Math.max(10,m.attrs[k]-rate*(V5AGE[k]||1))})}}
  S.heat=clamp(S.heat-.4,0,100);
  const rv=rival();if(rv&&R()<.12)addPost({a:rv.n,h:handleOf(rv.n),t:S.heat>65?pick(['Tem gente falando demais por aí... 🤐','Foco. O resto é barulho. 🎧','Contando os dias pro próximo confronto 😤']):pick(['Treino feito ✅','Bom dia de trabalho 🎾','Viajando pro próximo torneio ✈️']),k:'rv',c:rv.c});
  aiTeamWeek();
@@ -2206,8 +2207,8 @@ const isMaj=t=>!!MAJOR[t];
 
 // =============== MODO QUADRA: partida jogada pelo usuário ===============
 let IM=null,IMT=null;
-function mkEngine(A,B,bo5){const fa=gauss()*A.v,fb=gauss()*B.v;const mk=x=>({pts:0,sp:0,spw:0,f1:0,f1w:0,s2:0,s2w:0,ace:0,df:0,bpo:0,bpw:0,win:0,ue:0,f1r:clamp(.58+(x.sv-60)*.002,.5,.72),ac:clamp(.05+(x.sv-60)*.003,.015,.2),dfr:clamp(.065-(x.me-60)*.0008,.02,.11)});
- return{fiA:A.fi,fiB:B.fi,pA:clamp(.64+.0045*((A.sv+fa)-(B.rt+fb)),.4,.88),pB:clamp(.64+.0045*((B.sv+fb)-(A.rt+fa)),.4,.88),mt:.003*(A.me-B.me),need:bo5?3:2,sets:[],sa:0,sb:0,ga:0,gb:0,a:0,b:0,tb:false,tbi:0,tbFirst:null,srvA:R()<.5,done:false,TL:[],SA:mk(A),SB:mk(B)}}
+function mkEngine(A,B,bo5){const fa=gauss()*A.v*V5CAL.v,fb=gauss()*B.v*V5CAL.v,b0=v5B0(A);const mk=x=>({surf:A.surf,pts:0,sp:0,spw:0,f1:0,f1w:0,s2:0,s2w:0,ace:0,df:0,bpo:0,bpw:0,win:0,ue:0,f1r:clamp(.58+(x.sv-60)*.002,.5,.72),ac:clamp(v5Ac(x)+(x.sv-60)*.003,.01,.25),dfr:clamp(.065-(x.me-60)*.0008,.02,.11)});
+ return{fiA:A.fi,fiB:B.fi,pA:clamp(b0+V5CAL.k*((A.sv+fa)-(B.rt+fb)),.33,.88),pB:clamp(b0+V5CAL.k*((B.sv+fb)-(A.rt+fa)),.33,.88),mt:.003*(A.me-B.me),need:bo5?3:2,sets:[],sa:0,sb:0,ga:0,gb:0,a:0,b:0,tb:false,tbi:0,tbFirst:null,srvA:R()<.5,done:false,TL:[],SA:mk(A),SB:mk(B)}}
 const eSrv=E=>E.tb?((((E.tbi+1)>>1)%2===0)?E.tbFirst:!E.tbFirst):E.srvA;
 function eEndSet(E,tb){E.ga>E.gb?E.sa++:E.sb++;E.sets.push([E.ga,E.gb,tb]);E.ga=0;E.gb=0;if(E.sa>=E.need||E.sb>=E.need)E.done=true}
 function ePoint(E,mod){mod=mod||{};const sA=eSrv(E);let p=E.tb?(sA?E.pA+E.mt:E.pB-E.mt):(sA?E.pA:E.pB);const mo=clamp(E.run||0,-4,4)*.004;const ft=fatOf(E,true)-fatOf(E,false);p=clamp(p+(mod.dp||0)+(sA?mo:-mo)+(sA?-ft:ft),.3,.93);
@@ -2690,7 +2691,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='5.1';
+const VERSION='5.2';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -3409,7 +3410,7 @@ function v5Home(){const m=S.me;if(PSELW!==S.w){PSEL=0;PSELW=S.w}
  +acc('agenda','Sua agenda',(()=>{const k=Object.keys(S.plan).filter(w=>+w>=S.w).length;return k?`${k} agendado(s)`:'nada agendado'})(),agendaCard(),false)
  +(S.goals?acc('goals','Metas da temporada',`${S.goals.map(goalProg).filter(x=>x.ok).length}/3`,goalsCard(),false):'')
  +cnAcc()+(rv?acc('rival','Rival',`${esc(rv.n.split(' ').slice(-1)[0])}`,rivalCard(),false):'')
- +acc('fin','Finanças',`${inc-cost>=0?'+':'−'}${money(Math.abs(inc-cost))}/sem`,`<div class="g3"><div class="pill"><b class="win">+${kfmt(inc)}</b><span>Receitas</span></div><div class="pill"><b class="loss">−${kfmt(cost)}</b><span>Custos</span></div><div class="pill"><b>${m.spons.length}/3</b><span>Patrocínios</span></div></div>`,false)}
+ +acc('fin','Finanças',`${inc-cost>=0?'+':'−'}${money(Math.abs(inc-cost))}/sem`,`<div class="g3"><div class="pill"><b class="win">+${kfmt(inc)}</b><span>Receitas</span></div><div class="pill"><b class="loss">−${kfmt(cost)}</b><span>Custos</span></div><div class="pill"><b>${m.spons.length}/3</b><span>Patrocínios</span></div></div><p class="xs mut" style="margin:10px 0 0">${v5CutTxt()}. Fora do seu país, o torneio retém imposto na fonte (até 30%), e vale o maior entre esse e o imposto do seu país.</p>`,false)}
 function v5Bar(){if(!S||S.tour||S.ended)return'';let L;try{L=v5Props().L}catch(e){return''}if(!L.length)return'';const p=L[Math.min(PSEL,L.length-1)];const dis=S.modals.length?'disabled':'';
  return `<div class="v5bar"><div class="v5bl"><b>Semana ${S.w%52+1}</b><span>${esc(p.t)}</span></div><button ${dis} onclick="${p.a.replace(/"/g,'&quot;')}">${/^enter\(/.test(p.a)?'Inscrever →':/^(train|rest|endWeek)\(/.test(p.a)?'Fechar a semana →':'Confirmar →'}</button></div>`}
 {const _h=homeView;homeView=function(){if(S.tour||S.ended||DRAWV)return _h();try{return v5Home()}catch(e){console.error(e);return _h()}}}
@@ -3665,6 +3666,88 @@ function v5CoachView(){const c=COI.get(V5CO);if(!c)return'';const m=S.me,mine=m.
  </div></div>`}
 // rosto do treinador no elenco
 {const _ro=v5Roster;v5Roster=function(){let s=_ro();const c=myCoach();if(c)s=s.replace(/<span class="v5ini">[^<]*<\/span>/,`<span class="v5face">${av(c.n,c.c,'sm',v5CAv(c))}</span>`);return s.replace(`onclick="ACCO['coach']`,`onclick="ACCO['coach']`)}}
+
+// =============== v5.2 · simulador: 1) ranking e inscrições ===============
+// pontos que saem do ranking na semana w (da edição do ano anterior)
+function v5Drop(w,a){a=a||S.me.ptsPro||[];let s=0;for(const[x,v]of a)if(x===w-52)s+=v;return s}
+function v5Drops(k){const L=[];for(let i=0;i<k;i++){const w=S.w+i,v=v5Drop(w);if(v)L.push([w,v])}return L}
+// torneios obrigatórios para o top 30 (Slams e Masters/1000, menos Monte Carlo)
+const v5Mand=e=>(e.tier==='GS'||e.tier==='M1000')&&!/Monte Carlo|Monte-Carlo/i.test(e.name+' '+e.city);
+const v5Commit=()=>{const r=myRank('pro');return !!(r&&r<=30)};
+const V5FINE=40000;
+// lucky loser
+function v5LL(T,t){if(!T||!T.q||T.q.step!==T.q.n-1)return false;const ev=curEv(),p={GS:.45,M1000:.4,A500:.32,A250:.3}[ev.tier]||(ev.tier.startsWith('C')?.25:.18);if(R()>=p)return false;
+ T.log.push({c:'win',t:'Lucky loser: uma desistência abriu vaga na chave principal!'});T.q=null;T.ll=1;insertMe();news(`Lucky loser no ${ev.name}: você entra na chave principal mesmo perdendo no quali.`);if(!QUIET)S.modals.push({e:'',k:'Sorte',ti:'Lucky loser!',q:`Um jogador desistiu do ${ev.name} e você, que perdeu na última rodada do quali, herda a vaga na chave principal.`,o:[{l:'Bora!',t:'Você entra na chave principal'}]});return true}
+// convites pedidos
+function v5WcOdds(e){const t=TIERS[e.tier],m=S.me,r=myRank('pro')||1500,home=e.iso===COUNTRIES[m.c][0];let p={GS:.02,M1000:.03,A500:.05,A250:.08,C175:.12,C125:.15,C100:.18,C75:.22,C50:.25}[e.tier]||0;if(!p)return 0;
+ if(home)p*=3.5;p*=1+Math.min(1.5,(m.fol||0)/2e6);const gap=r/Math.max(1,t.cut);p*=gap<1.5?1.4:gap<3?1:gap<6?.6:.3;if(meAge()<=21)p*=1.2;return Math.min(.85,p)}
+function v5WcAsked(e,w){const A=S.me.wcAsk||{};return A[w+'|'+e.key]}
+function v5AskWC(w,key){const e=weekEvents(w).find(x=>x.key===key);if(!e)return;const m=S.me;m.wcAsk=m.wcAsk||{};const id=w+'|'+key;if(m.wcAsk[id])return;if(!m.wcY||m.wcY.y!==year())m.wcY={y:year(),n:0};if(m.wcY.n>=8){TOAST='Você já fez 8 pedidos de convite nesta temporada.';render();return}m.wcY.n++;const p=v5WcOdds(e),ok=R()<p;m.wcAsk[id]=ok?'sim':'nao';
+ if(ok){news(`Convite aceito: a organização do ${e.name} te deu um wild card para a chave principal.`);TOAST=`Convite garantido no ${e.name}!`}else{news(`A organização do ${e.name} negou o seu pedido de convite.`);TOAST=`Convite negado no ${e.name}`}
+ for(const k of Object.keys(m.wcAsk))if(+k.split('|')[0]<S.w-60)delete m.wcAsk[k];save();render()}
+// ranking protegido
+function v5ProtTick(){const m=S.me;if(!m||S.ended)return;if(m.injury>0){m.injW=(m.injW||0)+1;if(m.injW===1)m.prR=myRank('pro')||null}else if(m.injW){if(m.injW>=26&&m.prR){m.prot={r:m.prR,n:9};news(`Ranking protegido: depois de ${m.injW} semanas fora, você pode usar o ranking #${m.prR} para entrar em 9 torneios.`)}m.injW=0;m.prR=null}}
+{const _es=entryStatus;entryStatus=function(ev){const s=_es(ev);try{const m=S.me,t=TIERS[ev.tier];if(!s.main&&t.cat==='pro'&&isPro()&&!['OLY','EXH','FIN'].includes(ev.tier)){const w=ev.w!=null?ev.w:S.w;
+  if(m.wcAsk&&m.wcAsk[w+'|'+ev.key]==='sim')return{ok:1,main:1,wc:2,txt:'Wild card'};
+  if(m.prot&&m.prot.n>0){const r=m.prot.r;if(r<=t.cut)return{ok:1,main:1,prot:1,txt:'Ranking protegido'};if(t.q&&r<=t.q&&!s.ok)return{ok:1,main:0,prot:1,txt:'Qualifying (protegido)'}}}}catch(e){}return s}}
+{const _we=weekEvents;weekEvents=function(w){const L=_we(w);for(const e of L)if(e.w==null)e.w=w;return L}}
+{const _en=enter;enter=function(key){const e=weekEvents(S.w).find(x=>x.key===key),st=e?entryStatus(e):null;_en(key);if(S.tour&&e){S._pw=S.w;if(st&&st.prot&&S.me.prot){S.me.prot.n--;if(S.me.prot.n<=0)S.me.prot=null}}}}
+{const _ew=endWeek;endWeek=function(){if(S.modals.length)return _ew();try{const m=S.me;if(m&&!S.ended&&isPro()&&v5Commit()&&S._pw!==S.w&&!(m.injury>0)&&S.busy!==S.w){const md=weekEvents(S.w).find(e=>v5Mand(e)&&e.tier!=='GS');if(md){m.money-=V5FINE;news(`Multa de ${money(V5FINE)}: ${G('jogadores','jogadoras')} do top 30 são obrigados a jogar o ${md.name}.`)}}}catch(e){}try{v5ProtTick()}catch(e){}return _ew()}}
+// pauta: avisos
+{const _vp=v5Props;v5Props=function(){const R0=_vp();try{const m=S.me,dr=v5Drop(S.w);const md=isPro()&&v5Commit()?weekEvents(S.w).find(e=>v5Mand(e)&&e.tier!=='GS'):null;
+ R0.L.forEach(p=>{if(/^enter\(/.test(p.a)){if(dr)p.tags.push(`<span class="v5t b">${dr} pts do ano passado saem nesta semana</span>`);const k=/enter\('([^']+)'\)/.exec(p.a);const e=k&&weekEvents(S.w).find(x=>x.key===k[1]);if(e&&v5Mand(e)&&v5Commit())p.tags.push('<span class="v5t m">obrigatório no top 30</span>')}
+  else if(md&&/^(train|rest)\(/.test(p.a)&&!(m.injury>0))p.tags.push(`<span class="v5t b">multa de ${money(V5FINE)} por faltar ao ${esc(md.name)}</span>`)});
+ // pedir convite: torneio da semana em que você só entraria no quali (ou nem isso)
+ if(isPro()&&!S.tour&&S.busy!==S.w&&!(m.wcY&&m.wcY.y===year()&&m.wcY.n>=8)){const c=weekEvents(S.w).map(e=>({e,st:entryStatus(e),p:v5WcOdds(e)})).filter(x=>!x.st.main&&x.p>0&&!v5WcAsked(x.e,S.w)&&TIERS[x.e.tier].cat==='pro').sort((a,b)=>TIERS[b.e.tier].w*b.p-TIERS[a.e.tier].w*a.p)[0];
+  if(c){const w=v5Who('emp');R0.L.push({w,t:`Pedir convite para o ${c.e.name}`,q:c.e.iso===COUNTRIES[m.c][0]?'Torneio em casa. Eles gostam de dar vaga para a prata da casa.':'Não custa pedir. No máximo eles dizem não.',tags:[`<span class="v5t n">chance de ${Math.round(c.p*100)}%</span>`,`<span class="v5t g">chave principal se aceitarem</span>`],a:`v5AskWC(${S.w},'${c.e.key}')`,cta:'Pedir'})}}}catch(e){console.error(e)}return R0}}
+// temporada: pontos a defender, convites e ranking protegido
+{const _vs=v5Season;v5Season=function(){let s=_vs();try{const m=S.me,D=v5Drops(10),tot=D.reduce((a,b)=>a+b[1],0);
+ const up=[];for(let i=1;i<=6;i++){const w=S.w+i;weekEvents(w).forEach(e=>{if(TIERS[e.tier].cat!=='pro'||!isPro())return;const st=entryStatus(e);const asked=v5WcAsked(e,w);if(!st.main&&v5WcOdds(e)>=.08||asked)up.push({w,e,st,asked})})}
+ let html='';
+ if(D.length)html+=`<div class="v5sec"><span class="v5k">Pontos a defender · ${tot} nas próximas 10 semanas</span></div><div class="card v5feed" style="padding:4px 16px">${D.map(([w,v])=>`<div><span class="gr D">−</span><span>${v} pts saem na semana ${w%52+1}<small>${wkDate(w)} · resultado do ano passado</small></span></div>`).join('')}</div>`;
+ if(m.prot)html+=`<div class="v5next" style="margin-top:12px">Ranking protegido #${m.prot.r} · vale para mais ${m.prot.n} torneio${m.prot.n>1?'s':''}</div>`;
+ if(up.length)html+=`<div class="v5sec"><span class="v5k">Pedir convite (wild card)</span></div>${up.slice(0,5).map(x=>`<div class="v5srow"><span class="v5sb2" style="background:${(SURFC[x.e.surf]||['#888'])[0]}"></span><span class="v5sn"><b>${esc(x.e.name)}</b><small>${wkDate(x.w)} · ${esc(tl(x.e.tier))} · ${x.asked==='sim'?'convite aceito':x.asked==='nao'?'pedido negado':`chance ${Math.round(v5WcOdds(x.e)*100)}%`}</small></span>${x.asked?'':`<button class="sec" style="grid-column:2;justify-self:start;min-height:36px;padding:6px 12px;font-size:13px" onclick="v5AskWC(${x.w},'${x.e.key}')">Pedir convite</button>`}</div>`).join('')}`;
+ s=s.replace(/<\/section>$/,html+'</section>')}catch(e){console.error(e)}return s}}
+// motor: o piso chega até a partida
+{const _ef=eff;eff=function(id,surf,t,o){const r=_ef(id,surf,t,o);if(r)r.surf=surf;return r}}
+
+// =============== v5.2 · 3) corpo: lesões por região, jogar com dor, envelhecimento ===============
+const V5INJ={ombro:['Lesão no ombro','sv'],abd:['Distensão abdominal','sv'],punho:['Tendinite no punho','fh'],cotovelo:['Dor no cotovelo','bh'],costas:['Dor nas costas','fi'],joelho:['Lesão no joelho','fi'],tornozelo:['Entorse no tornozelo','fi'],coxa:['Distensão na coxa','fi']};
+const V5AGE={fi:1.4,rt:1.15,sv:.8,vo:.7,fh:1,bh:1};
+function v5InjRegion(){const m=S.me,ev=S.tour?curEv():null,sf=ev?ev.surf:surfOf(S.w%52),a=meAgeF();const W={ombro:1,abd:1,punho:1,cotovelo:.7,costas:1,joelho:1,tornozelo:1,coxa:1};
+ if(sf==='hard'){W.joelho+=1;W.punho+=.6}if(sf==='clay'){W.costas+=.8;W.coxa+=.8}if(sf==='grass'){W.tornozelo+=1.2;W.costas+=.5}
+ if(m.style==='sacador'){W.ombro+=1.2;W.abd+=1}if(m.style==='contra'||m.style==='fundo'){W.coxa+=.5;W.tornozelo+=.4}
+ if(a>=29){W.costas+=1;W.joelho+=.8;W.coxa+=.6}if((m.load||0)>70){W.coxa+=.6;W.abd+=.4}
+ const t=Object.values(W).reduce((x,y)=>x+y,0);let r=R()*t;for(const[k,v]of Object.entries(W)){r-=v;if(r<=0)return k}return'costas'}
+{const _in=injure;injure=function(a,b){const m=S.me,w0=m.injury||0;_in(a,b);try{if((m.injury||0)>w0){const k=v5InjRegion();m.injR={k,w:m.injury,s:S.w};(m.injH=m.injH||[]).unshift({k,w:m.injury,y:year()});if(m.injH.length>12)m.injH.length=12;news(`Diagnóstico: ${V5INJ[k][0].toLowerCase()}, ${m.injury} semana${m.injury>1?'s':''} de recuperação.`)}}catch(e){}}}
+// volta da lesão: algumas semanas abaixo do normal no golpe afetado
+function v5InjTick(){const m=S.me;if(!m||S.ended)return;if(m.injR&&!(m.injury>0)){const k=m.injR.k,d=-clamp(Math.round(1+m.injR.w/5),1,5);m.injFx={a:V5INJ[k][1],d,until:S.w+6,k};m.injR=null;news(`De volta após ${V5INJ[k][0].toLowerCase()}. Nas próximas semanas o ${ATTR.find(x=>x[0]===V5INJ[k][1])[1].toLowerCase()} ainda não estará 100%.`)}if(m.injFx&&S.w>=m.injFx.until)m.injFx=null;
+ if(meAgeF()>26&&m.attrs.me<92)m.attrs.me=Math.min(92,m.attrs.me+.003)}
+{const _ef2=eff;eff=function(id,surf,t,o){const r=_ef2(id,surf,t,o);try{if(id==='me'&&r){const m=S.me;if(m.injFx){const k=m.injFx.a;if(k==='sv')r.sv+=m.injFx.d;else if(k==='fi')r.rt+=m.injFx.d;else{r.sv+=m.injFx.d*.5;r.rt+=m.injFx.d*.5}}if(m.pain&&S.tour&&m.pain.w===S.w){r.sv-=2;r.rt-=2}}}catch(e){}return r}}
+// jogar com dor (atendimento médico entre as partidas)
+{const _pm=playMatch;playMatch=function(pre){const T=S.tour,before=T?T.log.length:0;_pm(pre);try{const m=S.me,T2=S.tour;if(!T2||T2.over||S.modals.length||m.pain&&m.pain.w===S.w)return;const last=T2.log[T2.log.length-1];if(!last||T2.log.length===before||last.c!=='win')return;
+  const r=LIVE&&LIVE.res?LIVE.res:null;const long=r?r.sets.length>=3:R()<.3;if(!long)return;const p=.05+.012*Math.max(0,meAgeF()-27)+((m.load||0)>70?.04:0)+(m.energy<35?.03:0);if(R()>=p)return;
+  const k=v5InjRegion();m.painK=k;S.modals.push({k:'Atendimento médico',e:'',ti:`Incômodo: ${V5INJ[k][0].toLowerCase()}`,q:`Depois da partida longa, o fisioterapeuta encontrou um incômodo. Dá para seguir no torneio com dor, mas você joga abaixo do normal e pode virar lesão.`,o:[{l:'Jogar com dor',t:'Rende menos e corre risco de lesão',fx:{v5:'dor'}},{l:'Desistir do torneio',t:'W.O. na próxima rodada, sem risco',fx:{v5:'wo'}}]})}catch(e){console.error(e)}}}
+{const _ap=applyFx;applyFx=function(fx){_ap(fx);try{if(fx&&fx.v5==='dor'){S.me.pain={w:S.w,k:S.me.painK}}if(fx&&fx.v5==='wo'&&S.tour&&!S.tour.over){S.tour.log.push({c:'loss',t:'Desistência por lesão (W.O.)'});finishTour('Desistência (lesão)',null)}}catch(e){console.error(e)}}}
+{const _ew3=endWeek;endWeek=function(){if(S.modals.length)return _ew3();const m=S.me;try{if(m&&m.pain&&m.pain.w===S.w&&!(m.injury>0)&&R()<.25){S._painInj=1}}catch(e){}const r=_ew3();try{if(S._painInj){S._painInj=0;if(!(S.me.injury>0))injure(2,5)}if(S.me&&S.me.pain&&S.me.pain.w<S.w)S.me.pain=null;
+ // risco extra com a idade nas semanas de torneio
+ if(S.me&&!S.ended&&S._pw===S.w-1&&meAgeF()>=30&&!(S.me.injury>0)&&R()<.004*(meAgeF()-29))injure(1,4);v5InjTick()}catch(e){console.error(e)}return r}}
+// histórico médico na aba Carreira
+{const _pv2=profileView;profileView=function(){let s=_pv2();try{const m=S.me,H=m.injH||[];if(PROFTAB==='stats'&&H.length)s+=`<div class="card"><h3>Histórico médico</h3>${m.injFx?`<p class="small" style="color:var(--gold);margin:0 0 8px">Voltando de ${V5INJ[m.injFx.k][0].toLowerCase()}: ${ATTR.find(x=>x[0]===m.injFx.a)[1].toLowerCase()} ${m.injFx.d} até ${wkDate(m.injFx.until)}.</p>`:''}${H.map(h=>`<div class="v5ch"><span class="v5chy">${h.y}</span><span><b>${V5INJ[h.k][0]}</b><small>${h.w} semana${h.w>1?'s':''} fora</small></span></div>`).join('')}</div>`}catch(e){}return s}}
+
+// =============== v5.2 · 4) economia ===============
+// imposto retido na fonte (estrangeiros) por país do torneio, aproximado
+const V5WH={US:.30,ES:.24,IT:.30,FR:.15,GB:.20,DE:.158,AU:.30,CN:.20,JP:.2042,CA:.15,MX:.25,BR:.25,AR:.35,NL:.20,CH:.15,AT:.20,SE:.20,MC:0,AE:0,QA:0,SA:0,IN:.20,KR:.22,TR:.20,PT:.25,BE:.18,RS:.20,HR:.12,GR:.20,PL:.20,CZ:.15};
+function v5Tax(){const h=TAXR(),e=S.tour?curEv():null;if(!e||!S.me)return h;const t=TIERS[e.tier];if(!t||t.cat!=='pro'||['M15','M25','EXH'].includes(e.tier))return h;if(e.iso===COUNTRIES[S.me.c][0])return h;const wh=V5WH[e.iso]??.15;return Math.max(h,wh)}
+// treinador recebe uma porcentagem do prêmio (prática comum no circuito)
+function v5CoachCut(){const c=myCoach(),e=S.tour?curEv():null;if(!c||c.me||!e)return 0;const t=TIERS[e.tier];if(!t||t.cat!=='pro'||e.tier==='EXH')return 0;return c.q>=3?.10:.05}
+function v5CutTxt(){const c=myCoach();return c?`${esc(c.n.split(' ')[0])} fica com ${c.q>=3?10:5}% dos prêmios`:'sem treinador'}
+// cláusulas de patrocínio por ranking
+function v5SponWeek(){const m=S.me;if(!m||S.ended||!isPro()||!(m.spons||[]).length)return;const r=myRank('pro');if(!r)return;m.v5hi=m.v5hi||9999;
+ for(const lv of [100,50,20,10,1]){if(r<=lv&&m.v5hi>lv){const b=Math.round(sponPay()*(lv===1?20:lv===10?12:lv===20?8:lv===50?6:4));m.money+=b;news(`Bônus de patrocínio: entrar no top ${lv===1?'1 (número 1 do mundo!)':lv} rendeu ${money(b)} dos seus patrocinadores.`);break}}
+ m.v5hi=Math.min(m.v5hi,r);
+ (m.spons||[]).forEach(c=>{const sp=SPONSORS.find(x=>x.id===c.id);if(!sp||!sp.req||!sp.req.pro)return;const bad=r>sp.req.pro*2;if(bad&&(c.pm||1)>=1){c.pm=.7;news(`${sp.n} cortou 30% do contrato: o seu ranking caiu muito abaixo do combinado (top ${sp.req.pro}).`)}else if(!bad&&c.pm&&c.pm<1&&r<=sp.req.pro){c.pm=1;news(`${sp.n} restabeleceu o valor integral do contrato.`)}})}
+{const _ew4=endWeek;endWeek=function(){const go=!S.modals.length;const r=_ew4();if(go)try{v5SponWeek()}catch(e){console.error(e)}return r}}
 
 // =============== tutorial ===============
 const TUT=[

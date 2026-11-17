@@ -1,5 +1,6 @@
 import re,sys
-F='/home/claude/tenis50.html'
+import os
+F=os.environ.get('OUT','/home/claude/tenis50.html')
 s=open(F).read()
 def R(a,b,c=1):
     global s
@@ -18,7 +19,13 @@ R("</style>\n</head>","</style>\n<style id=\"v5css\">"+open('p31/v5.css').read()
 # seletor de temas
 R("${themePicker()}","${v5ThemePicker()}",2)
 # versão
-R("VERSION='4.6'","VERSION='5.1'")
+R("VERSION='4.6'","VERSION='5.2'")
+import importlib.util as _u;_sp=_u.spec_from_file_location('p52','/home/claude/p31/patch52.py');_m=_u.module_from_spec(_sp);_sp.loader.exec_module(_m)
+def _R2(a,b,c=1):
+    global s
+    n=s.count(a);assert n==c,(a[:60],n);s=s.replace(a,b)
+_m.apply(s,_R2)
+R("}else finishTour(res.win?'Abandono (lesão)':'Qualifying',null);","}else if(!res.win&&!res.inj&&v5LL(T,t)){}else finishTour(res.win?'Abandono (lesão)':'Qualifying',null);")
 R("m.center===4?5:m.center>=2?2:0","ctLv()===4?5:ctLv()>=2?2:0")
 R("m.center>=3&&m.coach>=3","ctLv()>=3&&m.coach>=3")
 R("+acc('center','🏟️ Local de treino',CENTERS[m.center].n,ctr,false)","+acc('center','🏟️ Base e CT',v5CtName()+' · '+myBase().city,v5BaseMini(),false)")
@@ -30,5 +37,5 @@ import re as _re
 _i=s.index('<div class="card"><h3>📦 Onde você mora</h3>');_j=s.index("</div>`}",_i)
 s=s[:_i]+"${v5HomeCard()}"+s[_j+6:]
 # js
-R("// =============== tutorial ===============",open('p31/batch50.js').read()+"\n"+open('p31/batch51.js').read()+"\n// =============== tutorial ===============")
+R("// =============== tutorial ===============",open('p31/batch50.js').read()+"\n"+open('p31/batch51.js').read()+"\n"+open('p31/batch52.js').read()+"\n"+open('p31/batch53.js').read()+"\n"+open('p31/batch54.js').read()+"\n// =============== tutorial ===============")
 open(F,'w').write(s);print('ok',len(s))

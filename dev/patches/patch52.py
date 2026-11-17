@@ -1,0 +1,13 @@
+# motor de partida calibrável (v5.2)
+def apply(s,R):
+    R("let RNG=Math.random;","var V5CAL={atp:.64,wta:.565,cl:-.017,gr:.02,k:.0028,v:2.5,ero:.0008,bp:.0015};function v5B0(A){return(CIRC()==='WTA'?V5CAL.wta:V5CAL.atp)+({clay:V5CAL.cl,grass:V5CAL.gr}[A&&A.surf]||0)}function v5Ac(x){return(CIRC()==='WTA'?.02:.085)*({grass:1.45,clay:.7}[x.surf]||1)}\nlet RNG=Math.random;")
+    R("const fa=gauss()*A.v,fb=gauss()*B.v;","const fa=gauss()*A.v*V5CAL.v,fb=gauss()*B.v*V5CAL.v,b0=v5B0(A);",2)
+    R(".64+.0045*((A.sv+fa)-(B.rt+fb))","b0+V5CAL.k*((A.sv+fa)-(B.rt+fb))",2)
+    R(".64+.0045*((B.sv+fb)-(A.rt+fa))","b0+V5CAL.k*((B.sv+fb)-(A.rt+fa))",2)
+    R(",.4,.88)",",.33,.88)",4)
+    R("ac:clamp(.05+(x.sv-60)*.003,.015,.2)","ac:clamp(v5Ac(x)+(x.sv-60)*.003,.01,.25)",2)
+    R("const mk=x=>({pts:0,sp:0,","const mk=x=>({surf:A.surf,pts:0,sp:0,",2)
+    R("srvA=!srvA;\n   if((ga>=6||gb>=6)&&Math.abs(ga-gb)>=2)break;","srvA=!srvA;{const G0=sets.reduce((s,x)=>s+x[0]+x[1],0)+ga+gb;if(G0>12){pA-=V5CAL.ero*clamp(1.35-(A.fi??60)/100,.3,1);pB-=V5CAL.ero*clamp(1.35-(B.fi??60)/100,.3,1)}}\n   if((ga>=6||gb>=6)&&Math.abs(ga-gb)>=2)break;")
+    R("const r=sp(sA,sA?pA:pB);","const r=sp(sA,(sA?pA:pB)+(bp?clamp(V5CAL.bp*(((sA?A:B).me??60)-((sA?B:A).me??60)),-.03,.03):0));")
+    R("rate*(k==='fi'?1.3:k==='sv'?.8:1)","rate*(V5AGE[k]||1)")
+    R("const fee=pr*(TAXR()+AGENT());","const fee=pr*(v5Tax()+AGENT()+v5CoachCut());")

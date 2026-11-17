@@ -1,0 +1,23 @@
+// =============== v5.2 · 3) corpo: lesões por região, jogar com dor, envelhecimento ===============
+const V5INJ={ombro:['Lesão no ombro','sv'],abd:['Distensão abdominal','sv'],punho:['Tendinite no punho','fh'],cotovelo:['Dor no cotovelo','bh'],costas:['Dor nas costas','fi'],joelho:['Lesão no joelho','fi'],tornozelo:['Entorse no tornozelo','fi'],coxa:['Distensão na coxa','fi']};
+const V5AGE={fi:1.4,rt:1.15,sv:.8,vo:.7,fh:1,bh:1};
+function v5InjRegion(){const m=S.me,ev=S.tour?curEv():null,sf=ev?ev.surf:surfOf(S.w%52),a=meAgeF();const W={ombro:1,abd:1,punho:1,cotovelo:.7,costas:1,joelho:1,tornozelo:1,coxa:1};
+ if(sf==='hard'){W.joelho+=1;W.punho+=.6}if(sf==='clay'){W.costas+=.8;W.coxa+=.8}if(sf==='grass'){W.tornozelo+=1.2;W.costas+=.5}
+ if(m.style==='sacador'){W.ombro+=1.2;W.abd+=1}if(m.style==='contra'||m.style==='fundo'){W.coxa+=.5;W.tornozelo+=.4}
+ if(a>=29){W.costas+=1;W.joelho+=.8;W.coxa+=.6}if((m.load||0)>70){W.coxa+=.6;W.abd+=.4}
+ const t=Object.values(W).reduce((x,y)=>x+y,0);let r=R()*t;for(const[k,v]of Object.entries(W)){r-=v;if(r<=0)return k}return'costas'}
+{const _in=injure;injure=function(a,b){const m=S.me,w0=m.injury||0;_in(a,b);try{if((m.injury||0)>w0){const k=v5InjRegion();m.injR={k,w:m.injury,s:S.w};(m.injH=m.injH||[]).unshift({k,w:m.injury,y:year()});if(m.injH.length>12)m.injH.length=12;news(`Diagnóstico: ${V5INJ[k][0].toLowerCase()}, ${m.injury} semana${m.injury>1?'s':''} de recuperação.`)}}catch(e){}}}
+// volta da lesão: algumas semanas abaixo do normal no golpe afetado
+function v5InjTick(){const m=S.me;if(!m||S.ended)return;if(m.injR&&!(m.injury>0)){const k=m.injR.k,d=-clamp(Math.round(1+m.injR.w/5),1,5);m.injFx={a:V5INJ[k][1],d,until:S.w+6,k};m.injR=null;news(`De volta após ${V5INJ[k][0].toLowerCase()}. Nas próximas semanas o ${ATTR.find(x=>x[0]===V5INJ[k][1])[1].toLowerCase()} ainda não estará 100%.`)}if(m.injFx&&S.w>=m.injFx.until)m.injFx=null;
+ if(meAgeF()>26&&m.attrs.me<92)m.attrs.me=Math.min(92,m.attrs.me+.003)}
+{const _ef2=eff;eff=function(id,surf,t,o){const r=_ef2(id,surf,t,o);try{if(id==='me'&&r){const m=S.me;if(m.injFx){const k=m.injFx.a;if(k==='sv')r.sv+=m.injFx.d;else if(k==='fi')r.rt+=m.injFx.d;else{r.sv+=m.injFx.d*.5;r.rt+=m.injFx.d*.5}}if(m.pain&&S.tour&&m.pain.w===S.w){r.sv-=2;r.rt-=2}}}catch(e){}return r}}
+// jogar com dor (atendimento médico entre as partidas)
+{const _pm=playMatch;playMatch=function(pre){const T=S.tour,before=T?T.log.length:0;_pm(pre);try{const m=S.me,T2=S.tour;if(!T2||T2.over||S.modals.length||m.pain&&m.pain.w===S.w)return;const last=T2.log[T2.log.length-1];if(!last||T2.log.length===before||last.c!=='win')return;
+  const r=LIVE&&LIVE.res?LIVE.res:null;const long=r?r.sets.length>=3:R()<.3;if(!long)return;const p=.05+.012*Math.max(0,meAgeF()-27)+((m.load||0)>70?.04:0)+(m.energy<35?.03:0);if(R()>=p)return;
+  const k=v5InjRegion();m.painK=k;S.modals.push({k:'Atendimento médico',e:'',ti:`Incômodo: ${V5INJ[k][0].toLowerCase()}`,q:`Depois da partida longa, o fisioterapeuta encontrou um incômodo. Dá para seguir no torneio com dor, mas você joga abaixo do normal e pode virar lesão.`,o:[{l:'Jogar com dor',t:'Rende menos e corre risco de lesão',fx:{v5:'dor'}},{l:'Desistir do torneio',t:'W.O. na próxima rodada, sem risco',fx:{v5:'wo'}}]})}catch(e){console.error(e)}}}
+{const _ap=applyFx;applyFx=function(fx){_ap(fx);try{if(fx&&fx.v5==='dor'){S.me.pain={w:S.w,k:S.me.painK}}if(fx&&fx.v5==='wo'&&S.tour&&!S.tour.over){S.tour.log.push({c:'loss',t:'Desistência por lesão (W.O.)'});finishTour('Desistência (lesão)',null)}}catch(e){console.error(e)}}}
+{const _ew3=endWeek;endWeek=function(){if(S.modals.length)return _ew3();const m=S.me;try{if(m&&m.pain&&m.pain.w===S.w&&!(m.injury>0)&&R()<.25){S._painInj=1}}catch(e){}const r=_ew3();try{if(S._painInj){S._painInj=0;if(!(S.me.injury>0))injure(2,5)}if(S.me&&S.me.pain&&S.me.pain.w<S.w)S.me.pain=null;
+ // risco extra com a idade nas semanas de torneio
+ if(S.me&&!S.ended&&S._pw===S.w-1&&meAgeF()>=30&&!(S.me.injury>0)&&R()<.004*(meAgeF()-29))injure(1,4);v5InjTick()}catch(e){console.error(e)}return r}}
+// histórico médico na aba Carreira
+{const _pv2=profileView;profileView=function(){let s=_pv2();try{const m=S.me,H=m.injH||[];if(PROFTAB==='stats'&&H.length)s+=`<div class="card"><h3>Histórico médico</h3>${m.injFx?`<p class="small" style="color:var(--gold);margin:0 0 8px">Voltando de ${V5INJ[m.injFx.k][0].toLowerCase()}: ${ATTR.find(x=>x[0]===m.injFx.a)[1].toLowerCase()} ${m.injFx.d} até ${wkDate(m.injFx.until)}.</p>`:''}${H.map(h=>`<div class="v5ch"><span class="v5chy">${h.y}</span><span><b>${V5INJ[h.k][0]}</b><small>${h.w} semana${h.w>1?'s':''} fora</small></span></div>`).join('')}</div>`}catch(e){}return s}}
