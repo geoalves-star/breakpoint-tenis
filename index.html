@@ -757,6 +757,11 @@ body.v5 .v5chy{font-family:var(--fm);font-size:11px;color:var(--mut);width:62px;
 body.v5 .v5ch small{display:block;font-size:12px;color:var(--mut)}
 body.v5 .v5face .av{width:34px;height:34px;margin-bottom:4px}
 body.v5 .v5page ~ .modal{z-index:38}
+body.v5 .v5pinfo{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 12px}
+body.v5 .v5pinfo>div,body.v5 .v5pinfo>button{padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;gap:2px;text-align:left;color:var(--txt);font-weight:400;min-width:0}
+body.v5 .v5pinfo span{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+body.v5 .v5pinfo b{font-weight:800;font-size:14px;overflow-wrap:anywhere}
+body.v5 .v5pinfo small{font-size:12px;color:var(--mut)}
 </style>
 </head>
 <body>
@@ -3748,6 +3753,49 @@ function v5SponWeek(){const m=S.me;if(!m||S.ended||!isPro()||!(m.spons||[]).leng
  m.v5hi=Math.min(m.v5hi,r);
  (m.spons||[]).forEach(c=>{const sp=SPONSORS.find(x=>x.id===c.id);if(!sp||!sp.req||!sp.req.pro)return;const bad=r>sp.req.pro*2;if(bad&&(c.pm||1)>=1){c.pm=.7;news(`${sp.n} cortou 30% do contrato: o seu ranking caiu muito abaixo do combinado (top ${sp.req.pro}).`)}else if(!bad&&c.pm&&c.pm<1&&r<=sp.req.pro){c.pm=1;news(`${sp.n} restabeleceu o valor integral do contrato.`)}})}
 {const _ew4=endWeek;endWeek=function(){const go=!S.modals.length;const r=_ew4();if(go)try{v5SponWeek()}catch(e){console.error(e)}return r}}
+
+// =============== v5.2 · 5) circuito vivo ===============
+const V5PS=[['Showman','Adora a torcida e as câmeras.'],['Frio','Não demonstra emoção em quadra.'],['Temperamental','Discute com o árbitro e quebra raquete.'],['Guerreiro','Nunca dá um ponto como perdido.'],['Discreto','Fala pouco e evita a imprensa.'],['Polêmico','Provoca rivais nas entrevistas.'],['Perfeccionista','Treina mais que todo mundo.']];
+const v5Ps=p=>V5PS[(p.id*7+3)%V5PS.length];
+// confrontos entre jogadores do circuito
+{const _pr=playRound;playRound=function(br,ev,round,userWon){const nx=_pr(br,ev,round,userWon);try{if(!S.nh)S.nh={};const t=TIERS[ev.tier];if(t&&t.cat==='pro'&&!['M15','M25','EXH'].includes(ev.tier)){const fin=br.length===2;
+ for(let i=0;i<br.length;i+=2){const a=br[i],b=br[i+1],w=nx[i/2];if(a==null||b==null||a==='me'||b==='me')continue;const ra=RK.pro[a]||999,rb=RK.pro[b]||999;if(ra>100||rb>100)continue;
+  const k=a<b?a+'|'+b:b+'|'+a,lo=a<b?a:b;const H=S.nh[k]||(S.nh[k]=[0,0,0]);H[w===lo?0:1]++;if(fin)H[2]++;const n=H[0]+H[1];
+  if(!QUIET&&ra<=20&&rb<=20&&(n===5||n===10||n===15||n===20||(fin&&H[2]===3))){const A=IDX.get(lo),B=IDX.get(lo===a?b:a);if(A&&B)news(`Rivalidade: ${A.n} e ${B.n} já se enfrentaram ${n} vezes (${H[0]}–${H[1]})${fin?`, ${H[2]} delas em finais`:''}. Desta vez, em ${ev.name}, venceu ${IDX.get(w).n}.`)}}}
+ const keys=Object.keys(S.nh);if(keys.length>4000){keys.sort((x,y)=>(S.nh[x][0]+S.nh[x][1])-(S.nh[y][0]+S.nh[y][1]));keys.slice(0,1000).forEach(k=>delete S.nh[k])}}catch(e){}return nx}}
+function v5Rivals(id){if(!S.nh)return[];const L=[];for(const[k,H]of Object.entries(S.nh)){const[a,b]=k.split('|').map(Number);if(a!==id&&b!==id)continue;const o=a===id?b:a,mine=a===id?H[0]:H[1],theirs=a===id?H[1]:H[0];L.push([o,mine,theirs,H[2]])}return L.sort((x,y)=>(y[1]+y[2])-(x[1]+x[2])).slice(0,3)}
+{const _pc=pcardView;pcardView=function(){let s=_pc();try{const p=IDX.get(PCARD);if(!p)return s;const[pn,pd]=v5Ps(p),c=p.co?COI.get(p.co):null,rv=v5Rivals(p.id);
+ const blk=`<div class="v5pinfo"><div><span>Personalidade</span><b>${pn}</b><small>${pd}</small></div>${c?`<button onclick="V5CO='${c.id}';PCARD=null;render()"><span>Treinador</span><b>${esc(c.n)}</b><small>${'★'.repeat(c.q)} · ver histórico</small></button>`:'<div><span>Treinador</span><b>Sem treinador</b></div>'}</div>${rv.length?`<div class="sec-t" style="margin:4px 0 6px">Maiores rivais no circuito</div>${rv.map(([o,a,b,f])=>{const q=IDX.get(o);return q?`<div class="v5ch" onclick="openP(${o})" style="cursor:pointer"><span class="v5chy">${a}–${b}</span><span><b>${flag(q.c)} ${esc(q.n)}</b><small>${rkOf(o)}${f?` · ${f} final${f>1?'is':''}`:''}</small></span></div>`:''}).join('')}`:''}`;
+ const mk='<span>Pontos</span></div></div>';const i=s.indexOf(mk);if(i>=0)s=s.slice(0,i+mk.length)+blk+s.slice(i+mk.length)}catch(e){console.error(e)}return s}}
+
+// =============== v5.2 · 6) caminhos aos 17-18 anos ===============
+const V5UNI=['Universidade da Geórgia','Universidade do Texas','Universidade da Virgínia','Universidade de Stanford','Universidade da Flórida','Universidade de Ohio','Universidade da Carolina do Norte','Universidade do Tennessee'];
+const v5Col=()=>{const c=S.me&&S.me.college;return c&&S.w<c.end?c:null};
+const v5Fed=()=>{const f=S.me&&S.me.fedProg;return f&&S.w<f.end?f:null};
+function v5PathModal(){const md=S.modals.find(x=>x.k==='Carreira'&&x.ti==='Hora de virar profissional?'&&!x.v5);if(!md)return;md.v5=1;
+ md.o.push({l:'Universidade nos EUA (2 anos)',t:'Bolsa integral e treino forte, sem prêmios. Só circuito profissional nas férias de verão.',fx:{v5:'college'}},{l:'Programa da federação (2 anos)',t:'Ajuda de custo semanal e CT pago, mas convocações obrigatórias.',fx:{v5:'fedprog'}});
+ md.q+=' Também dá para ir para uma universidade americana ou entrar no programa de desenvolvimento da federação.'}
+{const _ap2=applyFx;applyFx=function(fx){_ap2(fx);try{const m=S.me;if(fx&&fx.v5==='college'){const u=pick(V5UNI);m.college={uni:u,start:S.w,end:S.w+104,ncaa:0};m.proAsk=1;news(`Você aceitou a bolsa na ${u}. Dois anos de tênis universitário pela frente.`)}
+ if(fx&&fx.v5==='fedprog'){m.fedProg={start:S.w,end:S.w+104};m.pro=true;news(`Você entrou no programa de desenvolvimento da federação: ajuda de custo e CT pagos por dois anos.`)}}catch(e){console.error(e)}}}
+{const _es2=entryStatus;entryStatus=function(ev){const s=_es2(ev);try{const c=v5Col(),t=TIERS[ev.tier];if(c&&t.cat==='pro'){const wk=(ev.w!=null?ev.w:S.w)%52;if(wk<21||wk>34)return{ok:0,txt:'Temporada universitária'}}}catch(e){}return s}}
+function v5PathWeek(){const m=S.me;if(!m||S.ended)return;const c=v5Col(),f=v5Fed();
+ if(c){const wk=S.w%52;if(wk<21||wk>34){ATTR.forEach(([k])=>{if(k!=='me')m.attrs[k]=Math.min(m.pot||95,m.attrs[k]+.045)});m.attrs.me=Math.min(95,m.attrs.me+.03);m.money+=Math.round(weekCost()*.8)}
+  if(wk===20&&!c['y'+year()]){c['y'+year()]=1;const p=clamp((ovr()-58)/22,.05,.6);if(R()<p){c.ncaa++;m.wc=m.wc||{n:0,gs:0};m.wc.gs++;m.wc.n+=2;news(`Campeão universitário! O título da NCAA rende um convite para a chave principal de um Grand Slam e dois para ATP/Challengers.`);hl&&hl('Título universitário (NCAA)')}else news(`Fim da temporada universitária: você chegou longe, mas o título ficou com outro.`)}}
+ if(m.college&&!c&&!m.college.done){m.college.done=1;m.pro=true;news(`Formado na ${m.college.uni}! Agora é tênis profissional em tempo integral.`)}
+ if(f){m.money+=800+Math.round((CENTERS[m.center||0]||{c:0}).c*.8)}
+ if(m.fedProg&&!f&&!m.fedProg.done){m.fedProg.done=1;news('O programa da federação terminou. A partir de agora, os custos são todos seus.')}}
+{const _ew5=endWeek;endWeek=function(){const go=!S.modals.length;const r=_ew5();if(go)try{v5PathWeek();v5PathModal()}catch(e){console.error(e)}return r}}
+{const _vs2=v5Season;v5Season=function(){let s=_vs2();try{const c=v5Col(),f=v5Fed();if(c||f){const b=c?`<div class="v5next" style="margin-top:12px">${esc(c.uni)} · universitário até ${wkDate(c.end)} ${year0(c.end)}. Circuito profissional só nas férias (semanas 22 a 35).${c.ncaa?` Títulos NCAA: ${c.ncaa}.`:''}</div>`:`<div class="v5next" style="margin-top:12px">Programa da federação até ${wkDate(f.end)} ${year0(f.end)}: US$ 800/sem e 80% do CT pagos.</div>`;s=s.replace(/<\/section>$/,b+'</section>')}}catch(e){}return s}}
+
+// =============== v5.2 · 7) regras de quadra ===============
+const V5CV=[['Advertência por tempo (shot clock)',0,.45],['Advertência por quebrar raquete',1,.25],['Advertência por obscenidade',1,.15],['Penalidade de ponto por conduta',2,.1],['Advertência por demorar na troca de lado',0,.05]];
+function v5Fine(t,sev){const w=TIERS[t]?TIERS[t].w:1;const base=t==='GS'?10000:t==='M1000'?7500:['A500','A250','FIN'].includes(t)?5000:t.startsWith('C')?1500:t.startsWith('J')?100:300;return Math.round(base*(sev===2?2:sev===1?1:0))}
+{const _um=userMatch;userMatch=function(opp,ev,bo5,stage,pre){const res=_um(opp,ev,bo5,stage,pre);try{const m=S.me,b=m.behav??40,tp=pick&&v5Ps?0:0;let p=.04+.004*Math.max(0,b-40)+(bo5?.03:0);const cv=[];
+ while(R()<p&&cv.length<3){let r=R()*V5CV.reduce((a,x)=>a+x[2],0),k=V5CV[0];for(const x of V5CV){r-=x[2];if(r<=0){k=x;break}}cv.push(k);p*=.35}
+ if(cv.length){let fine=0;cv.forEach(([n,sev])=>fine+=v5Fine(ev.tier,sev));if(cv.length>=2)fine+=v5Fine(ev.tier,1);res.cv=cv.map(x=>x[0]);res.cvFine=fine;if(fine){m.money-=fine;m.st.fines=(m.st.fines||0)+fine}
+  if(cv.length>=2||cv.some(x=>x[1]===2))m.behav=clamp(b+1.5,0,100);if(!QUIET)news(`Árbitro: ${cv.map(x=>x[0].toLowerCase()).join(', ')}${fine?` · multa de ${money(fine)}`:''} (${ev.name}).`)}}catch(e){console.error(e)}return res}}
+// mostra as advertências no resultado
+{const _vr=v5Res;v5Res=function(){let s=_vr();try{const r=LIVE&&LIVE.res;if(r&&r.cv&&r.cv.length){const h=`<div class="v5sec"><span class="v5k">Árbitro</span></div><div class="v5tags">${r.cv.map(t=>`<span class="v5t b" style="font-size:13px;padding:6px 10px">${t}</span>`).join('')}${r.cvFine?`<span class="v5t m" style="font-size:13px;padding:6px 10px">multa ${money(r.cvFine)}</span>`:''}</div>`;s=s.replace('<div class="v5sec"><span class="v5k">Momentos</span>',h+'<div class="v5sec"><span class="v5k">Momentos</span>')}}catch(e){}return s}}
 
 // =============== tutorial ===============
 const TUT=[
