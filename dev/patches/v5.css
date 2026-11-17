@@ -304,3 +304,40 @@ body.v5 .v5j .v5jin{padding-top:env(safe-area-inset-top)}
 body.v5 .vinov{padding-top:calc(30px + env(safe-area-inset-top))}
 body.v5 .modal .box,body.v5 .pcard>div{max-height:calc(100dvh - env(safe-area-inset-top) - 16px)}
 body.v5::before{content:'';position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top);background:var(--app);z-index:60;pointer-events:none}
+/* base e CT */
+body.v5 .v5page{position:fixed;inset:0;z-index:35;background:var(--app);overflow:auto;animation:v5in .25s}
+body.v5 .v5pagein{max-width:460px;margin:0 auto;padding:12px 16px 40px;padding-top:calc(12px + env(safe-area-inset-top))}
+body.v5 .v5ptop{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+body.v5 .v5cts{display:flex;flex-direction:column;gap:10px}
+body.v5 .v5ct{padding:0;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--card);color:var(--txt);text-align:left;display:flex;flex-direction:column;font-weight:400;width:100%}
+body.v5 .v5ct.lock{opacity:.7}
+body.v5 .v5ctb{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:12px 14px;color:#fff}
+body.v5 .v5ctb b{display:block;font-weight:900;font-size:17px;font-stretch:112%;line-height:1.1}
+body.v5 .v5ctb .stars{color:#ffd84d;white-space:nowrap}
+body.v5 .v5ctc{display:flex;gap:18px;padding:10px 14px 12px}
+body.v5 .v5ctc>span{display:flex;flex-direction:column}
+body.v5 .v5ctc small{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+body.v5 .v5ctc b{font-weight:800;font-size:15px}
+body.v5 .v5bm .v5bmh{display:flex;flex-direction:column;gap:2px;padding-left:12px;border-left:4px solid var(--sf);margin-bottom:10px}
+body.v5 .v5bm .v5bmh b{font-weight:800;font-size:16px}
+body.v5 .v5cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+body.v5 .v5cmp>div{padding:10px 12px;border-radius:12px;background:var(--card);border:1px solid var(--line);display:flex;flex-direction:column;gap:2px;min-width:0}
+body.v5 .v5cmp span{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+body.v5 .v5cmp b{font-weight:800;font-size:14px;overflow-wrap:anywhere}
+body.v5 .v5cmp small{font-size:12px;font-weight:700}
+/* treinadores */
+body.v5 .v5co{display:flex;align-items:center;gap:12px;width:100%;padding:10px 4px;border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;color:var(--txt);text-align:left;font-weight:400;min-height:60px}
+body.v5 .v5co.me{border:1px solid var(--line);border-radius:16px;padding:12px;background:var(--card2)}
+body.v5 .v5co i{font-style:normal;color:var(--mut);font-size:20px}
+body.v5 .v5cod{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+body.v5 .v5cod b{font-weight:800;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.v5 .v5cod span{font-size:12px;color:var(--mut)}
+body.v5 .v5cod small{font-size:12px;color:var(--txt);opacity:.8}
+body.v5 .v5cph{display:flex;gap:14px;align-items:center}
+body.v5 .v5chl{display:flex;flex-direction:column}
+body.v5 .v5ch{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+body.v5 .v5ch:last-child{border:0}
+body.v5 .v5chy{font-family:var(--fm);font-size:11px;color:var(--mut);width:62px;flex:none;padding-top:2px}
+body.v5 .v5ch small{display:block;font-size:12px;color:var(--mut)}
+body.v5 .v5face .av{width:34px;height:34px;margin-bottom:4px}
+body.v5 .v5page ~ .modal{z-index:38}
