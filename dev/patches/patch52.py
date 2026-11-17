@@ -1,6 +1,6 @@
 # motor de partida calibrável (v5.2)
 def apply(s,R):
-    R("let RNG=Math.random;","var V5CAL={atp:.64,wta:.565,cl:-.017,gr:.02,k:.0028,v:2.5,ero:.0008,bp:.0015};function v5B0(A){return(CIRC()==='WTA'?V5CAL.wta:V5CAL.atp)+({clay:V5CAL.cl,grass:V5CAL.gr}[A&&A.surf]||0)}function v5Ac(x){return(CIRC()==='WTA'?.02:.085)*({grass:1.45,clay:.7}[x.surf]||1)}\nlet RNG=Math.random;")
+    R("let RNG=Math.random;","var V5CAL={atp:.64,wta:.565,cl:-.017,gr:.02,k:.0028,v:2.5,ero:.0008,bp:.0015,me:-1.6,mw:-.5,ps:1.7,pm:72,pmr:6,pe:83,per:5,ra:31,rr:6};function v5B0(A){return(CIRC()==='WTA'?V5CAL.wta:V5CAL.atp)+({clay:V5CAL.cl,grass:V5CAL.gr}[A&&A.surf]||0)}function v5Ac(x){return(CIRC()==='WTA'?.02:.085)*({grass:1.45,clay:.7}[x.surf]||1)}\nlet RNG=Math.random;")
     R("const fa=gauss()*A.v,fb=gauss()*B.v;","const fa=gauss()*A.v*V5CAL.v,fb=gauss()*B.v*V5CAL.v,b0=v5B0(A);",2)
     R(".64+.0045*((A.sv+fa)-(B.rt+fb))","b0+V5CAL.k*((A.sv+fa)-(B.rt+fb))",2)
     R(".64+.0045*((B.sv+fb)-(A.rt+fa))","b0+V5CAL.k*((B.sv+fb)-(A.rt+fa))",2)
@@ -11,3 +11,5 @@ def apply(s,R):
     R("const r=sp(sA,sA?pA:pB);","const r=sp(sA,(sA?pA:pB)+(bp?clamp(V5CAL.bp*(((sA?A:B).me??60)-((sA?B:A).me??60)),-.03,.03):0));")
     R("rate*(k==='fi'?1.3:k==='sv'?.8:1)","rate*(V5AGE[k]||1)")
     R("const fee=pr*(TAXR()+AGENT());","const fee=pr*(v5Tax()+AGENT()+v5CoachCut());")
+    R("pot:o.leg?base+1.5:o.tal==='elite'?84+R()*4:o.tal==='medio'?74+R()*5:Math.max(74+R()*18,base+20)","pot:o.leg?base+1.5:o.tal==='elite'?V5CAL.pe+R()*V5CAL.per:o.tal==='medio'?V5CAL.pm+R()*V5CAL.pmr:Math.max(70+22*Math.pow(R(),V5CAL.ps),base+20)")
+    R("const retireAge=()=>Math.round(32+6*clamp((cond()-40)/45,0,1));","const retireAge=()=>Math.round(V5CAL.ra+V5CAL.rr*clamp((cond()-40)/45,0,1));")

@@ -1,8 +1,8 @@
 const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));
 await p.goto('file:///home/claude/'+(process.env.FILE||'tenis50.html'));
-const CFG=process.env.CFG;const res=await p.evaluate((CFG)=>{
+const CFG=JSON.stringify({...JSON.parse(process.env.CFG),cal:JSON.parse(process.env.CAL||'{}')});const res=await p.evaluate((CFG)=>{
  window.render=()=>{};window.save=()=>{};QUIET=true;
- const C0=JSON.parse(CFG);if(C0.iso){C0.c=COUNTRIES.findIndex(x=>x[0]===C0.iso);delete C0.iso}FORM={...FORM,...C0};newGame({...FORM});
+ const C0=JSON.parse(CFG);if(window.V5CAL&&C0.cal)Object.assign(V5CAL,C0.cal);delete C0.cal;if(C0.iso){C0.c=COUNTRIES.findIndex(x=>x[0]===C0.iso);delete C0.iso}FORM={...FORM,...C0};newGame({...FORM});
  S.me.noRemind=true;
  window.SNAP=[];const years=[];let y0=year();const hl=[];
  const best=()=>{const evs=weekEvents(S.w).map(e=>({e,st:entryStatus(e),t:TIERS[e.tier]})).filter(x=>x.st.ok);if(!evs.length)return null;
@@ -48,7 +48,7 @@ const CFG=process.env.CFG;const res=await p.evaluate((CFG)=>{
 const cmx=await p.evaluate(()=>({cm:S.cm?{n:S.cm.n,age:S.cm.born!=null?ageOf(S.cm):null,formed:S.cm.formed,awards:S.cm.awards,backs:S.cm.backs,pupT:S.cm.pupT,wallet:S.cm.wallet,acad:S.cm.acad,pup:(S.cm.pup||[]).length}:null,retros:Object.keys(S.me.retros||{}).length,press:S.me.st.press,why:S.ended&&S.ended.why}));console.log(JSON.stringify(cmx));
 const out=await p.evaluate(()=>{const m=S.me,st=m.st,T=st.titles||[],cnt={};T.forEach(t=>{const k=['C175','C125','C100','C75','C50'].includes(t.tier)?'CH':['M25','M15'].includes(t.tier)?'ITF':t.tier;cnt[k]=(cnt[k]||0)+1});
  const gs=T.filter(t=>t.tier==='GS').map(t=>t.n+' '+t.y);
- return {name:m.name,pais:COUNTRIES[m.c][1],circ:CIRC(),lvl:S.lvl,ini:SNAP[0]&&SNAP[0].age,fim:meAge(),why:S.ended&&S.ended.why,hiPro:st.hiPro,hiJr:st.hiJr,wl:st.w+'-'+st.l,pct:Math.round(st.w/Math.max(1,st.w+st.l)*100),tit:T.length,cnt,gs,jrT:(st.jrTitles||[]).length,prize:Math.round(st.prize),nw:netWorth(),fol:m.fol,ach:Object.keys(m.ach||{}).length,n1w:st.n1w||st.wkN1||0,cn:S.cn?{terms:S.cn.terms||0,laws:(S.cn.laws||[]).length}:null,rules:Object.keys(S.rules||{}),fed:Math.round(m.fed??50),
+ return {inj:(m.injH||[]).length,injw:(m.injH||[]).reduce((s,h)=>s+h.w,0),fines:m.st.fines||0,ll:(S.news||[]).length,name:m.name,pais:COUNTRIES[m.c][1],circ:CIRC(),lvl:S.lvl,ini:SNAP[0]&&SNAP[0].age,fim:meAge(),why:S.ended&&S.ended.why,hiPro:st.hiPro,hiJr:st.hiJr,wl:st.w+'-'+st.l,pct:Math.round(st.w/Math.max(1,st.w+st.l)*100),tit:T.length,cnt,gs,jrT:(st.jrTitles||[]).length,prize:Math.round(st.prize),nw:netWorth(),fol:m.fol,ach:Object.keys(m.ach||{}).length,n1w:st.n1w||st.wkN1||0,cn:S.cn?{terms:S.cn.terms||0,laws:(S.cn.laws||[]).length}:null,rules:Object.keys(S.rules||{}),fed:Math.round(m.fed??50),
  cm:S.cm?{age:S.cm.born!=null?ageOf(S.cm):null,formed:(S.cm.formed||[]).length,awards:(S.cm.awards||[]).length,backs:S.cm.backs||0,pupT:S.cm.pupT||0,wallet:Math.round(S.cm.wallet||0),best:(S.cm.formed||[]).reduce((b,f)=>f.hi&&(!b||f.hi<b)?f.hi:b,null)}:null,
  path:SNAP.filter((x,i)=>i%3===0).map(x=>`${x.age}:${x.rp?'#'+x.rp:x.rj?'J'+x.rj:'-'}(${Math.round(x.ovr)}|${x.ai})`).join(' ')}});
 console.log(JSON.stringify(out));console.log('ERRS',JSON.stringify(errs.slice(0,5)));await b.close()})();

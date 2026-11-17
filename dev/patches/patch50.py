@@ -19,7 +19,7 @@ R("</style>\n</head>","</style>\n<style id=\"v5css\">"+open('p31/v5.css').read()
 # seletor de temas
 R("${themePicker()}","${v5ThemePicker()}",2)
 # versão
-R("VERSION='4.6'","VERSION='5.2'")
+R("VERSION='4.6'","VERSION='5.3'")
 import importlib.util as _u;_sp=_u.spec_from_file_location('p52','/home/claude/p31/patch52.py');_m=_u.module_from_spec(_sp);_sp.loader.exec_module(_m)
 def _R2(a,b,c=1):
     global s

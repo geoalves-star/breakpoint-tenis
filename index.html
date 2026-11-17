@@ -768,7 +768,7 @@ body.v5 .v5pinfo small{font-size:12px;color:var(--mut)}
 <div class="phone" id="app"></div>
 <script>
 // =============== utilidades ===============
-var V5CAL={atp:.64,wta:.565,cl:-.017,gr:.02,k:.0028,v:2.5,ero:.0008,bp:.0015};function v5B0(A){return(CIRC()==='WTA'?V5CAL.wta:V5CAL.atp)+({clay:V5CAL.cl,grass:V5CAL.gr}[A&&A.surf]||0)}function v5Ac(x){return(CIRC()==='WTA'?.02:.085)*({grass:1.45,clay:.7}[x.surf]||1)}
+var V5CAL={atp:.64,wta:.565,cl:-.017,gr:.02,k:.0028,v:2.5,ero:.0008,bp:.0015,me:-1.6,mw:-.5,ps:1.7,pm:72,pmr:6,pe:83,per:5,ra:31,rr:6};function v5B0(A){return(CIRC()==='WTA'?V5CAL.wta:V5CAL.atp)+({clay:V5CAL.cl,grass:V5CAL.gr}[A&&A.surf]||0)}function v5Ac(x){return(CIRC()==='WTA'?.02:.085)*({grass:1.45,clay:.7}[x.surf]||1)}
 let RNG=Math.random;const R=()=>RNG(), ri=(a,b)=>Math.floor(a+R()*(b-a+1)), pick=a=>a[Math.floor(R()*a.length)];
 const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
 const gauss=()=>{let u=0,v=0;while(!u)u=R();while(!v)v=R();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)};
@@ -1088,7 +1088,7 @@ function newGame0(o){
  const st={sacador:{sv:6,vo:2,rt:-2},fundo:{fh:4,bh:3,fi:1,vo:-3},contra:{rt:4,fi:4,sv:-3},completo:{sv:1,rt:1,fh:1,bh:1,vo:1,fi:1,me:1}}[o.style];
  for(const k in st)a[k]+=st[k];if(o.hand==='canhoto')a.sv+=2;
  const pers={calmo:15,normal:40,explosivo:65}[o.pers];
- S.me={name:o.name||G('Jogador','Jogadora'),g:o.circ==='WTA'?'f':'m',av:{...o.av},c:+o.c,hand:o.hand,style:o.style,attrs:a,gen:+R().toFixed(2),pot0:0,pot:o.leg?base+1.5:o.tal==='elite'?84+R()*4:o.tal==='medio'?74+R()*5:Math.max(74+R()*18,base+20),energy:100,money:5000+Math.max(0,age-17)*1500,coach:0,physio:0,center:0,life:'equil',injury:0,born:-age*52,ptsPro:[],ptsJr:[],focus:'geral',tac:'equil',health:60,load:0,wear:0,assets:[],inv:0,base:pers,behav:pers,fol:300+Math.max(0,age-14)*150,spons:[],st:{w:0,l:0,titles:[],jrTitles:[],hiPro:null,hiJr:null,prize:0}};
+ S.me={name:o.name||G('Jogador','Jogadora'),g:o.circ==='WTA'?'f':'m',av:{...o.av},c:+o.c,hand:o.hand,style:o.style,attrs:a,gen:+R().toFixed(2),pot0:0,pot:o.leg?base+1.5:o.tal==='elite'?V5CAL.pe+R()*V5CAL.per:o.tal==='medio'?V5CAL.pm+R()*V5CAL.pmr:Math.max(70+22*Math.pow(R(),V5CAL.ps),base+20),energy:100,money:5000+Math.max(0,age-17)*1500,coach:0,physio:0,center:0,life:'equil',injury:0,born:-age*52,ptsPro:[],ptsJr:[],focus:'geral',tac:'equil',health:60,load:0,wear:0,assets:[],inv:0,base:pers,behav:pers,fol:300+Math.max(0,age-14)*150,spons:[],st:{w:0,l:0,titles:[],jrTitles:[],hiPro:null,hiJr:null,prize:0}};
  const seedPts=(arr,T)=>{for(let j=0;j<6;j++)arr.push([-ri(1,50),Math.round(T/6)])};
  if(age>=15&&age<=18)seedPts(S.me.ptsJr,2500*Math.pow(ri(140,260)-(age-15)*25,-.7));
  if(o.leg)seedPts(S.me.ptsPro,11000*Math.pow(ri(20,70),-.7));else if(age>=19)seedPts(S.me.ptsPro,11000*Math.pow(ri(430,560)-(age-19)*15,-.7));
@@ -1931,7 +1931,7 @@ function injure(a,b){const m=S.me;const _hl=1,serious=R()<(.25-.15*genE())+((m.l
   fanPost(pick(['força, volta logo! 🙏','que triste... recupera com calma','torcendo pela recuperação 💚']));if(!m.chron&&R()<.35){m.chron={p:pick(['joelho','ombro','costas']),w:S.w};news(`🦴 A lesão deixou sequela: dor crônica no ${m.chron.p}.`)}injChoice()}
  else{m.injury=ri(a,b);m.health=clamp((m.health??60)-1.5,0,100);news(`🚑 Lesão: ${m.injury} semana(s) fora.`)}}
 const peakAge=()=>25+4*clamp((cond()-40)/50,0,1);
-const retireAge=()=>Math.round(32+6*clamp((cond()-40)/45,0,1));
+const retireAge=()=>Math.round(V5CAL.ra+V5CAL.rr*clamp((cond()-40)/45,0,1));
 const meAgeF=()=>(S.w-S.me.born)/52;
 function ageF(){const a=meAgeF(),pk=peakAge();return a<22?1.25:a<pk-1?1:a<pk+1?.5:.08}
 function phase(a,pk){return a<pk-3?['Em evolução','win']:a<=pk+1?['No auge','win']:a<=pk+5?['Começando a cair','mut']:['Em declínio','loss']}
@@ -2696,7 +2696,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='5.2';
+const VERSION='5.3';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -3415,7 +3415,7 @@ function v5Home(){const m=S.me;if(PSELW!==S.w){PSEL=0;PSELW=S.w}
  +acc('agenda','Sua agenda',(()=>{const k=Object.keys(S.plan).filter(w=>+w>=S.w).length;return k?`${k} agendado(s)`:'nada agendado'})(),agendaCard(),false)
  +(S.goals?acc('goals','Metas da temporada',`${S.goals.map(goalProg).filter(x=>x.ok).length}/3`,goalsCard(),false):'')
  +cnAcc()+(rv?acc('rival','Rival',`${esc(rv.n.split(' ').slice(-1)[0])}`,rivalCard(),false):'')
- +acc('fin','Finanças',`${inc-cost>=0?'+':'−'}${money(Math.abs(inc-cost))}/sem`,`<div class="g3"><div class="pill"><b class="win">+${kfmt(inc)}</b><span>Receitas</span></div><div class="pill"><b class="loss">−${kfmt(cost)}</b><span>Custos</span></div><div class="pill"><b>${m.spons.length}/3</b><span>Patrocínios</span></div></div><p class="xs mut" style="margin:10px 0 0">${v5CutTxt()}. Fora do seu país, o torneio retém imposto na fonte (até 30%), e vale o maior entre esse e o imposto do seu país.</p>`,false)}
+ +acc('fin','Finanças',`${inc-cost>=0?'+':'−'}${money(Math.abs(inc-cost))}/sem`,`<div class="g3"><div class="pill"><b class="win">+${kfmt(inc)}</b><span>Receitas</span></div><div class="pill"><b class="loss">−${kfmt(cost)}</b><span>Custos</span></div><div class="pill"><b>${m.spons.length}/3</b><span>Patrocínios</span></div></div><p class="xs mut" style="margin:10px 0 0">${v5CutTxt()}. Fora do seu país, o torneio retém imposto na fonte (até 18% com os acordos), e vale o maior entre esse e o imposto do seu país.</p>`,false)}
 function v5Bar(){if(!S||S.tour||S.ended)return'';let L;try{L=v5Props().L}catch(e){return''}if(!L.length)return'';const p=L[Math.min(PSEL,L.length-1)];const dis=S.modals.length?'disabled':'';
  return `<div class="v5bar"><div class="v5bl"><b>Semana ${S.w%52+1}</b><span>${esc(p.t)}</span></div><button ${dis} onclick="${p.a.replace(/"/g,'&quot;')}">${/^enter\(/.test(p.a)?'Inscrever →':/^(train|rest|endWeek)\(/.test(p.a)?'Fechar a semana →':'Confirmar →'}</button></div>`}
 {const _h=homeView;homeView=function(){if(S.tour||S.ended||DRAWV)return _h();try{return v5Home()}catch(e){console.error(e);return _h()}}}
@@ -3715,6 +3715,8 @@ function v5ProtTick(){const m=S.me;if(!m||S.ended)return;if(m.injury>0){m.injW=(
  s=s.replace(/<\/section>$/,html+'</section>')}catch(e){console.error(e)}return s}}
 // motor: o piso chega até a partida
 {const _ef=eff;eff=function(id,surf,t,o){const r=_ef(id,surf,t,o);if(r)r.surf=surf;return r}}
+// ajuste de equilíbrio do jogador (dificuldade)
+{const _ef3=eff;eff=function(id,surf,t,o){const r=_ef3(id,surf,t,o);const h=CIRC()==='WTA'?V5CAL.mw:V5CAL.me;if(id==='me'&&r&&h){r.sv+=h;r.rt+=h}return r}}
 
 // =============== v5.2 · 3) corpo: lesões por região, jogar com dor, envelhecimento ===============
 const V5INJ={ombro:['Lesão no ombro','sv'],abd:['Distensão abdominal','sv'],punho:['Tendinite no punho','fh'],cotovelo:['Dor no cotovelo','bh'],costas:['Dor nas costas','fi'],joelho:['Lesão no joelho','fi'],tornozelo:['Entorse no tornozelo','fi'],coxa:['Distensão na coxa','fi']};
@@ -3743,10 +3745,10 @@ function v5InjTick(){const m=S.me;if(!m||S.ended)return;if(m.injR&&!(m.injury>0)
 // =============== v5.2 · 4) economia ===============
 // imposto retido na fonte (estrangeiros) por país do torneio, aproximado
 const V5WH={US:.30,ES:.24,IT:.30,FR:.15,GB:.20,DE:.158,AU:.30,CN:.20,JP:.2042,CA:.15,MX:.25,BR:.25,AR:.35,NL:.20,CH:.15,AT:.20,SE:.20,MC:0,AE:0,QA:0,SA:0,IN:.20,KR:.22,TR:.20,PT:.25,BE:.18,RS:.20,HR:.12,GR:.20,PL:.20,CZ:.15};
-function v5Tax(){const h=TAXR(),e=S.tour?curEv():null;if(!e||!S.me)return h;const t=TIERS[e.tier];if(!t||t.cat!=='pro'||['M15','M25','EXH'].includes(e.tier))return h;if(e.iso===COUNTRIES[S.me.c][0])return h;const wh=V5WH[e.iso]??.15;return Math.max(h,wh)}
+function v5Tax(){const h=TAXR(),e=S.tour?curEv():null;if(!e||!S.me)return h;const t=TIERS[e.tier];if(!t||t.cat!=='pro'||['M15','M25','EXH'].includes(e.tier))return h;if(e.iso===COUNTRIES[S.me.c][0])return h;const wh=(V5WH[e.iso]??.15)*.6;return Math.max(h,wh)}
 // treinador recebe uma porcentagem do prêmio (prática comum no circuito)
-function v5CoachCut(){const c=myCoach(),e=S.tour?curEv():null;if(!c||c.me||!e)return 0;const t=TIERS[e.tier];if(!t||t.cat!=='pro'||e.tier==='EXH')return 0;return c.q>=3?.10:.05}
-function v5CutTxt(){const c=myCoach();return c?`${esc(c.n.split(' ')[0])} fica com ${c.q>=3?10:5}% dos prêmios`:'sem treinador'}
+function v5CoachCut(){const c=myCoach(),e=S.tour?curEv():null;if(!c||c.me||!e)return 0;const t=TIERS[e.tier];if(!t||t.cat!=='pro'||e.tier==='EXH')return 0;return c.q>=4?.08:c.q>=3?.05:0}
+function v5CutTxt(){const c=myCoach();const p=c?(c.q>=4?8:c.q>=3?5:0):0;return c?(p?`${esc(c.n.split(' ')[0])} fica com ${p}% dos prêmios`:`${esc(c.n.split(' ')[0])} recebe só o salário`):'sem treinador'}
 // cláusulas de patrocínio por ranking
 function v5SponWeek(){const m=S.me;if(!m||S.ended||!isPro()||!(m.spons||[]).length)return;const r=myRank('pro');if(!r)return;m.v5hi=m.v5hi||9999;
  for(const lv of [100,50,20,10,1]){if(r<=lv&&m.v5hi>lv){const b=Math.round(sponPay()*(lv===1?20:lv===10?12:lv===20?8:lv===50?6:4));m.money+=b;news(`Bônus de patrocínio: entrar no top ${lv===1?'1 (número 1 do mundo!)':lv} rendeu ${money(b)} dos seus patrocinadores.`);break}}
@@ -3789,10 +3791,10 @@ function v5PathWeek(){const m=S.me;if(!m||S.ended)return;const c=v5Col(),f=v5Fed
 
 // =============== v5.2 · 7) regras de quadra ===============
 const V5CV=[['Advertência por tempo (shot clock)',0,.45],['Advertência por quebrar raquete',1,.25],['Advertência por obscenidade',1,.15],['Penalidade de ponto por conduta',2,.1],['Advertência por demorar na troca de lado',0,.05]];
-function v5Fine(t,sev){const w=TIERS[t]?TIERS[t].w:1;const base=t==='GS'?10000:t==='M1000'?7500:['A500','A250','FIN'].includes(t)?5000:t.startsWith('C')?1500:t.startsWith('J')?100:300;return Math.round(base*(sev===2?2:sev===1?1:0))}
-{const _um=userMatch;userMatch=function(opp,ev,bo5,stage,pre){const res=_um(opp,ev,bo5,stage,pre);try{const m=S.me,b=m.behav??40,tp=pick&&v5Ps?0:0;let p=.04+.004*Math.max(0,b-40)+(bo5?.03:0);const cv=[];
+function v5Fine(t,sev){const w=TIERS[t]?TIERS[t].w:1;const base=t==='GS'?10000:t==='M1000'?7500:['A500','A250','FIN'].includes(t)?5000:t.startsWith('C')?1500:t.startsWith('J')?100:300;return Math.round(base*(sev===2?1.5:sev===1?.5:0))}
+{const _um=userMatch;userMatch=function(opp,ev,bo5,stage,pre){const res=_um(opp,ev,bo5,stage,pre);try{const m=S.me,b=m.behav??40,tp=pick&&v5Ps?0:0;let p=.025+.003*Math.max(0,b-50)+(bo5?.02:0);const cv=[];
  while(R()<p&&cv.length<3){let r=R()*V5CV.reduce((a,x)=>a+x[2],0),k=V5CV[0];for(const x of V5CV){r-=x[2];if(r<=0){k=x;break}}cv.push(k);p*=.35}
- if(cv.length){let fine=0;cv.forEach(([n,sev])=>fine+=v5Fine(ev.tier,sev));if(cv.length>=2)fine+=v5Fine(ev.tier,1);res.cv=cv.map(x=>x[0]);res.cvFine=fine;if(fine){m.money-=fine;m.st.fines=(m.st.fines||0)+fine}
+ if(cv.length){let fine=0;cv.forEach(([n,sev])=>fine+=v5Fine(ev.tier,sev));res.cv=cv.map(x=>x[0]);res.cvFine=fine;if(fine){m.money-=fine;m.st.fines=(m.st.fines||0)+fine}
   if(cv.length>=2||cv.some(x=>x[1]===2))m.behav=clamp(b+1.5,0,100);if(!QUIET)news(`Árbitro: ${cv.map(x=>x[0].toLowerCase()).join(', ')}${fine?` · multa de ${money(fine)}`:''} (${ev.name}).`)}}catch(e){console.error(e)}return res}}
 // mostra as advertências no resultado
 {const _vr=v5Res;v5Res=function(){let s=_vr();try{const r=LIVE&&LIVE.res;if(r&&r.cv&&r.cv.length){const h=`<div class="v5sec"><span class="v5k">Árbitro</span></div><div class="v5tags">${r.cv.map(t=>`<span class="v5t b" style="font-size:13px;padding:6px 10px">${t}</span>`).join('')}${r.cvFine?`<span class="v5t m" style="font-size:13px;padding:6px 10px">multa ${money(r.cvFine)}</span>`:''}</div>`;s=s.replace('<div class="v5sec"><span class="v5k">Momentos</span>',h+'<div class="v5sec"><span class="v5k">Momentos</span>')}}catch(e){}return s}}

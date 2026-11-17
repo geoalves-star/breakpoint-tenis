@@ -1,9 +1,9 @@
 // =============== v5.2 · 7) regras de quadra ===============
 const V5CV=[['Advertência por tempo (shot clock)',0,.45],['Advertência por quebrar raquete',1,.25],['Advertência por obscenidade',1,.15],['Penalidade de ponto por conduta',2,.1],['Advertência por demorar na troca de lado',0,.05]];
-function v5Fine(t,sev){const w=TIERS[t]?TIERS[t].w:1;const base=t==='GS'?10000:t==='M1000'?7500:['A500','A250','FIN'].includes(t)?5000:t.startsWith('C')?1500:t.startsWith('J')?100:300;return Math.round(base*(sev===2?2:sev===1?1:0))}
-{const _um=userMatch;userMatch=function(opp,ev,bo5,stage,pre){const res=_um(opp,ev,bo5,stage,pre);try{const m=S.me,b=m.behav??40,tp=pick&&v5Ps?0:0;let p=.04+.004*Math.max(0,b-40)+(bo5?.03:0);const cv=[];
+function v5Fine(t,sev){const w=TIERS[t]?TIERS[t].w:1;const base=t==='GS'?10000:t==='M1000'?7500:['A500','A250','FIN'].includes(t)?5000:t.startsWith('C')?1500:t.startsWith('J')?100:300;return Math.round(base*(sev===2?1.5:sev===1?.5:0))}
+{const _um=userMatch;userMatch=function(opp,ev,bo5,stage,pre){const res=_um(opp,ev,bo5,stage,pre);try{const m=S.me,b=m.behav??40,tp=pick&&v5Ps?0:0;let p=.025+.003*Math.max(0,b-50)+(bo5?.02:0);const cv=[];
  while(R()<p&&cv.length<3){let r=R()*V5CV.reduce((a,x)=>a+x[2],0),k=V5CV[0];for(const x of V5CV){r-=x[2];if(r<=0){k=x;break}}cv.push(k);p*=.35}
- if(cv.length){let fine=0;cv.forEach(([n,sev])=>fine+=v5Fine(ev.tier,sev));if(cv.length>=2)fine+=v5Fine(ev.tier,1);res.cv=cv.map(x=>x[0]);res.cvFine=fine;if(fine){m.money-=fine;m.st.fines=(m.st.fines||0)+fine}
+ if(cv.length){let fine=0;cv.forEach(([n,sev])=>fine+=v5Fine(ev.tier,sev));res.cv=cv.map(x=>x[0]);res.cvFine=fine;if(fine){m.money-=fine;m.st.fines=(m.st.fines||0)+fine}
   if(cv.length>=2||cv.some(x=>x[1]===2))m.behav=clamp(b+1.5,0,100);if(!QUIET)news(`Árbitro: ${cv.map(x=>x[0].toLowerCase()).join(', ')}${fine?` · multa de ${money(fine)}`:''} (${ev.name}).`)}}catch(e){console.error(e)}return res}}
 // mostra as advertências no resultado
 {const _vr=v5Res;v5Res=function(){let s=_vr();try{const r=LIVE&&LIVE.res;if(r&&r.cv&&r.cv.length){const h=`<div class="v5sec"><span class="v5k">Árbitro</span></div><div class="v5tags">${r.cv.map(t=>`<span class="v5t b" style="font-size:13px;padding:6px 10px">${t}</span>`).join('')}${r.cvFine?`<span class="v5t m" style="font-size:13px;padding:6px 10px">multa ${money(r.cvFine)}</span>`:''}</div>`;s=s.replace('<div class="v5sec"><span class="v5k">Momentos</span>',h+'<div class="v5sec"><span class="v5k">Momentos</span>')}}catch(e){}return s}}

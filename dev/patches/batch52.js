@@ -41,3 +41,5 @@ function v5ProtTick(){const m=S.me;if(!m||S.ended)return;if(m.injury>0){m.injW=(
  s=s.replace(/<\/section>$/,html+'</section>')}catch(e){console.error(e)}return s}}
 // motor: o piso chega até a partida
 {const _ef=eff;eff=function(id,surf,t,o){const r=_ef(id,surf,t,o);if(r)r.surf=surf;return r}}
+// ajuste de equilíbrio do jogador (dificuldade)
+{const _ef3=eff;eff=function(id,surf,t,o){const r=_ef3(id,surf,t,o);const h=CIRC()==='WTA'?V5CAL.mw:V5CAL.me;if(id==='me'&&r&&h){r.sv+=h;r.rt+=h}return r}}
