@@ -1,0 +1,13 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const errs=[];const p=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});
+p.setDefaultTimeout(5000);
+await p.goto('file:///home/claude/tenis50.html');await p.waitForTimeout(400);
+await p.evaluate(()=>{MENU=false;FORM.leg=false;newGame({...FORM,age:22});S.tut=null;S.modals=[];S.planAsk=S.w-S.w%52;S.me.energy=90;for(const k in S.me.attrs)S.me.attrs[k]+=12;TAB='home';render();const e=weekEvents(S.w).map(e=>({e,st:entryStatus(e)})).filter(x=>x.st.ok&&x.st.main)[0];enter(e.e.key);S.modals=[];VINH=null;render()});await p.waitForTimeout(500);
+await p.screenshot({path:'shots/c1.png'});await p.screenshot({path:'shots/c1f.png',fullPage:true});
+await p.evaluate(()=>{S.me.pmode='sim';S.modals=[];goMatch('sim');});await p.waitForTimeout(300);
+await p.evaluate(()=>{if(VINH){clearTimeout(VT);vinGo()}});await p.waitForTimeout(300);
+await p.evaluate(()=>{if(LIVE)skipLive()});await p.waitForTimeout(2500);
+await p.screenshot({path:'shots/c2.png'});
+const has=await p.evaluate(()=>!!LIVE&&!!LIVE.v5j);
+await p.evaluate(()=>{const el=document.getElementById('live');if(el)el.scrollTop=700});await p.waitForTimeout(200);await p.screenshot({path:'shots/c3.png'});
+await p.evaluate(()=>{v5OpenJ()});await p.waitForTimeout(500);await p.screenshot({path:'shots/c4.png'});
+console.log(JSON.stringify(errs),has);await b.close()})();

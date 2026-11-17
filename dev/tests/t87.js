@@ -1,0 +1,1 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const p=await b.newPage();p.on('pageerror',e=>console.log('ERR',e.message,e.stack&&e.stack.slice(0,300)));await p.goto('file:///home/claude/tenis50.html');await p.waitForTimeout(500);await b.close()})();

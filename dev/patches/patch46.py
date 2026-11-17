@@ -1,0 +1,11 @@
+p='/home/claude/tenis46.html';s=open(p).read()
+def R(a,b,c=1):
+    global s;n=s.count(a);assert n==c,(a[:80],n);s=s.replace(a,b)
+R("// =============== tutorial ===============",open('/home/claude/p31/batch46.js').read()+"\n// =============== tutorial ===============")
+R('<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n','')
+R('<link href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Barlow+Condensed:wght@500;600;700;800;900&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">','<style>'+open('/tmp/fonts.css').read()+'</style>')
+R("<p class=\"small\">Sugestões e bugs: mande para quem te passou o link do jogo. 💬</p></div>${supportCard()}","</div>${supportCard()}${helpCard()}")
+R("<button class=\"opt\" onclick=\"INMENU='about';render()\">ℹ️ Sobre e novidades</button>","<button class=\"opt\" onclick=\"INMENU='about';render()\">ℹ️ Sobre e novidades</button><button class=\"opt\" onclick=\"reportBug()\">🐞 Reportar um problema</button>")
+R("CHANGELOG=[","CHANGELOG=[['4.6','Botão para reportar problemas, canal de sugestões, nota de privacidade e fontes embutidas (o jogo não depende mais de serviços de terceiros).'],")
+R("VERSION='4.5'","VERSION='4.6'")
+open(p,'w').write(s);print('ok')
