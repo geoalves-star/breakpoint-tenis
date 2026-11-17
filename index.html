@@ -710,6 +710,16 @@ body.v5 .vinvs{padding:0 6px;gap:6px}
 body.v5 .vinp{min-width:0}
 body.v5 .vinp b,body.v5 .vinp span{max-width:100%;overflow-wrap:anywhere}
 body.v5 .vinp .av.lg{width:84px;height:84px}
+/* app instalado no iPhone: respeita a área do relógio e do notch */
+body.v5 #app{padding-top:env(safe-area-inset-top)}
+body.v5 #app:has(> .hdr.v5h){padding-top:0}
+body.v5 .hdr.v5h{padding-top:env(safe-area-inset-top)}
+body.v5 .liveov,body.v5 .docov,body.v5 .retro{padding-top:calc(16px + env(safe-area-inset-top))}
+body.v5 .storyov{padding-top:env(safe-area-inset-top)}
+body.v5 .v5j .v5jin{padding-top:env(safe-area-inset-top)}
+body.v5 .vinov{padding-top:calc(30px + env(safe-area-inset-top))}
+body.v5 .modal .box,body.v5 .pcard>div{max-height:calc(100dvh - env(safe-area-inset-top) - 16px)}
+body.v5::before{content:'';position:fixed;top:0;left:0;right:0;height:env(safe-area-inset-top);background:var(--app);z-index:60;pointer-events:none}
 </style>
 </head>
 <body>
