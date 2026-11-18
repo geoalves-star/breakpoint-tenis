@@ -4301,7 +4301,7 @@ const V5MMI={play:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" s
 // tela antiga (sem o visual novo): acrescenta a opção
 {const _t=tourLive;tourLive=function(){let s=_t();try{if(s.includes("['sim','📺 Só assistir']")||s.includes('Só assistir</button>')){s=s.replace(/(<button class="[^"]*" onclick="S\.me\.pmode='sim';save\(\);render\(\)">[^<]*Só assistir<\/button>)/,`$1<button class="${S.me.pmode==='fast'?'on':''}" onclick="S.me.pmode='fast';save();render()">Simular direto</button>`);
   if(S.me.pmode==='fast')s=s.replace(/onclick="goMatch\('court'\)">[^<]*<\/button>/,`onclick="goMatch('fast')">Ver o resultado</button>`)}}catch(e){}return s}}
-{const _g=goMatch;goMatch=function(k){V5FAST=k==='fast';if(V5FAST){const T=S.tour;if(T)T.vin=1;return _g('sim')}return _g(k)}}
+{const _g=goMatch;goMatch=function(k){V5FAST=k==='fast';if(V5FAST){const T=S.tour,old=T&&T.vin;if(T)T.vin=1;try{return _g('sim')}finally{if(T&&!old)T.vin=old}}return _g(k)}}
 {const _p=playMatch;playMatch=function(pre){_p(pre);if(V5FAST&&!pre){V5FAST=false;try{if(LIVE&&LIVE.phase==='live')skipLive()}catch(e){}}}}
 {const _ec=enterCourt;enterCourt=function(){_ec();try{if(IM&&(IM.mode==='fast'))IM.mode=S.me.lpm||'key'}catch(e){}}}
 
