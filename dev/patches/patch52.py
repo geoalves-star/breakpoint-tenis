@@ -13,3 +13,4 @@ def apply(s,R):
     R("const fee=pr*(TAXR()+AGENT());","const fee=pr*(v5Tax()+AGENT()+v5CoachCut());")
     R("pot:o.leg?base+1.5:o.tal==='elite'?84+R()*4:o.tal==='medio'?74+R()*5:Math.max(74+R()*18,base+20)","pot:o.leg?base+1.5:o.tal==='elite'?V5CAL.pe+R()*V5CAL.per:o.tal==='medio'?V5CAL.pm+R()*V5CAL.pmr:Math.max(70+22*Math.pow(R(),V5CAL.ps),base+20)")
     R("const retireAge=()=>Math.round(32+6*clamp((cond()-40)/45,0,1));","const retireAge=()=>Math.round(V5CAL.ra+V5CAL.rr*clamp((cond()-40)/45,0,1));")
+    R("const tabs=[['stats','Atributos'],['career','Carreira']","const tabs=[['stats','Atributos'],['album','Álbum'],['career','Carreira']")

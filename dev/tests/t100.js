@@ -1,0 +1,6 @@
+const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();const errs=[];const p=await (await b.newContext({viewport:{width:390,height:844},deviceScaleFactor:2})).newPage();p.on('pageerror',e=>errs.push(e.message));
+await p.route('**/api/ranking**',r=>{if(r.request().method()==='POST')return r.fulfill({status:200,contentType:'application/json',body:'{"ok":true}'});r.fulfill({status:200,contentType:'application/json',body:JSON.stringify({list:[{id:'abc12345',nick:'Saque de Ouro',circ:'ATP',pais:'BR',best:12,titles:20,slams:1,w:300,l:120,score:2919},{id:'zzz99999',nick:'Paralela',circ:'ATP',pais:'AR',best:150,titles:9,slams:0,w:180,l:140,score:1301,ended:true}]})})});
+await p.goto('http://localhost:8123/tenis55.html');await p.waitForTimeout(400);
+await p.evaluate(()=>{MENU=false;FORM.leg=false;newGame({...FORM,age:20});S.tut=null;S.modals=[];S.planAsk=S.w-S.w%52;setTheme('noite');TOAST=null;RKTAB='online';go('rank')});await p.waitForTimeout(400);await p.screenshot({path:'shots/w1.png'});
+await p.fill('#v5nick','Geo Teste');await p.evaluate(()=>v5OnJoin());await p.waitForTimeout(800);await p.screenshot({path:'shots/w2.png'});
+console.log(JSON.stringify(errs));await b.close()})();

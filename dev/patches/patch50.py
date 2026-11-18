@@ -19,7 +19,7 @@ R("</style>\n</head>","</style>\n<style id=\"v5css\">"+open('p31/v5.css').read()
 # seletor de temas
 R("${themePicker()}","${v5ThemePicker()}",2)
 # versão
-R("VERSION='4.6'","VERSION='5.4'")
+R("VERSION='4.6'","VERSION='5.5'")
 import importlib.util as _u;_sp=_u.spec_from_file_location('p52','/home/claude/p31/patch52.py');_m=_u.module_from_spec(_sp);_sp.loader.exec_module(_m)
 def _R2(a,b,c=1):
     global s
@@ -37,5 +37,5 @@ import re as _re
 _i=s.index('<div class="card"><h3>📦 Onde você mora</h3>');_j=s.index("</div>`}",_i)
 s=s[:_i]+"${v5HomeCard()}"+s[_j+6:]
 # js
-R("// =============== tutorial ===============",open('p31/batch50.js').read()+"\n"+open('p31/batch51.js').read()+"\n"+open('p31/batch52.js').read()+"\n"+open('p31/batch53.js').read()+"\n"+open('p31/batch54.js').read()+"\n"+open('p31/batch55.js').read()+"\n"+open('p31/batch56.js').read()+"\n"+open('p31/batch57.js').read()+"\n"+open('p31/batch58.js').read()+"\n"+open('p31/batch59.js').read()+"\n// =============== tutorial ===============")
+R("// =============== tutorial ===============",open('p31/batch50.js').read()+"\n"+open('p31/batch51.js').read()+"\n"+open('p31/batch52.js').read()+"\n"+open('p31/batch53.js').read()+"\n"+open('p31/batch54.js').read()+"\n"+open('p31/batch55.js').read()+"\n"+open('p31/batch56.js').read()+"\n"+open('p31/batch57.js').read()+"\n"+open('p31/batch58.js').read()+"\n"+open('p31/batch59.js').read()+"\n"+open('p31/batch60.js').read()+"\n"+open('p31/batch61.js').read()+"\n"+open('p31/batch62.js').read()+"\n// =============== tutorial ===============")
 open(F,'w').write(s);print('ok',len(s))
