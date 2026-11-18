@@ -436,3 +436,12 @@ body.v5 .v5wc{height:min(42vh,320px);margin:6px 0 8px;border-radius:14px;cursor:
 .v5herob{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:25;padding:15px 30px;font-size:17px;font-weight:800;border-radius:16px;border:2px solid #140f0b;box-shadow:4px 4px 0 #140f0b;white-space:nowrap;min-width:min(78vw,320px)}
 .v5hero ~ .cnt{padding-bottom:96px}
 .v5hero ~ .cnt::after{content:'';position:fixed;left:0;right:0;bottom:0;height:calc(92px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--bg,#0b0907) 62%);pointer-events:none;z-index:24}
+/* botão de jogar no topo + preparação separada */
+body.v5 .v5go{margin:12px 0 6px;display:flex;flex-direction:column;gap:8px}
+body.v5 .v5go>.full.big{margin:0}
+body.v5 .v5prepb{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 14px}
+body.v5 .v5prepb span{display:flex;flex-direction:column;gap:2px}body.v5 .v5prepb b{font-size:15px}body.v5 .v5prepb small{font-size:12px;color:var(--mut);font-weight:500}
+body.v5 .v5prepb i{font-style:normal;font-size:22px;color:var(--mut)}
+body.v5 .v5prep{padding-bottom:96px}
+body.v5 .v5gofix{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--bg,#0b0907) 40%);z-index:20}
+body.v5 .v5gofix .full.big{max-width:520px;margin:0 auto;display:block}

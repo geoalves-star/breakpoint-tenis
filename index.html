@@ -852,6 +852,15 @@ body.v5 .v5wc{height:min(42vh,320px);margin:6px 0 8px;border-radius:14px;cursor:
 .v5herob{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(16px + env(safe-area-inset-bottom));z-index:25;padding:15px 30px;font-size:17px;font-weight:800;border-radius:16px;border:2px solid #140f0b;box-shadow:4px 4px 0 #140f0b;white-space:nowrap;min-width:min(78vw,320px)}
 .v5hero ~ .cnt{padding-bottom:96px}
 .v5hero ~ .cnt::after{content:'';position:fixed;left:0;right:0;bottom:0;height:calc(92px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--bg,#0b0907) 62%);pointer-events:none;z-index:24}
+/* botão de jogar no topo + preparação separada */
+body.v5 .v5go{margin:12px 0 6px;display:flex;flex-direction:column;gap:8px}
+body.v5 .v5go>.full.big{margin:0}
+body.v5 .v5prepb{display:flex;align-items:center;justify-content:space-between;text-align:left;padding:12px 14px}
+body.v5 .v5prepb span{display:flex;flex-direction:column;gap:2px}body.v5 .v5prepb b{font-size:15px}body.v5 .v5prepb small{font-size:12px;color:var(--mut);font-weight:500}
+body.v5 .v5prepb i{font-style:normal;font-size:22px;color:var(--mut)}
+body.v5 .v5prep{padding-bottom:96px}
+body.v5 .v5gofix{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--bg,#0b0907) 40%);z-index:20}
+body.v5 .v5gofix .full.big{max-width:520px;margin:0 auto;display:block}
 </style>
 </head>
 <body>
@@ -4673,6 +4682,24 @@ function v5HeroFrame(now){V5HR=null;const cv=document.getElementById('v5herc');i
 {const _mv=menuView;menuView=function(){let s=_mv();try{const re=/<div class="hero" style="padding:38px 18px 14px">([^]*?)<div class="mut" style="margin-top:14px">Sua carreira no tênis, do juvenil ao número 1 do mundo\.<\/div>/;
  if(re.test(s)){const has=[0,1,2].some(i=>slotMeta(i));s=s.replace(re,(m0,brand)=>`<div class="v5hero"><canvas id="v5herc" role="img" aria-label="Ilustração de um tenista sacando num estádio"></canvas><div class="v5herot">${brand}</div><button class="v5herob" onclick="v5HeroGo()">${has?'▶ Continuar carreira':'▶ Começar carreira'}</button></div><div class="hero" style="padding:12px 18px 6px"><div class="mut">Sua carreira no tênis, do juvenil ao número 1 do mundo.</div>`);
   setTimeout(()=>{if(!V5HR)V5HR=requestAnimationFrame(v5HeroFrame)},0)}}catch(e){console.error(e)}return s}}
+
+// =============== v5.7: tela da partida com o botão de jogar no topo e preparação em tela separada ===============
+let V5PREP=0;
+{const _m=v5Match;v5Match=function(){const s=_m();try{
+ const iF=s.indexOf('<div class="v5sec"><span class="v5k">Sua forma</span>'),iT=s.indexOf('<div class="v5sec"><span class="v5k">Plano de jogo</span>'),iE=s.indexOf('<details id="v5acc-v5ext"'),iM=s.indexOf('<div class="v5sec"><span class="v5k">Como você quer a partida</span>');
+ if(iF<0||iT<0||iM<0||!(iF<iT&&iT<iM))return s;
+ const bre=/<button class="full big"[^>]*>[^<]*<\/button>/,mb=s.slice(iM).match(bre);if(!mb)return s;const iB=iM+s.slice(iM).indexOf(mb[0]),big=mb[0],rest=s.slice(iB+big.length);
+ const head=s.slice(0,iF),form=s.slice(iF,iT),tacs=s.slice(iT,iE>iT&&iE<iM?iE:iM),ext=iE>iT&&iE<iM?s.slice(iE,iM):'',modes=s.slice(iM,iB);
+ const tac=(tacs.match(/class="v5tac on"[^>]*><b>([^<]+)<\/b>/)||[])[1]||'Equilibrada',mm=v5MM(),pm=S.me.pmode||'key';
+ const ml=mm==='play'?`Jogar · ${pm==='all'?'todos os pontos':'pontos decisivos'}`:mm==='watch'?'Simular assistindo':'Simular direto';
+ const bigTop=big.replace('style="margin-top:10px"','');
+ if(V5PREP){let opp='';try{const p=IDX.get(curOpp());opp=p?`contra ${flag(p.c)} ${esc(p.n)}`:''}catch(e){}
+  return `<div class="v5prep"><button class="sec" onclick="V5PREP=0;render();window.scrollTo(0,0)">← Voltar para a partida</button><section style="margin-top:10px"><span class="v5k a">Preparação</span><h1 class="v5h1">Preparar partida</h1><p class="v5lede">${opp}</p></section>
+   ${modes}${tacs}${ext}${form}<div class="v5gofix">${bigTop}</div></div>`}
+ const go=`<div class="v5go">${bigTop}<button class="sec full v5prepb" onclick="V5PREP=1;render();window.scrollTo(0,0)"><span><b>Preparar partida</b><small>${ml} · Plano: ${esc(tac)}</small></span><i>›</i></button></div>`;const iS=head.indexOf('</section>');
+ return (iS>=0?head.slice(0,iS+10)+go+head.slice(iS+10):head+go)+form+rest}catch(e){console.error(e);return s}}}
+{const _g=goMatch;goMatch=function(k){V5PREP=0;return _g(k)}}
+const curOpp=()=>{try{return oppOf()}catch(e){return null}};
 
 // =============== tutorial ===============
 const TUT=[
