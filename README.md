@@ -2,7 +2,7 @@
 
 Jogo de navegador de carreira no tênis. Criado por Geovanne.
 
-Versão atual: 5.6
+Versão atual: 5.7
 
 O jogo inteiro fica em um único arquivo (`index.html`), sem build. Funciona offline e pode ser instalado como app (PWA).
 
@@ -33,6 +33,12 @@ A pasta `api/` tem a função `ranking.js`, que guarda o ranking entre amigos nu
 Para ativar: na Vercel, abra o projeto → Storage → crie um banco Upstash for Redis e conecte ao projeto.
 As variáveis `KV_REST_API_URL` e `KV_REST_API_TOKEN` são criadas sozinhas; depois é só publicar de novo.
 Sem o banco, o jogo funciona normalmente e a aba Online avisa que o ranking ainda não está ativo.
+
+## Pacotes da comunidade
+
+O jogo vem só com nomes fictícios. Cada pessoa pode trocar nomes e imagens dos torneios no próprio aparelho
+(menu ☰ → Editor de jogadores / Imagens dos torneios) e exportar um pacote `.json`.
+Para importar por link, publique o arquivo num GitHub Gist e cole o link em Importar lista ou pacote.
 
 ## Pasta `dev/`
 
