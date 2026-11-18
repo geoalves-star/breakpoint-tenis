@@ -1,6 +1,6 @@
 // =============== v5.2 · 5) circuito vivo ===============
 const V5PS=[['Showman','Adora a torcida e as câmeras.'],['Frio','Não demonstra emoção em quadra.'],['Temperamental','Discute com o árbitro e quebra raquete.'],['Guerreiro','Nunca dá um ponto como perdido.'],['Discreto','Fala pouco e evita a imprensa.'],['Polêmico','Provoca rivais nas entrevistas.'],['Perfeccionista','Treina mais que todo mundo.']];
-const v5Ps=p=>V5PS[(p.id*7+3)%V5PS.length];
+const v5Ps=p=>{const L=(typeof OPTS!=='undefined'&&OPTS.np)?V5PS.filter(x=>x[0]!=='Temperamental'&&x[0]!=='Polêmico'):V5PS;return L[(p.id*7+3)%L.length]};
 // confrontos entre jogadores do circuito
 {const _pr=playRound;playRound=function(br,ev,round,userWon){const nx=_pr(br,ev,round,userWon);try{if(!S.nh)S.nh={};const t=TIERS[ev.tier];if(t&&t.cat==='pro'&&!['M15','M25','EXH'].includes(ev.tier)){const fin=br.length===2;
  for(let i=0;i<br.length;i+=2){const a=br[i],b=br[i+1],w=nx[i/2];if(a==null||b==null||a==='me'||b==='me')continue;const ra=RK.pro[a]||999,rb=RK.pro[b]||999;if(ra>100||rb>100)continue;

@@ -830,6 +830,12 @@ body.v5 .v5mmo.on{border:2px solid var(--acc);padding:11px 7px;background:var(--
 body.v5 .v5mmo.on i{background:var(--acc);color:#140f0b}
 body.v5 .v5mmsub{margin-top:8px}
 body.v5 .v5mmsub .xs{margin-top:6px}
+body.v5 .v5lrow{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+body.v5 .v5lrow>span{flex:1;min-width:0;display:flex;flex-direction:column}
+body.v5 .v5lrow>span b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.v5 .v5lrow>span small{font-size:11px;color:var(--mut)}
+body.v5 .v5lrow label.btn{padding:8px 12px;font-size:13px;cursor:pointer;flex:none}
+body.v5 .v5lrow .ghost{flex:none;padding:6px 10px;font-size:18px}
 </style>
 </head>
 <body>
@@ -3826,7 +3832,7 @@ function v5SponWeek(){const m=S.me;if(!m||S.ended||!isPro()||!(m.spons||[]).leng
 
 // =============== v5.2 · 5) circuito vivo ===============
 const V5PS=[['Showman','Adora a torcida e as câmeras.'],['Frio','Não demonstra emoção em quadra.'],['Temperamental','Discute com o árbitro e quebra raquete.'],['Guerreiro','Nunca dá um ponto como perdido.'],['Discreto','Fala pouco e evita a imprensa.'],['Polêmico','Provoca rivais nas entrevistas.'],['Perfeccionista','Treina mais que todo mundo.']];
-const v5Ps=p=>V5PS[(p.id*7+3)%V5PS.length];
+const v5Ps=p=>{const L=(typeof OPTS!=='undefined'&&OPTS.np)?V5PS.filter(x=>x[0]!=='Temperamental'&&x[0]!=='Polêmico'):V5PS;return L[(p.id*7+3)%L.length]};
 // confrontos entre jogadores do circuito
 {const _pr=playRound;playRound=function(br,ev,round,userWon){const nx=_pr(br,ev,round,userWon);try{if(!S.nh)S.nh={};const t=TIERS[ev.tier];if(t&&t.cat==='pro'&&!['M15','M25','EXH'].includes(ev.tier)){const fin=br.length===2;
  for(let i=0;i<br.length;i+=2){const a=br[i],b=br[i+1],w=nx[i/2];if(a==null||b==null||a==='me'||b==='me')continue;const ra=RK.pro[a]||999,rb=RK.pro[b]||999;if(ra>100||rb>100)continue;
@@ -4269,6 +4275,52 @@ const V5MMI={play:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" s
 {const _g=goMatch;goMatch=function(k){V5FAST=k==='fast';if(V5FAST){const T=S.tour;if(T)T.vin=1;return _g('sim')}return _g(k)}}
 {const _p=playMatch;playMatch=function(pre){_p(pre);if(V5FAST&&!pre){V5FAST=false;try{if(LIVE&&LIVE.phase==='live')skipLive()}catch(e){}}}}
 {const _ec=enterCourt;enterCourt=function(){_ec();try{if(IM&&(IM.mode==='fast'))IM.mode=S.me.lpm||'key'}catch(e){}}}
+
+// =============== v5.6: pacotes da comunidade (nomes + imagens dos torneios) e modo "Sem polêmicas" ===============
+const V5LKEY='bp_logos';
+function v5Logos(){try{return JSON.parse(localStorage.getItem(V5LKEY)||'{}')||{}}catch(e){return{}}}
+function v5LogoOf(name){const L=v5Logos(),u=L[name];return typeof u==='string'&&/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)?u:null}
+function v5SaveLogos(L){try{localStorage.setItem(V5LKEY,JSON.stringify(L));return true}catch(e){TOAST='Sem espaço para mais imagens neste aparelho. Remova algumas e tente de novo.';return false}}
+// emblema: usa a imagem do jogador quando existir
+{const _e=emblemSVG;emblemSVG=function(ev,sz){try{const u=ev&&v5LogoOf(ev.name);if(u)return `<img src="${u}" alt="" style="width:100%;height:100%;object-fit:contain;display:block;background:#fff;border-radius:inherit">`}catch(e){}return _e(ev,sz)}}
+// imagem no muro da quadra
+let V5LIMG={};function v5LogoImg(name){const u=v5LogoOf(name);if(!u)return null;let o=V5LIMG[name];if(!o||o.u!==u){const im=new Image();o=V5LIMG[name]={u,im,ok:false};im.onload=()=>{o.ok=true;V5BG=null};im.src=u}return o.ok?o.im:null}
+{const _b=v5BgBuild;v5BgBuild=function(W,H,dpr,ev,P,top){const r=_b(W,H,dpr,ev,P,top);try{const im=v5LogoImg(ev.name);if(im){const wallB=r.wallB,h=Math.max(16,H*.045)-4,wallT=wallB-h-4;for(const c of r.img.slice(0,2)){const g=c.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);const s=h/Math.max(im.width,im.height),w=im.width*s,hh=im.height*s;for(const x of[W*.27,W*.73]){g.fillStyle='#ffffff';g.beginPath();g.roundRect(x-w/2-2,wallT+2+(h-hh)/2-1,w+4,hh+2,3);g.fill();g.drawImage(im,x-w/2,wallT+2+(h-hh)/2,w,hh)}}}}catch(e){}return r}}
+function v5ImgResize(file,cb){const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const M=160,s=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);let u=c.toDataURL('image/webp',.85);if(!u.startsWith('data:image/webp'))u=c.toDataURL('image/png');cb(u)};im.onerror=()=>{TOAST='Não consegui abrir essa imagem.';render()};im.src=rd.result};rd.readAsDataURL(file)}
+function v5LogoUp(inp,name){const f=inp.files&&inp.files[0];if(!f)return;v5ImgResize(f,u=>{const L=v5Logos();L[name]=u;if(v5SaveLogos(L))TOAST=`Imagem de ${name} salva neste aparelho.`;V5BG=null;render()})}
+function v5LogoDel(name){const L=v5Logos();delete L[name];v5SaveLogos(L);V5BG=null;render()}
+function v5LogoAllDel(){try{localStorage.removeItem(V5LKEY)}catch(e){}V5BG=null;TOAST='Imagens removidas.';render()}
+function v5TourList(){const seen=new Map(),ord=['GS','FIN','OLY','M1000','A500','A250'];for(let w=0;w<52;w++){for(const e of weekEvents(w)){if(!ord.includes(e.tier)&&!/^(CH|C1|C7|C5|W1|W7|W5|WTA)/.test(e.tier))continue;if(!seen.has(e.name))seen.set(e.name,e)}}return[...seen.values()].sort((a,b)=>{const ia=ord.indexOf(a.tier),ib=ord.indexOf(b.tier);return(ia<0?9:ia)-(ib<0?9:ib)})}
+let V5LQ='';
+function v5LogosView(){const L=v5Logos(),n=Object.keys(L).length,T=v5TourList();
+ return `<div class="modal"><div class="box"><button class="sec" onclick="INMENU=true;render()">← Voltar</button>
+ <h3 style="margin:12px 0 4px">Imagens dos torneios</h3><p class="small mut" style="margin:0 0 10px">Troque o emblema de qualquer torneio por uma imagem sua. Ela aparece nas telas do torneio e no muro da quadra, e fica só neste aparelho.${n?` Você tem ${n} imagem(ns).`:''}</p>
+ ${n?`<button class="sec full" style="margin-bottom:8px" onclick="v5LogoAllDel()">Remover todas</button>`:''}
+ <input placeholder="Buscar torneio" value="${esc(V5LQ)}" oninput="V5LQ=this.value;document.querySelectorAll('.v5lrow').forEach(el=>{el.style.display=!nrm(V5LQ)||el.dataset.k.includes(nrm(V5LQ))?'':'none'})" style="margin-bottom:6px">
+ ${T.map(e=>`<div class="v5lrow" data-k="${esc(nrm(e.name+' '+(e.city||'')))}" style="${V5LQ&&!nrm(e.name+' '+(e.city||'')).includes(nrm(V5LQ))?'display:none':''}">${emb(e,40)}<span><b>${esc(e.name)}</b><small>${esc(tl(e.tier))} · ${esc(e.city||'')}</small></span><label class="btn sec">${L[e.name]?'Trocar':'Imagem'}<input type="file" accept="image/*" style="display:none" onchange="v5LogoUp(this,${esc(JSON.stringify(e.name))})"></label>${L[e.name]?`<button class="ghost" aria-label="Remover imagem" onclick="v5LogoDel(${esc(JSON.stringify(e.name))})">×</button>`:''}</div>`).join('')}
+ </div></div>`}
+// menu: novas entradas e telas
+{const _m=inMenuView;inMenuView=function(){let s=_m();try{s=s.replace(/(<button class="opt" onclick="INMENU='names';render\(\)">[^]*?<\/button>)/,`$1<button class="opt" onclick="INMENU='logos';render()">Imagens dos torneios<small>Use suas próprias imagens no lugar dos emblemas dos torneios.</small></button>`)}catch(e){}return s}}
+{const _s=inMenuSub;inMenuSub=function(){if(INMENU==='logos')return v5LogosView();return _s()}}
+// pacote: exporta nomes + imagens; importa de arquivo, texto ou link
+{const _x=nedExportObj;nedExportObj=function(){const o=_x();const L=v5Logos();if(Object.keys(L).length)o.logos=L;o.app='breakpoint-pacote';return o}}
+function v5ApplyPack(j){let n=0;try{if(j&&j.logos&&typeof j.logos==='object'){const L=v5Logos();for(const[k,u]of Object.entries(j.logos)){if(typeof k==='string'&&k.length<80&&typeof u==='string'&&u.length<300000&&/^data:image\/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+$/.test(u)){L[k]=u;n++}}if(n)v5SaveLogos(L);V5BG=null}}catch(e){}return n}
+{const _a=nedApplyJson;nedApplyJson=function(j){const k=_a(j);const n=v5ApplyPack(j);if(n)setTimeout(()=>{TOAST=`${k} jogador(es) renomeado(s) e ${n} imagem(ns) de torneio.`;render()},0);return k}}
+{const _p=nedParse;nedParse=function(t){const r=_p(t);try{if(r&&r.err&&String(t).trim()[0]==='{'){const j=JSON.parse(t);if(j&&j.logos)return{json:{pro:[],jr:[],...j}}}}catch(e){}return r}}
+{const _i=nedImport;nedImport=function(){const before=[...S.pro,...S.jr].filter(p=>p.n0!=null).length;_i();V5NIMP='';try{const after=[...S.pro,...S.jr].filter(p=>p.n0!=null).length;if(after>before&&!OPTS.npSet){OPTS.np=true;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}TOAST=(TOAST||'')+' O modo "Sem polêmicas" foi ligado (dá para mudar no menu ☰).'}}catch(e){}render()}}
+let V5NIMP='';
+async function v5LinkFetch(){const inp=document.getElementById('v5link'),t=document.getElementById('nimp');let u=(inp&&inp.value||'').trim();if(!/^https:\/\/\S+$/.test(u)){TOAST='Cole um link que comece com https://';render();return}
+ u=u.replace(/^https:\/\/gist\.github\.com\/([^/]+)\/([0-9a-f]+)\/?$/,'https://gist.githubusercontent.com/$1/$2/raw').replace(/^https:\/\/github\.com\/([^/]+)\/([^/]+)\/blob\/(.+)$/,'https://raw.githubusercontent.com/$1/$2/$3');
+ const b=document.getElementById('v5linkb');if(b){b.disabled=true;b.textContent='Baixando…'}
+ try{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw new Error('http '+r.status);const tx=await r.text();if(tx.length>3e6)throw new Error('grande');V5NIMP=tx;if(t)t.value=tx;TOAST='Pacote baixado. Confira e toque em Aplicar nomes.'}
+ catch(e){TOAST='Não consegui baixar desse link. Use um link "raw" do GitHub Gist ou baixe o arquivo e escolha aqui.'}if(b){b.disabled=false;b.textContent='Baixar'}render()}
+{const _v=nedImpView;nedImpView=function(){let s=_v();try{if(V5NIMP)s=s.replace(/(<textarea id="nimp"[^>]*>)<\/textarea>/,(m,a)=>a+esc(V5NIMP)+'</textarea>');s=s.replace('<textarea id="nimp"',`<div class="small" style="margin:10px 0 4px"><b>Ou baixe um pacote da comunidade pelo link</b></div><div style="display:flex;gap:6px;margin-bottom:8px"><input id="v5link" type="url" inputmode="url" placeholder="https://… (link do pacote .json)" style="flex:1;min-width:0"><button id="v5linkb" onclick="v5LinkFetch()">Baixar</button></div><textarea id="nimp"`);
+  s=s.replace(/(<p class="xs mut" style="margin-top:8px">O Breakpoint Tênis vem só com nomes fictícios[^<]*<\/p>)/,'<p class="xs mut" style="margin-top:8px">O Breakpoint Tênis vem só com nomes fictícios e não distribui nomes de atletas reais nem marcas. Pacotes são feitos pela comunidade: o que você importar é responsabilidade sua e fica apenas neste aparelho. Personalidades, falas e notícias do jogo são inventadas e não retratam pessoas reais.</p>')}catch(e){}return s}}
+{const _v=nedView;nedView=function(){let s=_v();try{s=s.replace('>Importar lista</button>','>Importar lista ou pacote</button>').replace('>Exportar base</button>','>Exportar pacote</button>')}catch(e){}return s}}
+// modo "Sem polêmicas": personalidades neutras e sem provocações de rivais nas redes
+{const _ap=addPost;addPost=function(p){try{if(OPTS.np&&p&&p.k==='rv'&&!/🏆|🙌|Treino feito|Bom dia de trabalho|Viajando|Te espero na quadra/.test(p.t||''))return}catch(e){}return _ap.apply(this,arguments)}}
+function v5NpToggle(){OPTS.np=!OPTS.np;OPTS.npSet=1;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}try{PSC=null}catch(e){}render()}
+{const _m=inMenuView;inMenuView=function(){let s=_m();try{s=s.replace(/(<button class="opt" onclick="setOptG\('skipInt',!OPTS\.skipInt\)">)/,`<button class="opt" onclick="v5NpToggle()">${OPTS.np?'✅':'⬜'} Sem polêmicas<small>Os outros jogadores ficam sem personalidade polêmica e sem provocações nas redes. Bom para quem usa nomes reais.</small></button>$1`)}catch(e){}return s}}
 
 // =============== tutorial ===============
 const TUT=[
