@@ -20,3 +20,10 @@ def apply(s,R):
     R("const hasContact=()=>!!(CONTACT.ig||CONTACT.email||CONTACT.form);","const hasContact=()=>!!(CONTACT.ig||CONTACT.x||CONTACT.email||CONTACT.form);")
     R("if(CONTACT.email)L.push(`<a class=\"btn sec\" href=\"mailto:","if(CONTACT.x)L.push(`<a class=\"btn sec\" href=\"https://x.com/${esc(CONTACT.x.replace('@',''))}\" target=\"_blank\" rel=\"noopener\">𝕏 @${esc(CONTACT.x.replace('@',''))}</a>`);if(CONTACT.email)L.push(`<a class=\"btn sec\" href=\"mailto:")
     R("<div class=\"xs mut\" style=\"margin-top:6px\">Criado por <b>Geovanne</b></div>","<div class=\"xs mut\" style=\"margin-top:6px\">Criado por <b>Geovanne</b></div><div class=\"xs mut\" style=\"margin-top:4px;opacity:.7\">Jogo independente, sem vínculo com ATP, WTA, ITF ou os torneios citados.</div>")
+    # v5.7: tiebreak de 10 no set decisivo dos Slams (partida simulada e partida em quadra)
+    R("for(;;){const sA=(((i+1)>>1)%2===0)?first:!first;const r=sp(sA,sA?pA+mt:pB-mt);const aw=sA?r.w:!r.w;aw?a++:b++;i++;const end=(a>=7||b>=7)&&Math.abs(a-b)>=2;","const tg=(typeof v5Tb10==='function'&&v5Tb10(1)&&sets.length===2*need-2)?10:7;for(;;){const sA=(((i+1)>>1)%2===0)?first:!first;const r=sp(sA,sA?pA+mt:pB-mt);const aw=sA?r.w:!r.w;aw?a++:b++;i++;const end=(a>=tg||b>=tg)&&Math.abs(a-b)>=2;")
+    R("if(E.tb){aw?E.a++:E.b++;E.tbi++;const end=(E.a>=7||E.b>=7)&&Math.abs(E.a-E.b)>=2;","if(E.tb){aw?E.a++:E.b++;E.tbi++;const tg=E.tb10?10:7;const end=(E.a>=tg||E.b>=tg)&&Math.abs(E.a-E.b)>=2;")
+    R("if(E.ga===6&&E.gb===6){E.tb=true;E.tbi=0;E.tbFirst=E.srvA}","if(E.ga===6&&E.gb===6){E.tb=true;E.tbi=0;E.tbFirst=E.srvA;E.tb10=typeof v5Tb10==='function'&&v5Tb10(1)&&E.sets.length===2*E.need-2}")
+    # v5.7: desafio só onde há juiz de linha no saibro; marcação eletrônica nos demais
+    R("if(!r.aw&&r.raw!=='df'&&!I.E.done&&R()<.12)I.chal=","if(!r.aw&&r.raw!=='df'&&!I.E.done&&v5Lines()==='mark'&&R()<.12)I.chal=")
+    R("else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&R()<.08){","else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&v5Lines()==='mark'&&R()<.08){")

@@ -836,6 +836,9 @@ body.v5 .v5lrow>span b{font-size:14px;white-space:nowrap;overflow:hidden;text-ov
 body.v5 .v5lrow>span small{font-size:11px;color:var(--mut)}
 body.v5 .v5lrow label.btn{padding:8px 12px;font-size:13px;cursor:pointer;flex:none}
 body.v5 .v5lrow .ghost{flex:none;padding:6px 10px;font-size:18px}
+body.v5 .v5rkg{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px}
+body.v5 .v5rkg>div{background:var(--card2);border-radius:10px;padding:8px;display:flex;flex-direction:column}
+body.v5 .v5rkg b{font-size:16px}body.v5 .v5rkg span{font-size:11px;color:var(--mut)}
 </style>
 </head>
 <body>
@@ -1282,7 +1285,7 @@ function simMatch(A,B,bo5,rec){
   let ga=0,gb=0,tb=null;
   for(;;){
    if(ga===6&&gb===6){let a=0,b=0,i=0;const first=srvA;
-    for(;;){const sA=(((i+1)>>1)%2===0)?first:!first;const r=sp(sA,sA?pA+mt:pB-mt);const aw=sA?r.w:!r.w;aw?a++:b++;i++;const end=(a>=7||b>=7)&&Math.abs(a-b)>=2;
+    const tg=(typeof v5Tb10==='function'&&v5Tb10(1)&&sets.length===2*need-2)?10:7;for(;;){const sA=(((i+1)>>1)%2===0)?first:!first;const r=sp(sA,sA?pA+mt:pB-mt);const aw=sA?r.w:!r.w;aw?a++:b++;i++;const end=(a>=tg||b>=tg)&&Math.abs(a-b)>=2;
      if(rec)TL.push({s:sets.slice(),g:[ga,gb],p:[a,b],tb:1,srv:sA,ev:r.ev,aw});if(end)break}
     a>b?ga++:gb++;tb=Math.min(a,b);srvA=!first;break}
    let a=0,b=0;const sA=srvA;
@@ -2297,12 +2300,12 @@ function ePoint(E,mod){mod=mod||{};const sA=eSrv(E);let p=E.tb?(sA?E.pA+E.mt:E.p
  else{sv.s2++;if(R()<sv.dfr){w=false;sv.df++;ev='df'}else{const p2=clamp((p-f1r*p1)/((1-f1r)*(1-sv.dfr)),.12,.88);w=R()<p2}if(w)sv.s2w++}
  if(w)sv.spw++;if(!ev){const W=w?sv:rv,Lz=w?rv:sv,wr=mod.wue?.45:.33;if(R()<wr){W.win++;ev='win'}else if(R()<(mod.wue?.6:.5)){Lz.ue++;ev='ue'}else ev='forced'}
  (w?sv:rv).pts++;const aw=sA?w:!w;let tev=ev;E.run=aw?((E.run||0)>0?E.run+1:1):((E.run||0)<0?E.run-1:-1);
- if(E.tb){aw?E.a++:E.b++;E.tbi++;const end=(E.a>=7||E.b>=7)&&Math.abs(E.a-E.b)>=2;let pa=E.a,pb=E.b;
+ if(E.tb){aw?E.a++:E.b++;E.tbi++;const tg=E.tb10?10:7;const end=(E.a>=tg||E.b>=tg)&&Math.abs(E.a-E.b)>=2;let pa=E.a,pb=E.b;
   if(end){E.a>E.b?E.ga++:E.gb++;const tbm=Math.min(E.a,E.b);E.srvA=!E.tbFirst;E.a=0;E.b=0;E.tb=false;eEndSet(E,tbm);tev=E.done?'match':'set';pa=0;pb=0}
   E.TL.push({s:E.sets.slice(),g:[E.ga,E.gb],p:[pa,pb],tb:end?0:1,srv:eSrv(E),ev:tev,aw})}
  else{const rP=sA?E.b:E.a,sP=sA?E.a:E.b,bp=rP>=3&&rP>sP;if(bp)rv.bpo++;aw?E.a++:E.b++;const gA=E.a>=4&&E.a-E.b>=2,gB=E.b>=4&&E.b-E.a>=2;
   if(bp&&!w){rv.bpw++;tev='brk'}
-  if(gA||gB){gA?E.ga++:E.gb++;E.a=0;E.b=0;E.srvA=!E.srvA;if(E.ga===6&&E.gb===6){E.tb=true;E.tbi=0;E.tbFirst=E.srvA}else if((E.ga>=6||E.gb>=6)&&Math.abs(E.ga-E.gb)>=2){eEndSet(E,null);tev=E.done?'match':'set'}else if(tev!=='brk'&&tev!=='ace')tev='game'}
+  if(gA||gB){gA?E.ga++:E.gb++;E.a=0;E.b=0;E.srvA=!E.srvA;if(E.ga===6&&E.gb===6){E.tb=true;E.tbi=0;E.tbFirst=E.srvA;E.tb10=typeof v5Tb10==='function'&&v5Tb10(1)&&E.sets.length===2*E.need-2}else if((E.ga>=6||E.gb>=6)&&Math.abs(E.ga-E.gb)>=2){eEndSet(E,null);tev=E.done?'match':'set'}else if(tev!=='brk'&&tev!=='ace')tev='game'}
   E.TL.push({s:E.sets.slice(),g:[E.ga,E.gb],p:[E.a,E.b],srv:eSrv(E),ev:tev,aw})}
  return{w,aw,ev:tev,raw:ev,sA,first}}
 function eResult(E){const tp=E.SA.pts+E.SB.pts,gm=E.sets.reduce((s,x)=>s+x[0]+x[1],0);return{win:E.sa>E.sb&&!E.ret,ret:E.ret,sets:E.sets,st:{a:E.SA,b:E.SB,dur:Math.round(tp*.5+gm*.7)},tl:E.TL,inter:true}}
@@ -2360,8 +2363,8 @@ function imRally(rk){const I=IM;if(!I||!I.pend||I.anim)return;{const c=myCoach()
  if(sA)(I.smap=I.smap||[]).push([k,r.aw?1:0,r.raw==='ace'?1:0]);
  if(sA&&(k==='fh'||k==='bh')){I.seen[k][0]++;if(r.aw)I.seen[k][1]++;if(!I.learned&&I.seen.fh[0]+I.seen.bh[0]>=5){I.learned=true;I.feed.unshift(`🔎 Você percebeu: ${G('ele','ela')} sofre mais no ${I.weak==='fh'?'forehand':'backhand'}.`)}}
  I.last={txt:imTxt(r),aw:r.aw,ev:r.ev};I.feed.unshift(I.last.txt);if((key&&/POINT/.test(key))||['brk','set','match'].includes(r.ev)){(I.reps=I.reps||[]).push({key:key||({brk:'QUEBRA',set:'SET',match:'MATCH POINT'}[r.ev]),sc:scoreTxt(I.E),txt:I.last.txt,sd:ri(1,1e6),r:{raw:r.raw,rl:rk,sA:r.sA,aw:r.aw,ev:r.ev}})}umpireChk(r);coachSig(r);const nr=narr(r);if(nr)I.feed.unshift(nr);if(nr)speak(nr.replace('🎙️',''));else if(r.raw==='ace'&&r.aw)speak('Ace!');{const nk=eKey(I.E);if(nk&&/POINT/.test(nk)&&!I.E.done)setTimeout(()=>speak(nk.replace(' A FAVOR',' a favor').replace(' CONTRA',' contra').toLowerCase()),400)}I.ball=r;I.anim=true;sRally(r,Math.min(1.3,.35+(r.raw==='ace'||r.raw==='df'?1:3)*.22));
- if(!r.aw&&r.raw!=='df'&&!I.E.done&&R()<.12)I.chal={snap,mod,sA,txt:pick(['A bola pareceu sair!','Bola na linha? Você não concorda com a marcação.','Você reclama: achou que foi fora.'])};
- else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&R()<.08){const op=IDX.get(I.opp).n.split(' ').slice(-1)[0];if(R()<.25){I.E=snap;const r2=ePoint(I.E,{fw:!sA,fev:'win'});I.feed.unshift(`🦅 ${op} pede o desafio... e acerta! A bola saiu. Ponto revertido.`);I.last={txt:'🦅 Desafio do adversário: ponto revertido',aw:false,ev:r2.ev};I.ball={...r2,rl:rk}}else I.feed.unshift(`🦅 ${op} desafia, mas a bola pegou na linha. Ponto mantido.`)}
+ if(!r.aw&&r.raw!=='df'&&!I.E.done&&v5Lines()==='mark'&&R()<.12)I.chal={snap,mod,sA,txt:pick(['A bola pareceu sair!','Bola na linha? Você não concorda com a marcação.','Você reclama: achou que foi fora.'])};
+ else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&v5Lines()==='mark'&&R()<.08){const op=IDX.get(I.opp).n.split(' ').slice(-1)[0];if(R()<.25){I.E=snap;const r2=ePoint(I.E,{fw:!sA,fev:'win'});I.feed.unshift(`🦅 ${op} pede o desafio... e acerta! A bola saiu. Ponto revertido.`);I.last={txt:'🦅 Desafio do adversário: ponto revertido',aw:false,ev:r2.ev};I.ball={...r2,rl:rk}}else I.feed.unshift(`🦅 ${op} desafia, mas a bola pegou na linha. Ponto mantido.`)}
  render();clearTimeout(IMT);IMT=setTimeout(()=>{if(!IM)return;IM.anim=false;if(IM.chal||IM.sig){render();return}if(IM.E.done){imFinish();return}if(r.ev==='set'||I.E.sets.length>snap.sets.length){setBreak();render();return}if(rainChk()||crampChk()){render();return}if(IM.mode==='key')imAuto();if(IM)render()},1400)}
 function imChallenge(go){const I=IM;if(!I||!I.chal)return;const c=I.chal;I.chal=null;
  if(go&&I.ch.n>0){if(R()<.32){I.E=c.snap;const r=ePoint(I.E,{fw:c.sA,fev:'win'});I.feed.unshift('🦅 DESAFIO CORRETO! A bola foi fora. O ponto é seu.');I.last={txt:'🦅 Desafio correto: ponto seu!',aw:true,ev:r.ev};if(I.E.done){imFinish();return}}else{I.ch.n--;I.feed.unshift(`🦅 Desafio perdido: a bola pegou na linha. Restam ${I.ch.n} neste set.`)}}
@@ -4321,6 +4324,45 @@ async function v5LinkFetch(){const inp=document.getElementById('v5link'),t=docum
 {const _ap=addPost;addPost=function(p){try{if(OPTS.np&&p&&p.k==='rv'&&!/🏆|🙌|Treino feito|Bom dia de trabalho|Viajando|Te espero na quadra/.test(p.t||''))return}catch(e){}return _ap.apply(this,arguments)}}
 function v5NpToggle(){OPTS.np=!OPTS.np;OPTS.npSet=1;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}try{PSC=null}catch(e){}render()}
 {const _m=inMenuView;inMenuView=function(){let s=_m();try{s=s.replace(/(<button class="opt" onclick="setOptG\('skipInt',!OPTS\.skipInt\)">)/,`<button class="opt" onclick="v5NpToggle()">${OPTS.np?'✅':'⬜'} Sem polêmicas<small>Os outros jogadores ficam sem personalidade polêmica e sem provocações nas redes. Bom para quem usa nomes reais.</small></button>$1`)}catch(e){}return s}}
+
+// =============== v5.7: regras oficiais (ranking com melhores resultados, zero obrigatório, tiebreak de 10, marcação eletrônica) ===============
+const V5BEST=18;
+function v5PK(ev){if(!ev)return'O';const t=ev.tier,n=(ev.name||'')+' '+(ev.city||'');if(t==='GS')return'G';if(t==='FIN')return'F';if(TIERS[t]&&TIERS[t].cat==='jr')return'J';
+ if(t==='M1000'){if(CIRC()==='WTA')return/Doha|Qatar|Dubai|Wuhan/i.test(n)?'N':'M';return/Monte/i.test(n)?'O':'M'}return'O'}
+const v5CurEv=()=>{try{return S.tour?weekEvents(S.w).find(e=>e.key===S.tour.key)||null:null}catch(e){return null}};
+// marca cada resultado com o tipo de torneio
+{const _a=award;award=function(id,t,idx){let arr=null;try{arr=id==='me'?(t.cat==='pro'?S.me.ptsPro:S.me.ptsJr):(id!=null&&IDX.get(id)?IDX.get(id).pts:null)}catch(e){}const n0=arr?arr.length:0;const r=_a(id,t,idx);
+ try{if(arr&&arr.length>n0){const e=arr[arr.length-1];if(e.length<3){const ev=(id==='me'?v5CurEv():null)||CUR_EV;e.push(t.cat==='jr'?'J':v5PK(ev))}}}catch(e){}return r}}
+// ranking: Slams + obrigatórios + melhores resultados até 18 (ATP Finals/WTA Finals como bônus)
+function v5Split(a){const lo=S.w-52,B={G:[],M:[],N:[],F:[],O:[],J:[]};for(const e of a||[]){if(e[0]<=lo)continue;(B[e[2]]||B.O).push(e)}return B}
+function v5Count(a){const B=v5Split(a),W=CIRC()==='WTA',d=x=>x.slice().sort((p,q)=>q[1]-p[1]);const used=[],out=[];
+ if(B.J.length&&!B.G.length&&!B.M.length){return{used:B.J.concat(B.O),out:[],tot:[...B.J,...B.O].reduce((s,e)=>s+e[1],0),fin:0,mand:0}}
+ B.G.forEach(e=>used.push(e));let other=B.O.slice();
+ if(W){const m=d(B.M);m.slice(0,6).forEach(e=>used.push(e));other.push(...m.slice(6));const n=d(B.N);if(n.length){used.push(n[0]);other.push(...n.slice(1))}}
+ else B.M.forEach(e=>used.push(e));
+ const mand=used.length,free=Math.max(0,V5BEST-mand);other=d(other);other.slice(0,free).forEach(e=>used.push(e));out.push(...other.slice(free));
+ const fin=B.F.reduce((s,e)=>s+e[1],0);return{used,out,tot:used.reduce((s,e)=>s+e[1],0)+fin,fin,mand}}
+sumPts=function(a){return v5Count(a).tot};
+// zero obrigatório: top 30 que falta a um Masters/WTA 1000 obrigatório sem lesão
+{const _ew=endWeek;endWeek=function(){try{const m=S.me;if(m&&!S.ended&&isPro()&&typeof v5Commit==='function'&&v5Commit()&&S._zw!==S.w&&S._pw!==S.w&&!(m.injury>0)&&S.busy!==S.w){const md=weekEvents(S.w).find(e=>v5Mand(e)&&e.tier!=='GS');if(md){S._zw=S.w;(m.ptsPro=m.ptsPro||[]).push([S.w,0,v5PK(md)]);news(`Zero no ranking: faltar ao ${md.name} conta como um resultado de 0 ponto pelos próximos 12 meses.`)}}}catch(e){}return _ew()}}
+// quadro "como seu ranking conta"
+function v5RankBox(){try{if(RKTAB!=='pro'||!isPro())return'';const c=v5Count(S.me.ptsPro),W=CIRC()==='WTA',B=v5Split(S.me.ptsPro);const sm=k=>B[k].reduce((s,e)=>s+e[1],0);
+ const gs=sm('G'),ms=c.used.filter(e=>e[2]==='M'||e[2]==='N').reduce((s,e)=>s+e[1],0),ot=c.used.filter(e=>e[2]!=='G'&&e[2]!=='M'&&e[2]!=='N').reduce((s,e)=>s+e[1],0),nO=c.used.filter(e=>e[2]!=='G'&&e[2]!=='M'&&e[2]!=='N').length;
+ const lost=c.out.reduce((s,e)=>s+e[1],0);
+ return `<div class="card v5rkbox"><div class="sec-t" style="margin:0 0 6px">Como o seu ranking conta</div><p class="xs mut" style="margin:0 0 8px">Valem os ${V5BEST} melhores resultados dos últimos 12 meses. Os 4 Slams${W?', os 6 melhores WTA 1000 principais e o melhor dos outros WTA 1000':' e os 8 Masters 1000 obrigatórios'} sempre entram, mesmo quando o resultado é fraco ou zero. ${W?'O WTA Finals':'O ATP Finals'} soma como bônus.</p>
+ <div class="v5rkg"><div><b>${fmt(gs)}</b><span>Slams (${B.G.length})</span></div><div><b>${fmt(ms)}</b><span>${W?'WTA 1000':'Masters'} (${c.used.filter(e=>e[2]==='M'||e[2]==='N').length})</span></div><div><b>${fmt(ot)}</b><span>Outros (${nO} de ${Math.max(0,V5BEST-c.mand)})</span></div>${c.fin?`<div><b>${fmt(c.fin)}</b><span>Finals</span></div>`:''}</div>
+ ${c.out.length?`<p class="xs mut" style="margin:8px 0 0">${c.out.length} resultado(s) ficaram de fora por não estarem entre os melhores (${fmt(lost)} pts).</p>`:''}</div>`}catch(e){return''}}
+{const _rv=rankView;rankView=function(){let s=_rv();try{if(RKTAB==='pro'||!RKTAB){const b=v5RankBox();if(b){const i=s.indexOf('<div class="card">');if(i>=0)s=s.slice(0,i)+b+s.slice(i)}}}catch(e){}return s}}
+// tiebreak de 10 pontos no set decisivo dos Grand Slams
+const v5Tb10=sets=>{try{const ev=(IM&&IM.ev)||v5CurEv()||CUR_EV;return!!ev&&(ev.tier==='GS'||ev.tier==='JGS')&&sets}catch(e){return false}};
+// marcação: eletrônica (sem desafio), juiz de linha no saibro (árbitro confere a marca) ou sem revisão
+function v5Lines(ev){ev=ev||(IM&&IM.ev);if(!ev)return'elc';const t=ev.tier,n=ev.name||'',W=CIRC()==='WTA';
+ if(/Roland/i.test(n))return'mark';
+ if(['GS','FIN','M1000','A500','OLY','EXH'].includes(t))return'elc';
+ if(t==='A250')return W?(ev.surf==='clay'?'mark':'none'):'elc';
+ return ev.surf==='clay'?'mark':'none'}
+{const _cv=courtView;courtView=function(){let s=_cv();try{const I=IM;if(I&&I.chal){s=s.replace('Desafios restantes neste set: '+I.ch.n,'No saibro, o árbitro desce e confere a marca da bola.').replace('🦅 Pedir desafio','Pedir para ver a marca').replace(/(<button )disabled( onclick="imChallenge\(true\)")/,'$1$2')}}catch(e){}return s}}
+{const _ic=imChallenge;imChallenge=function(go){const I=IM;if(I&&I.ch)I.ch.n=Math.max(I.ch.n,1);_ic(go);try{if(I&&I.feed&&I.feed[0]){I.feed[0]=I.feed[0].replace('🦅 DESAFIO CORRETO! A bola foi fora. O ponto é seu.','O árbitro confere a marca: fora! O ponto é seu.').replace(/🦅 Desafio perdido: a bola pegou na linha\. Restam \d+ neste set\./,'O árbitro confere a marca: a bola pegou na linha. Ponto mantido.');if(I.last&&I.last.txt)I.last.txt=I.last.txt.replace('🦅 Desafio correto: ponto seu!','Marca conferida: ponto seu!')}if(I&&I.ch)I.ch.n=99}catch(e){}if(IM)render()}}
 
 // =============== tutorial ===============
 const TUT=[
