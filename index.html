@@ -820,6 +820,16 @@ body.v5 .v5onp{font-weight:900;font-size:16px;text-align:center}
 body.v5 .v5onn{display:flex;flex-direction:column;min-width:0}body.v5 .v5onn b{font-weight:800;font-size:14px}body.v5 .v5onn small{font-size:11px;color:var(--mut)}
 body.v5 .v5ons{font-family:var(--fm);font-weight:700;font-size:13px}
 body.v5 .v5code{font-family:var(--fm);letter-spacing:.08em;color:var(--acc)}
+/* três jeitos de jogar */
+body.v5 .v5mm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+body.v5 .v5mmo{padding:12px 8px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--txt);display:flex;flex-direction:column;gap:3px;align-items:center;text-align:center;font-weight:400;min-height:104px;justify-content:center}
+body.v5 .v5mmo i{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--card2);color:var(--mut);margin-bottom:4px}
+body.v5 .v5mmo b{font-weight:800;font-size:13px;line-height:1.15}
+body.v5 .v5mmo span{font-size:11px;color:var(--mut);line-height:1.25}
+body.v5 .v5mmo.on{border:2px solid var(--acc);padding:11px 7px;background:var(--card2)}
+body.v5 .v5mmo.on i{background:var(--acc);color:#140f0b}
+body.v5 .v5mmsub{margin-top:8px}
+body.v5 .v5mmsub .xs{margin-top:6px}
 </style>
 </head>
 <body>
@@ -4010,7 +4020,7 @@ const V5ST=[
  ['ncaa','Universitário','Ganhe o título da NCAA',1,'chapeu'],['iron','Ferro','Jogue 80 partidas em uma temporada',1,'fogo'],['clean','Cavalheiro','Termine uma temporada sem advertências',2,'pomba'],['back','Volta por cima','Volte de lesão longa e ganhe um título no mesmo ano',1,'seta']];
 const V5RN=['Lendário','Épico','Raro','Comum'],V5RC=['#F2C14E','#B79BEB','#5BE0FF','#A39C8E'];
 const V5IC={raq:'<g transform="rotate(-35)"><ellipse cx="0" cy="-5" rx="6.5" ry="8.5" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M-3-10v10M0-13v16M3-10v10M-6-5h12M-5-9h10M-5-1h10" stroke="currentColor" stroke-width=".9"/><path d="M0 3.5v9" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></g>',trofeu:'<path d="M-7-9h14v5a7 7 0 0 1-14 0zM-2 3h4v4h4v3h-12v-3h4z" fill="currentColor"/>',coroa:'<path d="M-10 6l-2-12 7 5 5-9 5 9 7-5-2 12z" fill="currentColor"/>',estrela:'<path d="M0-11l3 7 8 1-6 5 2 8-7-4-7 4 2-8-6-5 8-1z" fill="currentColor"/>',grafico:'<path d="M-10 9h20M-8 5l5-6 4 3 7-9" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',raio:'<path d="M2-12l-9 13h7l-3 11 10-14h-7z" fill="currentColor"/>',zero:'<ellipse cx="0" cy="0" rx="7" ry="10" fill="none" stroke="currentColor" stroke-width="3"/>',seta:'<path d="M-8 6a9 9 0 1 1 6 3M-8 6v-6h6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',fogo:'<path d="M0-12c6 7 8 10 8 15a8 8 0 0 1-16 0c0-4 3-6 4-9 1 3 2 4 4 4-1-4-1-6 0-10z" fill="currentColor"/>',casa:'<path d="M-10 0l10-9 10 9M-7-2v11h14v-11" fill="none" stroke="currentColor" stroke-width="2.6"/>',globo:'<circle r="10" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M-10 0h20M0-10c-5 6-5 14 0 20M0-10c5 6 5 14 0 20" fill="none" stroke="currentColor" stroke-width="1.8"/>',trevo:'<circle cx="-4" cy="-4" r="4.5" fill="currentColor"/><circle cx="4" cy="-4" r="4.5" fill="currentColor"/><circle cx="-4" cy="4" r="4.5" fill="currentColor"/><circle cx="4" cy="4" r="4.5" fill="currentColor"/>',envelope:'<rect x="-10" y="-7" width="20" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M-10-6l10 7 10-7" fill="none" stroke="currentColor" stroke-width="2.2"/>',cifrao:'<path d="M6-6c-2-3-12-3-12 1s12 3 12 8-10 4-12 1M0-11v22" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>',album:'<rect x="-9" y="-10" width="18" height="20" rx="2" fill="none" stroke="currentColor" stroke-width="2.4"/><rect x="-5" y="-6" width="10" height="8" fill="currentColor"/>',chapeu:'<path d="M-12-2l12-6 12 6-12 6zM-6 1v6c4 3 8 3 12 0v-6" fill="currentColor"/>',pomba:'<path d="M-10 2c6-1 9-5 10-11 2 5 6 8 10 9-4 4-11 6-20 2z" fill="currentColor"/>'};
-function v5Stamp(s,on,sm){const c=V5RC[s[3]];return `<div class="v5stp ${on?'on':''} ${sm?'sm':''}" title="${esc(s[2])}"><svg viewBox="-24 -24 48 48" aria-hidden="true"><circle r="21" fill="${on?'#140f0b':'none'}" stroke="${on?c:'var(--line)'}" stroke-width="3"/><circle r="17" fill="none" stroke="${on?c:'var(--line)'}" stroke-width="1" stroke-dasharray="2 3"/><g style="color:${on?c:'var(--line)'}">${V5IC[s[4]]||''}</g></svg>${sm?'':`<b>${esc(s[1])}</b><span>${on?esc(s[2]):'???'}</span><small style="color:${c}">${V5RN[s[3]]}</small>`}</div>`}
+function v5StampB(s,on,sm){const c=V5RC[s[3]];return `<div class="v5stp ${on?'on':''} ${sm?'sm':''}" title="${esc(s[2])}"><svg viewBox="-24 -24 48 48" aria-hidden="true"><circle r="21" fill="${on?'#140f0b':'none'}" stroke="${on?c:'var(--line)'}" stroke-width="3"/><circle r="17" fill="none" stroke="${on?c:'var(--line)'}" stroke-width="1" stroke-dasharray="2 3"/><g style="color:${on?c:'var(--line)'}">${V5IC[s[4]]||''}</g></svg>${sm?'':`<b>${esc(s[1])}</b><span>${on?esc(s[2]):'???'}</span><small style="color:${c}">${V5RN[s[3]]}</small>`}</div>`}
 function v5Unlock(id){const m=S.me;m.stp=m.stp||{};if(m.stp[id])return;const s=V5ST.find(x=>x[0]===id);if(!s)return;m.stp[id]={w:S.w,y:year()};if(!QUIET){news(`Carimbo novo: ${s[1]} (${V5RN[s[3]].toLowerCase()}).`);TOAST=`Carimbo: ${s[1]}!`;V5NEWST=id}}
 let V5NEWST=null;
 function v5StampCheck(){const m=S.me;if(!m||!m.st)return;const st=m.st,T=st.titles||[],tiers=new Set(T.map(t=>t.tier)),H=S.hist||[];const U=v5Unlock;
@@ -4036,7 +4046,7 @@ function v5AlbScan(){const m=S.me;if(!m||!S.hist)return;m.alb=m.alb||{};for(cons
 function v5AlbumView(){const m=S.me,A=m.alb||{},L=Object.entries(A).map(([id,e])=>({id:+id,...e,rr:v5Rar(e.best)})).sort((a,b)=>a.rr-b.rr||a.best-b.best);const got=Object.keys(m.stp||{}).length;
  const cnt=V5RAR.map((r,i)=>L.filter(x=>x.rr===i).length);
  const cards=L.slice(0,60).map(x=>{const p=IDX.get(x.id),[rn,rc]=V5RAR[x.rr];return `<button class="v5alb" style="--rc:${rc}" onclick="${p?`openP(${x.id})`:''}"><span class="v5albf">${p?av(p.n,p.c,'fx',pAv(p)):av(x.on,x.oc,'fx')}</span><b>${esc((x.on||'').split(' ').slice(-1)[0])}</b><small>${rn}${x.n>1?` · ${x.n}×`:''}</small></button>`}).join('');
- return `<div class="v5sec" style="margin-top:4px"><span class="v5k a">Carimbos · ${got} de ${V5ST.length}</span></div><div class="v5stps">${V5ST.map(s=>v5Stamp(s,!!(m.stp||{})[s[0]])).join('')}</div>
+ return `<div class="v5sec" style="margin-top:4px"><span class="v5k a">Carimbos · ${got} de ${V5ST.length}</span></div><div class="v5stps">${V5ST.map(s=>v5StampB(s,!!(m.stp||{})[s[0]])).join('')}</div>
  <div class="v5sec"><span class="v5k a">Fichas · ${L.length} adversários derrotados</span></div><div class="v5tags" style="margin-bottom:10px">${V5RAR.map((r,i)=>`<span class="v5t" style="background:color-mix(in srgb,${r[1]} 18%,transparent);color:${r[1]}">${r[0]} ${cnt[i]}</span>`).join('')}</div>
  ${L.length?`<div class="v5albs">${cards}</div>${L.length>60?`<p class="small mut">Mostrando as 60 mais raras.</p>`:''}`:'<p class="small mut">Cada adversário que você vence entra no álbum. Quanto melhor o ranking dele no dia, mais rara a ficha.</p>'}`}
 {const _pv4=profileView;profileView=function(){if(PROFTAB!=='album')return _pv4();PROFTAB='stats';let s='';try{s=_pv4()}finally{PROFTAB='album'}
@@ -4236,6 +4246,29 @@ function v5ArcFrame(now){V5AR=0;const cv=document.getElementById('v5arc');if(!cv
  g.restore();
  if(hitRing!=null&&A.ball&&hitRing>1.35)v5End(false,A.oppWin?'win':'ue',A.oppWin?'Não alcançou a bola':'Deixou a bola passar');
  if(A||document.getElementById('v5arc'))v5ArcLoop()}
+
+// =============== v5.6: três jeitos de jogar a partida (jogar, simular assistindo, simular direto) ===============
+let V5FAST=false;
+const v5MM=()=>{const p=S.me.pmode||'key';return p==='fast'?'fast':p==='sim'?'watch':'play'};
+function v5SetMM(k){const m=S.me;if(k==='play')m.pmode=m.lpm||'key';else if(k==='watch')m.pmode='sim';else m.pmode='fast';save();render()}
+function v5SetPM(k){S.me.pmode=k;S.me.lpm=k;save();render()}
+const V5MMI={play:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="9.5" cy="8.5" rx="6" ry="6.5" transform="rotate(-35 9.5 8.5)"/><path d="M13.5 13.5l6.5 7"/><circle cx="19" cy="5" r="2.2" fill="currentColor" stroke="none"/></svg>',
+ watch:'<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3" y="5" width="18" height="12" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M10 8.5v5l4.5-2.5z" fill="currentColor"/></svg>',
+ fast:'<svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M3 6l8 6-8 6zM12 6l8 6-8 6z"/></svg>'};
+{const _v=v5Match;v5Match=function(){let s=_v();try{const mm=v5MM(),pm=S.me.pmode||'key';
+ const opt=(k,t,d)=>`<button class="v5mmo ${mm===k?'on':''}" onclick="v5SetMM('${k}')" aria-pressed="${mm===k}"><i>${V5MMI[k]}</i><b>${t}</b><span>${d}</span></button>`;
+ const sub=mm==='play'?`<div class="v5mmsub"><div class="chips" style="margin:0">${[['key','Só pontos decisivos'],['all','Todos os pontos']].map(([k,l])=>`<button class="${pm===k?'on':''}" onclick="v5SetPM('${k}')">${l}</button>`).join('')}</div><div class="xs mut">${pm==='all'?'Você joga cada ponto da partida.':'Você joga break points, set points, iguais e tiebreaks. O resto é simulado.'} Dá para simular o resto a qualquer momento.</div></div>`
+  :mm==='watch'?`<div class="v5mmsub xs mut">A partida é simulada e você acompanha o placar ponto a ponto, com os lances importantes. Dá para pular para o final.</div>`
+  :`<div class="v5mmsub xs mut">Sem placar ao vivo: a partida é simulada na hora e você vai direto para o resultado.</div>`;
+ const btn=mm==='play'?['court','Entrar em quadra']:mm==='watch'?['sim','Assistir à partida']:['fast','Ver o resultado'];
+ const html=`<div class="v5sec"><span class="v5k">Como você quer a partida</span></div><div class="v5mm">${opt('play','Jogar','Em quadra, em tempo real')}${opt('watch','Simular assistindo','Placar ao vivo')}${opt('fast','Simular direto','Só o resultado')}</div>${sub}<button class="full big" style="margin-top:10px" onclick="goMatch('${btn[0]}')">${btn[1]}</button>`;
+ s=s.replace(/<div class="v5sec"><span class="v5k">Como jogar<\/span><\/div>[^]*?<button class="full big"[^>]*>[^<]*<\/button>/,html)}catch(e){console.error(e)}return s}}
+// tela antiga (sem o visual novo): acrescenta a opção
+{const _t=tourLive;tourLive=function(){let s=_t();try{if(s.includes("['sim','📺 Só assistir']")||s.includes('Só assistir</button>')){s=s.replace(/(<button class="[^"]*" onclick="S\.me\.pmode='sim';save\(\);render\(\)">[^<]*Só assistir<\/button>)/,`$1<button class="${S.me.pmode==='fast'?'on':''}" onclick="S.me.pmode='fast';save();render()">Simular direto</button>`);
+  if(S.me.pmode==='fast')s=s.replace(/onclick="goMatch\('court'\)">[^<]*<\/button>/,`onclick="goMatch('fast')">Ver o resultado</button>`)}}catch(e){}return s}}
+{const _g=goMatch;goMatch=function(k){V5FAST=k==='fast';if(V5FAST){const T=S.tour;if(T)T.vin=1;return _g('sim')}return _g(k)}}
+{const _p=playMatch;playMatch=function(pre){_p(pre);if(V5FAST&&!pre){V5FAST=false;try{if(LIVE&&LIVE.phase==='live')skipLive()}catch(e){}}}}
+{const _ec=enterCourt;enterCourt=function(){_ec();try{if(IM&&(IM.mode==='fast'))IM.mode=S.me.lpm||'key'}catch(e){}}}
 
 // =============== tutorial ===============
 const TUT=[

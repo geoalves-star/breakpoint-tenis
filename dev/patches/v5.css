@@ -404,3 +404,13 @@ body.v5 .v5onp{font-weight:900;font-size:16px;text-align:center}
 body.v5 .v5onn{display:flex;flex-direction:column;min-width:0}body.v5 .v5onn b{font-weight:800;font-size:14px}body.v5 .v5onn small{font-size:11px;color:var(--mut)}
 body.v5 .v5ons{font-family:var(--fm);font-weight:700;font-size:13px}
 body.v5 .v5code{font-family:var(--fm);letter-spacing:.08em;color:var(--acc)}
+/* três jeitos de jogar */
+body.v5 .v5mm{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+body.v5 .v5mmo{padding:12px 8px;border-radius:14px;border:1px solid var(--line);background:var(--card);color:var(--txt);display:flex;flex-direction:column;gap:3px;align-items:center;text-align:center;font-weight:400;min-height:104px;justify-content:center}
+body.v5 .v5mmo i{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--card2);color:var(--mut);margin-bottom:4px}
+body.v5 .v5mmo b{font-weight:800;font-size:13px;line-height:1.15}
+body.v5 .v5mmo span{font-size:11px;color:var(--mut);line-height:1.25}
+body.v5 .v5mmo.on{border:2px solid var(--acc);padding:11px 7px;background:var(--card2)}
+body.v5 .v5mmo.on i{background:var(--acc);color:#140f0b}
+body.v5 .v5mmsub{margin-top:8px}
+body.v5 .v5mmsub .xs{margin-top:6px}
