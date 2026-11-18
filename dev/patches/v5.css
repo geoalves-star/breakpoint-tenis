@@ -427,3 +427,10 @@ body.v5 .v5wc{height:min(42vh,320px);margin:6px 0 8px;border-radius:14px;cursor:
 .v5dbo{position:fixed;inset:0;z-index:60;background:#0b0907cc;display:flex;align-items:flex-end;justify-content:center;padding:12px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
 .v5dbb{width:100%;max-width:520px;max-height:92vh;overflow:auto;background:var(--card);color:var(--txt);border:2px solid #140f0b;border-radius:18px;padding:16px}
 .v5dbc{height:min(52vh,400px)}
+/* menu inicial com ilustração */
+.v5hero{position:relative;height:min(64vh,520px);min-height:360px;overflow:hidden;border-bottom:2px solid #140f0b;background:#0b0907}
+.v5hero canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.v5herot{position:absolute;left:0;right:0;top:0;padding:calc(18px + env(safe-area-inset-top)) 18px 0;text-align:center;pointer-events:none}
+.v5herot .brandbig{transform:scale(.8);transform-origin:top center}
+.v5herol{color:#F3ECDC;font-size:14px;margin-top:-6px;text-shadow:0 1px 6px #000}
+.v5herob{position:absolute;right:16px;bottom:18px;padding:14px 26px;font-size:16px;font-weight:800;border-radius:14px;border:2px solid #140f0b;box-shadow:4px 4px 0 #140f0b;white-space:nowrap}
