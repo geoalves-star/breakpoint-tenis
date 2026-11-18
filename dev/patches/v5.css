@@ -346,3 +346,35 @@ body.v5 .v5pinfo>div,body.v5 .v5pinfo>button{padding:10px 12px;border-radius:12p
 body.v5 .v5pinfo span{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 body.v5 .v5pinfo b{font-weight:800;font-size:14px;overflow-wrap:anywhere}
 body.v5 .v5pinfo small{font-size:12px;color:var(--mut)}
+/* estilo HQ: fundo com retícula */
+body.v5 .av.svgav{background-color:var(--avbg1);background-image:radial-gradient(color-mix(in srgb,var(--txt) 14%,transparent) .8px,transparent 1.2px);background-size:5px 5px;border:2px solid #140f0b;box-shadow:0 0 0 1.5px var(--line)}
+/* fichas colecionáveis */
+body.v5 .v5fx{display:grid;grid-template-columns:132px minmax(0,1fr);gap:0;border-radius:18px;overflow:hidden;border:2px solid #140f0b;box-shadow:0 0 0 1px var(--line),0 10px 24px #0005;background:var(--card);margin-bottom:12px;cursor:default}
+body.v5 .v5fx.big{grid-template-columns:1fr;max-width:300px;margin:0 auto 14px}
+body.v5 .fxp{position:relative;aspect-ratio:1/1.06;background:linear-gradient(160deg,var(--fx1),var(--fx2));overflow:hidden}
+body.v5 .fxp::before{content:'';position:absolute;inset:0;background-image:radial-gradient(#0003 1.1px,transparent 1.5px);background-size:6px 6px;mix-blend-mode:multiply}
+body.v5 .fxp::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 35%,transparent 45%,#0006 100%)}
+body.v5 .fxp .av.fx{position:absolute;inset:0;width:100%;height:100%;border-radius:0;border:0;box-shadow:none;background:none}
+body.v5 .fxp .av.fx svg{width:100%;height:100%}
+body.v5 .fxp .av.fx .fl{display:none}
+body.v5 .fxt{position:absolute;z-index:2;left:8px;top:8px;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:#140f0bcc;color:#f3ecdc;border:1px solid #ffffff22}
+body.v5 .fxt.s{background:#F2C14E;color:#140f0b}body.v5 .fxt.a{background:#D9F24A;color:#140f0b}body.v5 .fxt.b{background:#5BE0FF;color:#0b1830}body.v5 .fxt.r{background:#FF6B5B;color:#fff}
+body.v5 .fxbd{position:absolute;z-index:2;left:8px;bottom:8px;font-family:var(--fm);font-size:11px;font-weight:700;padding:3px 7px;border-radius:6px;background:#140f0bcc;color:#f3ecdc}
+body.v5 .fxi{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;border-top:2px solid #140f0b;background:var(--card)}
+body.v5 .fxi>b{font-weight:900;font-size:20px;font-stretch:115%;line-height:1.05;text-transform:uppercase;overflow-wrap:anywhere}
+body.v5 .fxl{font-family:var(--fm);font-size:11px;color:var(--mut);margin-bottom:4px}
+body.v5 .fxi small{font-size:12px;color:var(--mut);margin-top:4px}
+body.v5 .fxb{display:grid;grid-template-columns:96px 1fr 26px;align-items:center;gap:8px;font-size:12px}
+body.v5 .fxb span{color:var(--txt);font-weight:600}
+body.v5 .fxb i{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+body.v5 .fxb i b{display:block;height:100%;background:var(--good);border-radius:3px}
+body.v5 .fxb em{font-style:normal;font-family:var(--fm);font-size:11px;text-align:right}
+/* cartas no confronto */
+body.v5 .v5pl .av.fxm{width:108px;height:120px;border-radius:14px}
+body.v5 .fxp .av.fx svg,body.v5 .fxp .av.fx{border-radius:0!important;overflow:visible}
+body.v5 .fxp .av.fx svg>rect:first-of-type{fill:transparent}
+body.v5 .fxp .av.fx::before,body.v5 .fxp .av.fx::after{display:none}
+body.v5 .fxp .av.fx svg{transform:scale(1.12) translateY(5%);transform-origin:50% 60%}
+body.v5 .v5fx:not(.big) .fxp{aspect-ratio:auto;min-height:150px}
+body.v5 .v5fx:not(.big) .fxi{border-top:0;border-left:2px solid #140f0b;justify-content:center}
+body.v5 .v5fx:not(.big) .fxb{grid-template-columns:72px 1fr 24px}

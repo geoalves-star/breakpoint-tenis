@@ -762,6 +762,38 @@ body.v5 .v5pinfo>div,body.v5 .v5pinfo>button{padding:10px 12px;border-radius:12p
 body.v5 .v5pinfo span{font-family:var(--fm);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
 body.v5 .v5pinfo b{font-weight:800;font-size:14px;overflow-wrap:anywhere}
 body.v5 .v5pinfo small{font-size:12px;color:var(--mut)}
+/* estilo HQ: fundo com retícula */
+body.v5 .av.svgav{background-color:var(--avbg1);background-image:radial-gradient(color-mix(in srgb,var(--txt) 14%,transparent) .8px,transparent 1.2px);background-size:5px 5px;border:2px solid #140f0b;box-shadow:0 0 0 1.5px var(--line)}
+/* fichas colecionáveis */
+body.v5 .v5fx{display:grid;grid-template-columns:132px minmax(0,1fr);gap:0;border-radius:18px;overflow:hidden;border:2px solid #140f0b;box-shadow:0 0 0 1px var(--line),0 10px 24px #0005;background:var(--card);margin-bottom:12px;cursor:default}
+body.v5 .v5fx.big{grid-template-columns:1fr;max-width:300px;margin:0 auto 14px}
+body.v5 .fxp{position:relative;aspect-ratio:1/1.06;background:linear-gradient(160deg,var(--fx1),var(--fx2));overflow:hidden}
+body.v5 .fxp::before{content:'';position:absolute;inset:0;background-image:radial-gradient(#0003 1.1px,transparent 1.5px);background-size:6px 6px;mix-blend-mode:multiply}
+body.v5 .fxp::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 35%,transparent 45%,#0006 100%)}
+body.v5 .fxp .av.fx{position:absolute;inset:0;width:100%;height:100%;border-radius:0;border:0;box-shadow:none;background:none}
+body.v5 .fxp .av.fx svg{width:100%;height:100%}
+body.v5 .fxp .av.fx .fl{display:none}
+body.v5 .fxt{position:absolute;z-index:2;left:8px;top:8px;font-family:var(--fm);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:6px;background:#140f0bcc;color:#f3ecdc;border:1px solid #ffffff22}
+body.v5 .fxt.s{background:#F2C14E;color:#140f0b}body.v5 .fxt.a{background:#D9F24A;color:#140f0b}body.v5 .fxt.b{background:#5BE0FF;color:#0b1830}body.v5 .fxt.r{background:#FF6B5B;color:#fff}
+body.v5 .fxbd{position:absolute;z-index:2;left:8px;bottom:8px;font-family:var(--fm);font-size:11px;font-weight:700;padding:3px 7px;border-radius:6px;background:#140f0bcc;color:#f3ecdc}
+body.v5 .fxi{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px;border-top:2px solid #140f0b;background:var(--card)}
+body.v5 .fxi>b{font-weight:900;font-size:20px;font-stretch:115%;line-height:1.05;text-transform:uppercase;overflow-wrap:anywhere}
+body.v5 .fxl{font-family:var(--fm);font-size:11px;color:var(--mut);margin-bottom:4px}
+body.v5 .fxi small{font-size:12px;color:var(--mut);margin-top:4px}
+body.v5 .fxb{display:grid;grid-template-columns:96px 1fr 26px;align-items:center;gap:8px;font-size:12px}
+body.v5 .fxb span{color:var(--txt);font-weight:600}
+body.v5 .fxb i{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+body.v5 .fxb i b{display:block;height:100%;background:var(--good);border-radius:3px}
+body.v5 .fxb em{font-style:normal;font-family:var(--fm);font-size:11px;text-align:right}
+/* cartas no confronto */
+body.v5 .v5pl .av.fxm{width:108px;height:120px;border-radius:14px}
+body.v5 .fxp .av.fx svg,body.v5 .fxp .av.fx{border-radius:0!important;overflow:visible}
+body.v5 .fxp .av.fx svg>rect:first-of-type{fill:transparent}
+body.v5 .fxp .av.fx::before,body.v5 .fxp .av.fx::after{display:none}
+body.v5 .fxp .av.fx svg{transform:scale(1.12) translateY(5%);transform-origin:50% 60%}
+body.v5 .v5fx:not(.big) .fxp{aspect-ratio:auto;min-height:150px}
+body.v5 .v5fx:not(.big) .fxi{border-top:0;border-left:2px solid #140f0b;justify-content:center}
+body.v5 .v5fx:not(.big) .fxb{grid-template-columns:72px 1fr 24px}
 </style>
 </head>
 <body>
@@ -2696,7 +2728,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='5.3';
+const VERSION='5.4';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -3798,6 +3830,40 @@ function v5Fine(t,sev){const w=TIERS[t]?TIERS[t].w:1;const base=t==='GS'?10000:t
   if(cv.length>=2||cv.some(x=>x[1]===2))m.behav=clamp(b+1.5,0,100);if(!QUIET)news(`Árbitro: ${cv.map(x=>x[0].toLowerCase()).join(', ')}${fine?` · multa de ${money(fine)}`:''} (${ev.name}).`)}}catch(e){console.error(e)}return res}}
 // mostra as advertências no resultado
 {const _vr=v5Res;v5Res=function(){let s=_vr();try{const r=LIVE&&LIVE.res;if(r&&r.cv&&r.cv.length){const h=`<div class="v5sec"><span class="v5k">Árbitro</span></div><div class="v5tags">${r.cv.map(t=>`<span class="v5t b" style="font-size:13px;padding:6px 10px">${t}</span>`).join('')}${r.cvFine?`<span class="v5t m" style="font-size:13px;padding:6px 10px">multa ${money(r.cvFine)}</span>`:''}</div>`;s=s.replace('<div class="v5sec"><span class="v5k">Momentos</span>',h+'<div class="v5sec"><span class="v5k">Momentos</span>')}}catch(e){}return s}}
+
+// =============== v5.4 · rostos em estilo HQ e fichas colecionáveis ===============
+// traço de nanquim e sombra chapada (sem desfoque), inspirado em ilustração de quadrinhos
+{const _avS=avSVG;avSVG=function(c,lite){let s=_avS(c,true);const ink='stroke="#140f0b" stroke-width="1.7" stroke-linejoin="round" paint-order="stroke"';
+ s=s.replace(/(<path d="[^"]*" fill="url\(#(?:sk|hr|sh|nk|cp|arm|hd)[^"]*")/g,`$1 ${ink}`);
+ s=s.replace(/(<path d="M(?:32\.4|33\.4|66\.6|67\.6) 41 C[^"]*" fill="[^"]*")/g,`$1 ${ink}`);
+ s=s.replace(/(<ellipse cx="50" cy="14\.5"[^>]*fill="url\(#hr[^"]*")/,`$1 ${ink}`);
+ return s}}
+const v5Tier=(r,jr)=>!r?['Sem ranking','n']:r===1?['Nº 1 do mundo','s']:r<=10?['Top 10','a']:r<=50?['Top 50','b']:r<=100?['Top 100','c']:[jr?'Juvenil':'Circuito','n'];
+function v5Bar2(l,v){v=Math.round(clamp(v,0,99));return `<div class="fxb"><span>${l}</span><i><b style="width:${v}%"></b></i><em>${v}</em></div>`}
+function v5Ficha(o){return `<div class="v5fx ${o.cls||''}" ${o.on?`onclick="${o.on}"`:''} style="--fx1:${o.c1||'var(--card2)'};--fx2:${o.c2||'var(--card)'}"><div class="fxp">${o.tag?`<span class="fxt ${o.tagC||'n'}">${o.tag}</span>`:''}${o.face}${o.badge?`<span class="fxbd">${o.badge}</span>`:''}</div><div class="fxi"><b>${esc(o.name)}</b><span class="fxl">${o.line}</span>${(o.bars||[]).map(([l,v])=>v5Bar2(l,v)).join('')}${o.foot?`<small>${o.foot}</small>`:''}</div></div>`}
+function v5PFicha(p){const a=aiAttrs(p)||{},rk=RK.pro[p.id]||null,jr=!S.pro.some(x=>x.id===p.id),[tg,tc]=p.id===S.rival?['Seu rival','r']:v5Tier(rk||(jr?RK.jr[p.id]:null),jr);const sc=SURFC[['hard','clay','grass'][p.fs??0]]||['#555','#333'];
+ return v5Ficha({cls:'big',face:av(p.n,p.c,'fx',pAv(p)),tag:tg,tagC:tc,badge:`${flag(p.c)} ${esc(COUNTRIES[p.c][0])}`,c1:sc[0],c2:sc[1],name:p.n,line:`${ageOf(p)} anos · ${rkOf(p.id)} · ${esc(v5Ps(p)[0]).toLowerCase()}`,bars:[['Saque',a.sv??p.r],['Devolução',a.rt??p.r],['Físico',a.fi??p.r]]})}
+function v5CFicha(c){const bot=S.pro.find(p=>p.co===c.id),sc=['#6b5a3a','#2a2218'];return v5Ficha({cls:'big',face:av(c.n,c.c,'fx',v5CAv(c)),tag:`${'★'.repeat(c.q)}`,tagC:c.q>=4?'a':c.q>=3?'b':'n',badge:`${flag(c.c)} ${esc(COUNTRIES[c.c][0])}`,c1:sc[0],c2:sc[1],name:c.n,line:`${v5CAge(c)} anos · ${v5Trait(c)[0].toLowerCase()} · ${COACH_ST[c.st].toLowerCase()}`,bars:[['Treino',(COACH[c.q].m-1)*180+30],['Leitura de jogo',c.q*18+5],['Experiência',Math.min(95,(v5CAge(c)-28)*2.4+c.q*6)]],foot:bot?`Treina ${esc(bot.n)} (${rkOf(bot.id)})`:`${money(c.sal)}/sem`})}
+// ficha no perfil do jogador
+{const _pc3=pcardView;pcardView=function(){let s=_pc3();try{const p=IDX.get(PCARD);if(!p)return s;const i=s.indexOf('<div class="row"><div class="av');if(i<0)return s;const j=s.indexOf(' anos</div></div></div>',i);if(j<0)return s;s=s.slice(0,i)+v5PFicha(p)+s.slice(j+' anos</div></div></div>'.length)}catch(e){console.error(e)}return s}}
+// ficha no perfil do treinador
+{const _cv=v5CoachView;v5CoachView=function(){let s=_cv();try{const c=COI.get(V5CO);if(!c)return s;s=s.replace(/<div class="v5cph">[\s\S]*?<\/span><\/div><\/div>/,`<span class="v5k a">Treinador${v5CF(c)?'a':''}</span>`+v5CFicha(c))}catch(e){console.error(e)}return s}}
+// cartas no dia de jogo
+{const _vm=v5Match;v5Match=function(){let s=_vm();try{const m=S.me,opp=oppOf(),p=IDX.get(opp);s=s.replace(/<div class="v5pl">\$?/,'<div class="v5pl">');s=s.replace(/(<div class="v5pl"[^>]*>)<div class="av svgav lg[^"]*">/g,'$1<div class="av svgav fxm">')}catch(e){}return s}}
+// ficha do próprio jogador na aba Carreira
+{const _ph=v5ProfHero;v5ProfHero=function(){try{const m=S.me,a=m.attrs,rp=myRank('pro'),[tg,tc]=v5Tier(rp||(meAge()<=18?myRank('jr'):null),meAge()<=18&&!rp),st=m.st,sc=SURFC[['hard','clay','grass'][m.fs??0]]||['#555','#333'];
+ return v5Ficha({face:av(m.name,m.c,'fx',myAv()),tag:tg,tagC:tc,badge:`${flag(m.c)} ${esc(COUNTRIES[m.c][0])}`,c1:sc[0],c2:sc[1],name:m.name,line:`${meAge()} anos · ${rp?'#'+rp:'sem ranking'} · ${(st.titles||[]).length} títulos`,bars:[['Saque',a.sv],['Devolução',a.rt],['Físico',a.fi],['Mental',a.me]]})+`<div class="v5phs" style="border:1px solid var(--line);border-radius:14px;margin:-4px 0 14px"><div><span>Melhor</span><b>${st.hiPro?'#'+st.hiPro:'—'}</b></div><div><span>V–D</span><b>${st.w}–${st.l}</b></div><div><span>Slams</span><b>${(st.titles||[]).filter(x=>x.tier==='GS').length}</b></div><div><span>Prêmios</span><b>${kfmt(st.prize||0)}</b></div></div>`}catch(e){console.error(e);return _ph()}}}
+
+// =============== v5.4 · equilíbrio: renda mínima, Realista mais duro, pressão de Slam ===============
+// Renda mínima garantida (inspirada no programa Baseline da ATP): se o prêmio do ano ficar abaixo do piso, o circuito completa
+const v5Floor=r=>!r?0:r<=100?300000:r<=175?200000:r<=250?100000:0;
+function v5BaseYear(){const m=S.me;if(!m||S.ended||!isPro())return;const r=myRank('pro'),earned=(m.st.prize||0)-(m.v5py??(m.st.prize||0)),fl=v5Floor(r);m.v5py=m.st.prize||0;
+ if(fl&&earned<fl){const pay=Math.round(fl-earned);m.money+=pay;news(`Renda mínima do circuito: você terminou o ano em #${r} e ganhou ${money(earned)} em prêmios. O circuito completou ${money(pay)} até o piso de ${money(fl)}.`)}}
+{const _ny=newYear;newYear=function(){try{v5BaseYear()}catch(e){console.error(e)}return _ny()}}
+{const _ew6=endWeek;endWeek=function(){try{if(S.me&&S.me.v5py==null)S.me.v5py=S.me.st.prize||0}catch(e){}return _ew6()}}
+// dificuldade Realista mais dura desde o início; pressão nas fases finais de Grand Slam
+{const _ef4=eff;eff=function(id,surf,t,o){const r=_ef4(id,surf,t,o);try{if(id==='me'&&r){if(S.diff==='real'){r.sv-=2.5;r.rt-=2.5}if(S.diff==='facil'){r.sv+=1.5;r.rt+=1.5}
+ const T=S.tour;if(T&&!T.q&&T.br&&T.br.length<=8){const e=curEv();if(e&&e.tier==='GS'){const m=S.me,won=(m.st.titles||[]).filter(x=>x.tier==='GS').length,pen=clamp(4.5-1.2*won-((m.attrs.me??60)-60)*.06,0,5);r.sv-=pen;r.rt-=pen}}}}catch(e){}return r}}
 
 // =============== tutorial ===============
 const TUT=[

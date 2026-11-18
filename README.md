@@ -2,7 +2,7 @@
 
 Jogo de navegador de carreira no tênis. Criado por Geovanne.
 
-Versão atual: 5.3
+Versão atual: 5.4
 
 O jogo inteiro fica em um único arquivo (`index.html`), sem build. Funciona offline e pode ser instalado como app (PWA).
 

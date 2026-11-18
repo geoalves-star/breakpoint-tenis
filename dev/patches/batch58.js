@@ -1,0 +1,22 @@
+// =============== v5.4 · rostos em estilo HQ e fichas colecionáveis ===============
+// traço de nanquim e sombra chapada (sem desfoque), inspirado em ilustração de quadrinhos
+{const _avS=avSVG;avSVG=function(c,lite){let s=_avS(c,true);const ink='stroke="#140f0b" stroke-width="1.7" stroke-linejoin="round" paint-order="stroke"';
+ s=s.replace(/(<path d="[^"]*" fill="url\(#(?:sk|hr|sh|nk|cp|arm|hd)[^"]*")/g,`$1 ${ink}`);
+ s=s.replace(/(<path d="M(?:32\.4|33\.4|66\.6|67\.6) 41 C[^"]*" fill="[^"]*")/g,`$1 ${ink}`);
+ s=s.replace(/(<ellipse cx="50" cy="14\.5"[^>]*fill="url\(#hr[^"]*")/,`$1 ${ink}`);
+ return s}}
+const v5Tier=(r,jr)=>!r?['Sem ranking','n']:r===1?['Nº 1 do mundo','s']:r<=10?['Top 10','a']:r<=50?['Top 50','b']:r<=100?['Top 100','c']:[jr?'Juvenil':'Circuito','n'];
+function v5Bar2(l,v){v=Math.round(clamp(v,0,99));return `<div class="fxb"><span>${l}</span><i><b style="width:${v}%"></b></i><em>${v}</em></div>`}
+function v5Ficha(o){return `<div class="v5fx ${o.cls||''}" ${o.on?`onclick="${o.on}"`:''} style="--fx1:${o.c1||'var(--card2)'};--fx2:${o.c2||'var(--card)'}"><div class="fxp">${o.tag?`<span class="fxt ${o.tagC||'n'}">${o.tag}</span>`:''}${o.face}${o.badge?`<span class="fxbd">${o.badge}</span>`:''}</div><div class="fxi"><b>${esc(o.name)}</b><span class="fxl">${o.line}</span>${(o.bars||[]).map(([l,v])=>v5Bar2(l,v)).join('')}${o.foot?`<small>${o.foot}</small>`:''}</div></div>`}
+function v5PFicha(p){const a=aiAttrs(p)||{},rk=RK.pro[p.id]||null,jr=!S.pro.some(x=>x.id===p.id),[tg,tc]=p.id===S.rival?['Seu rival','r']:v5Tier(rk||(jr?RK.jr[p.id]:null),jr);const sc=SURFC[['hard','clay','grass'][p.fs??0]]||['#555','#333'];
+ return v5Ficha({cls:'big',face:av(p.n,p.c,'fx',pAv(p)),tag:tg,tagC:tc,badge:`${flag(p.c)} ${esc(COUNTRIES[p.c][0])}`,c1:sc[0],c2:sc[1],name:p.n,line:`${ageOf(p)} anos · ${rkOf(p.id)} · ${esc(v5Ps(p)[0]).toLowerCase()}`,bars:[['Saque',a.sv??p.r],['Devolução',a.rt??p.r],['Físico',a.fi??p.r]]})}
+function v5CFicha(c){const bot=S.pro.find(p=>p.co===c.id),sc=['#6b5a3a','#2a2218'];return v5Ficha({cls:'big',face:av(c.n,c.c,'fx',v5CAv(c)),tag:`${'★'.repeat(c.q)}`,tagC:c.q>=4?'a':c.q>=3?'b':'n',badge:`${flag(c.c)} ${esc(COUNTRIES[c.c][0])}`,c1:sc[0],c2:sc[1],name:c.n,line:`${v5CAge(c)} anos · ${v5Trait(c)[0].toLowerCase()} · ${COACH_ST[c.st].toLowerCase()}`,bars:[['Treino',(COACH[c.q].m-1)*180+30],['Leitura de jogo',c.q*18+5],['Experiência',Math.min(95,(v5CAge(c)-28)*2.4+c.q*6)]],foot:bot?`Treina ${esc(bot.n)} (${rkOf(bot.id)})`:`${money(c.sal)}/sem`})}
+// ficha no perfil do jogador
+{const _pc3=pcardView;pcardView=function(){let s=_pc3();try{const p=IDX.get(PCARD);if(!p)return s;const i=s.indexOf('<div class="row"><div class="av');if(i<0)return s;const j=s.indexOf(' anos</div></div></div>',i);if(j<0)return s;s=s.slice(0,i)+v5PFicha(p)+s.slice(j+' anos</div></div></div>'.length)}catch(e){console.error(e)}return s}}
+// ficha no perfil do treinador
+{const _cv=v5CoachView;v5CoachView=function(){let s=_cv();try{const c=COI.get(V5CO);if(!c)return s;s=s.replace(/<div class="v5cph">[\s\S]*?<\/span><\/div><\/div>/,`<span class="v5k a">Treinador${v5CF(c)?'a':''}</span>`+v5CFicha(c))}catch(e){console.error(e)}return s}}
+// cartas no dia de jogo
+{const _vm=v5Match;v5Match=function(){let s=_vm();try{const m=S.me,opp=oppOf(),p=IDX.get(opp);s=s.replace(/<div class="v5pl">\$?/,'<div class="v5pl">');s=s.replace(/(<div class="v5pl"[^>]*>)<div class="av svgav lg[^"]*">/g,'$1<div class="av svgav fxm">')}catch(e){}return s}}
+// ficha do próprio jogador na aba Carreira
+{const _ph=v5ProfHero;v5ProfHero=function(){try{const m=S.me,a=m.attrs,rp=myRank('pro'),[tg,tc]=v5Tier(rp||(meAge()<=18?myRank('jr'):null),meAge()<=18&&!rp),st=m.st,sc=SURFC[['hard','clay','grass'][m.fs??0]]||['#555','#333'];
+ return v5Ficha({face:av(m.name,m.c,'fx',myAv()),tag:tg,tagC:tc,badge:`${flag(m.c)} ${esc(COUNTRIES[m.c][0])}`,c1:sc[0],c2:sc[1],name:m.name,line:`${meAge()} anos · ${rp?'#'+rp:'sem ranking'} · ${(st.titles||[]).length} títulos`,bars:[['Saque',a.sv],['Devolução',a.rt],['Físico',a.fi],['Mental',a.me]]})+`<div class="v5phs" style="border:1px solid var(--line);border-radius:14px;margin:-4px 0 14px"><div><span>Melhor</span><b>${st.hiPro?'#'+st.hiPro:'—'}</b></div><div><span>V–D</span><b>${st.w}–${st.l}</b></div><div><span>Slams</span><b>${(st.titles||[]).filter(x=>x.tier==='GS').length}</b></div><div><span>Prêmios</span><b>${kfmt(st.prize||0)}</b></div></div>`}catch(e){console.error(e);return _ph()}}}
