@@ -27,3 +27,7 @@ def apply(s,R):
     # v5.7: desafio só onde há juiz de linha no saibro; marcação eletrônica nos demais
     R("if(!r.aw&&r.raw!=='df'&&!I.E.done&&R()<.12)I.chal=","if(!r.aw&&r.raw!=='df'&&!I.E.done&&v5Lines()==='mark'&&R()<.12)I.chal=")
     R("else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&R()<.08){","else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&v5Lines()==='mark'&&R()<.08){")
+    # v5.7: metatags absolutas para compartilhar no X
+    R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg">')
+    R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
+    R("const VERSION='5.5';","const VERSION='5.7';")
