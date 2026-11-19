@@ -455,3 +455,24 @@ body.v5 .v5arcov{position:absolute;left:10px;right:10px;top:50%;transform:transl
 body.v5 .v5arcov>.card,body.v5 .v5arcov>.sec-t,body.v5 .v5arcov>.choices{background:var(--card);box-shadow:4px 4px 0 #140f0b;border-width:2px}
 body.v5 .v5arcov>.sec-t{margin:0!important;padding:10px 12px;border-radius:12px 12px 0 0}
 body.v5 .v5arcov>.choices{padding:8px;border-radius:0 0 12px 12px;margin:0}
+/* ===== v5.8: fonte mais legível e ajuda ===== */
+body.v5{--fu:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--fm:var(--fu);--fs:var(--fu);font-family:var(--fu);font-size:16px;line-height:1.5;font-variant-numeric:tabular-nums}
+body.v5 #app *:not(.brandbig):not(.brandbig *):not(.v5big):not(.v5big *):not(.v5h1){text-transform:none!important;letter-spacing:normal}
+body.v5 .v5k{font-family:var(--fu);font-size:13px;font-weight:700;color:var(--mut)}
+body.v5 .v5h1{font-family:var(--fd);font-stretch:100%;text-transform:none;font-weight:800;font-size:clamp(26px,7.2vw,34px);line-height:1.12;letter-spacing:-.01em}
+body.v5 .v5lede{font-family:var(--fu);font-size:16px;line-height:1.45;font-style:normal;opacity:.9}
+body.v5 button,body.v5 input,body.v5 select,body.v5 textarea{font-family:var(--fu)}
+body.v5 small,body.v5 .small{font-size:14px}body.v5 .xs{font-size:13px}
+body.v5 .k5l{font-family:var(--fu);font-size:12px;font-weight:700;letter-spacing:0;text-transform:none}
+body.v5 .v5tlh span{font-family:var(--fu);font-size:12.5px}
+body.v5 .st.k5{cursor:pointer}
+.v5q{font-style:normal;display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1.5px solid currentColor;font-size:10px;font-weight:800;margin-left:3px;opacity:.7;vertical-align:1px}
+body.v5 .v5tabh{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;background:var(--card2);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:10px 10px 10px 12px;margin:10px 0;font-size:14.5px;line-height:1.4}
+body.v5 .v5tabh>div{display:flex;gap:2px;flex:none}body.v5 .v5tabh .ghost{padding:4px 8px;font-size:13px}
+.v5tip{position:fixed;inset:0;z-index:70;background:#0008;display:flex;align-items:flex-end;justify-content:center;padding:12px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
+.v5tipb{width:100%;max-width:480px;background:var(--card,#1d1712);color:var(--txt,#F3ECDC);border:2px solid #140f0b;border-radius:16px;padding:16px;box-shadow:4px 4px 0 #140f0b;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.v5tipb b{font-size:18px}.v5tipb p{margin:6px 0 12px;font-size:15.5px;line-height:1.45}
+body.v5 .v5glo{border:1px solid var(--line);border-radius:12px;margin:0 0 8px;background:var(--card2)}
+body.v5 .v5glo summary{padding:12px 14px;font-weight:800;font-size:16px;cursor:pointer}
+body.v5 .v5glr{padding:8px 14px 10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
+body.v5 .v5glr b{font-size:15px}body.v5 .v5glr span{font-size:14.5px;line-height:1.45;color:var(--txt);opacity:.85}
