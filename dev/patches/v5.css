@@ -445,3 +445,8 @@ body.v5 .v5prepb i{font-style:normal;font-size:22px;color:var(--mut)}
 body.v5 .v5prep{padding-bottom:96px}
 body.v5 .v5gofix{position:fixed;left:0;right:0;bottom:0;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(to bottom,transparent,var(--bg,#0b0907) 40%);z-index:20}
 body.v5 .v5gofix .full.big{max-width:520px;margin:0 auto;display:block}
+/* comemoração de título */
+body.v5 .v5cel{position:relative;height:min(52vh,420px);margin:-4px -4px 12px;border-radius:18px;overflow:hidden;border:2px solid #140f0b;box-shadow:5px 5px 0 var(--acc)}
+body.v5 .v5cel.gs{box-shadow:5px 5px 0 #f5c84c}
+body.v5 .v5cel canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+body.v5 .v5big.v5champ{color:var(--acc);font-size:min(14vw,62px)}body.v5 .v5big.v5champ.gs{color:#f5c84c}
