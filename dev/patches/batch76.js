@@ -39,7 +39,7 @@ const V5TRK={
 let V5MP={tr:null,next:0,step:0,bar:0,timer:null,want:null,lvl:1,since:0};
 const v5MusOn=()=>SND&&OPTS.mus!==false&&!QUIET&&!SIMALL;
 function v5MusTick(){const c=ACX;if(!c||!V5MP.tr||c.state!=='running')return;const T=V5TRK[V5MP.tr],d=60/T.bpm/(T.spb===6?2:4),o=v5MBus(c);
- while(V5MP.next<c.currentTime+.25){const s=V5MP.step,b=V5MP.bar,t=V5MP.next+(T.sw&&s%2?d*T.sw:0);try{T.play(c,o,b,s,t,d);const gi=(b%Math.max(1,Math.ceil(((T.mel[T.mel.length-1]||[0])[0]+1)/T.spb)))*T.spb+s;for(const[ms,m,len]of T.mel)if(ms===gi)V5I.lead(c,o,t,m,d*len*.95,1)}catch(e){}
+ if(V5MP.next<c.currentTime-.5)V5MP.next=c.currentTime+.05;let guard=0;while(V5MP.next<c.currentTime+.25&&guard++<64){const s=V5MP.step,b=V5MP.bar,t=V5MP.next+(T.sw&&s%2?d*T.sw:0);try{T.play(c,o,b,s,t,d);const gi=(b%Math.max(1,Math.ceil(((T.mel[T.mel.length-1]||[0])[0]+1)/T.spb)))*T.spb+s;for(const[ms,m,len]of T.mel)if(ms===gi)V5I.lead(c,o,t,m,d*len*.95,1)}catch(e){}
   V5MP.step++;if(V5MP.step>=T.spb){V5MP.step=0;V5MP.bar++}V5MP.next+=d}}
 function v5MusSet(tr,lvl){const c=v5MusOn()?ax():null;if(!c){if(V5MB)try{V5MB.gain.setTargetAtTime(0,(ACX||{}).currentTime||0,.3)}catch(e){}V5MP.tr=null;return}
  const bus=v5MBus(c),vol=(OPTS.mvol??.35)*lvl;

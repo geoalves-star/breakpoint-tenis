@@ -866,6 +866,11 @@ body.v5 .v5cel{position:relative;height:min(52vh,420px);margin:-4px -4px 12px;bo
 body.v5 .v5cel.gs{box-shadow:5px 5px 0 #f5c84c}
 body.v5 .v5cel canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 body.v5 .v5big.v5champ{color:var(--acc);font-size:min(14vw,62px)}body.v5 .v5big.v5champ.gs{color:#f5c84c}
+body.v5 .v5arcw{position:relative}
+body.v5 .v5arcov{position:absolute;left:10px;right:10px;top:50%;transform:translateY(-50%);z-index:3;max-height:92%;overflow:auto}
+body.v5 .v5arcov>.card,body.v5 .v5arcov>.sec-t,body.v5 .v5arcov>.choices{background:var(--card);box-shadow:4px 4px 0 #140f0b;border-width:2px}
+body.v5 .v5arcov>.sec-t{margin:0!important;padding:10px 12px;border-radius:12px 12px 0 0}
+body.v5 .v5arcov>.choices{padding:8px;border-radius:0 0 12px 12px;margin:0}
 </style>
 </head>
 <body>
@@ -4784,7 +4789,7 @@ const V5TRK={
 let V5MP={tr:null,next:0,step:0,bar:0,timer:null,want:null,lvl:1,since:0};
 const v5MusOn=()=>SND&&OPTS.mus!==false&&!QUIET&&!SIMALL;
 function v5MusTick(){const c=ACX;if(!c||!V5MP.tr||c.state!=='running')return;const T=V5TRK[V5MP.tr],d=60/T.bpm/(T.spb===6?2:4),o=v5MBus(c);
- while(V5MP.next<c.currentTime+.25){const s=V5MP.step,b=V5MP.bar,t=V5MP.next+(T.sw&&s%2?d*T.sw:0);try{T.play(c,o,b,s,t,d);const gi=(b%Math.max(1,Math.ceil(((T.mel[T.mel.length-1]||[0])[0]+1)/T.spb)))*T.spb+s;for(const[ms,m,len]of T.mel)if(ms===gi)V5I.lead(c,o,t,m,d*len*.95,1)}catch(e){}
+ if(V5MP.next<c.currentTime-.5)V5MP.next=c.currentTime+.05;let guard=0;while(V5MP.next<c.currentTime+.25&&guard++<64){const s=V5MP.step,b=V5MP.bar,t=V5MP.next+(T.sw&&s%2?d*T.sw:0);try{T.play(c,o,b,s,t,d);const gi=(b%Math.max(1,Math.ceil(((T.mel[T.mel.length-1]||[0])[0]+1)/T.spb)))*T.spb+s;for(const[ms,m,len]of T.mel)if(ms===gi)V5I.lead(c,o,t,m,d*len*.95,1)}catch(e){}
   V5MP.step++;if(V5MP.step>=T.spb){V5MP.step=0;V5MP.bar++}V5MP.next+=d}}
 function v5MusSet(tr,lvl){const c=v5MusOn()?ax():null;if(!c){if(V5MB)try{V5MB.gain.setTargetAtTime(0,(ACX||{}).currentTime||0,.3)}catch(e){}V5MP.tr=null;return}
  const bus=v5MBus(c),vol=(OPTS.mvol??.35)*lvl;
@@ -4826,6 +4831,18 @@ function v5MusVol(v){OPTS.mvol=clamp(+v,0,1);try{localStorage.setItem('breakpoin
 {const _m=inMenuView;inMenuView=function(){let s=_m();try{const now=V5MP.tr?V5TRK[V5MP.tr].n:null;s=s.replace(/(<button class="opt" onclick="v5NpToggle\(\)">)/,`<button class="opt" onclick="v5MusTog()">${OPTS.mus!==false?'✅':'⬜'} Trilha sonora<small>Músicas originais do jogo, cada uma com o clima de um lugar do circuito: Paris, Londres, Nova York e Melbourne.${now&&OPTS.mus!==false&&SND?` Tocando agora: ${now}.`:''}</small></button>
  <div class="opt" style="cursor:default">Volume da música<input type="range" min="0" max="1" step="0.05" value="${OPTS.mvol??.35}" oninput="v5MusVol(this.value)" aria-label="Volume da música" style="width:100%;margin-top:6px"></div>
  <button class="opt" onclick="OPTS.musMatch=OPTS.musMatch===false;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}render()">${OPTS.musMatch!==false?'✅':'⬜'} Música baixinha durante a partida<small>Desligado, você ouve só a torcida, as batidas na bola e o quique.</small></button>$1`)}catch(e){}return s}}
+
+// =============== v5.7: escolhas da partida (sorteio, sinal do treinador, intervalo, chuva, cãibra, desafio) por cima da quadra ===============
+function v5DivEnd(s,i){const re=/<\/?div\b[^>]*>/g;re.lastIndex=i;let d=0,m;while((m=re.exec(s))){if(m[0][1]==='/'){d--;if(d===0)return re.lastIndex}else d++}return -1}
+let V5OVK=null;
+{const _cv=courtView;courtView=function(){let s=_cv();try{const I=IM;if(!I||!v5ArcOn()||I.E.done||I.anim||!s.includes('<canvas id="v5arc"'))return s;
+ const block=I.toss==='win'||I.sig||I.cramp===1||I.rainP||I.brk||I.chal;if(!block){V5OVK=null;return s}
+ const ci=s.indexOf('<canvas id="v5arc"'),ce=s.indexOf('</canvas>',ci)+9;let i=-1,e=-1;
+ const marks=['<div class="card" style="margin-top:8px;border-color','<div class="sec-t" style="margin-top:8px">🪑'];for(const mk of marks){const j=s.indexOf(mk,ce);if(j>=0&&(i<0||j<i))i=j}
+ if(i<0)return s;e=v5DivEnd(s,i);if(e<0)return s;if(I.brk){const j=s.indexOf('<div class="choices">',e);if(j>=0&&j-e<40){const e2=v5DivEnd(s,j);if(e2>0)e=e2}}
+ const panel=s.slice(i,e);s=s.slice(0,i)+s.slice(e);const canvas=s.slice(ci,ce);
+ s=s.slice(0,ci)+`<div class="v5arcw">${canvas}<div class="v5arcov">${panel}</div></div>`+s.slice(ce);
+ const k=[I.toss,!!I.sig,I.cramp,!!I.rainP,!!I.brk,!!I.chal,I.E.TL.length].join('|');if(V5OVK!==k){V5OVK=k;setTimeout(()=>{const el=document.querySelector('.v5arcw');if(el)el.scrollIntoView({block:'center',behavior:'smooth'})},60)}}catch(e){console.error(e)}return s}}
 
 // =============== tutorial ===============
 const TUT=[
