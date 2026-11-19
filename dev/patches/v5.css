@@ -492,3 +492,10 @@ body.v5 .v5sn{flex:none;width:30px;height:30px;border-radius:50%;display:grid;pl
 body.v5 .v5step b{display:block;font-size:16.5px}body.v5 .v5step small{display:block;font-size:13.5px;color:var(--mut);line-height:1.35}
 body.v5 .v5conf{margin-top:4px}
 body.v5 .v5wk .v5links{margin-top:8px}
+body.v5 .v5must{border:2px solid var(--bad,#FF6B5B);border-radius:14px;background:var(--card);margin:0 0 12px;overflow:hidden}
+body.v5 .v5musth{display:flex;gap:10px;align-items:center;padding:12px;background:color-mix(in srgb,var(--bad,#FF6B5B) 14%,transparent)}
+body.v5 .v5musth .v5tdi{background:var(--bad,#FF6B5B)}
+body.v5 .v5musth b{display:block;font-size:15.5px}body.v5 .v5musth small{display:block;font-size:13px;color:var(--mut)}
+body.v5 .v5musti{padding:12px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:4px}
+body.v5 .v5musti b{font-size:15.5px}body.v5 .v5musti span{font-size:14px;line-height:1.4;opacity:.85}
+body.v5 .v5mustb{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}body.v5 .v5mustb button{flex:1;min-width:140px}
