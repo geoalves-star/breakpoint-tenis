@@ -466,7 +466,7 @@ body.v5 small,body.v5 .small{font-size:14px}body.v5 .xs{font-size:13px}
 body.v5 .k5l{font-family:var(--fu);font-size:12px;font-weight:700;letter-spacing:0;text-transform:none}
 body.v5 .v5tlh span{font-family:var(--fu);font-size:12.5px}
 body.v5 .st.k5{cursor:pointer}
-.v5q{font-style:normal;display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1.5px solid currentColor;font-size:10px;font-weight:800;margin-left:3px;opacity:.7;vertical-align:1px}
+.v5qi{font-style:normal;display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1.5px solid currentColor;font-size:10px;font-weight:800;margin-left:3px;opacity:.7;vertical-align:1px}
 body.v5 .v5tabh{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;background:var(--card2);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:10px 10px 10px 12px;margin:10px 0;font-size:14.5px;line-height:1.4}
 body.v5 .v5tabh>div{display:flex;gap:2px;flex:none}body.v5 .v5tabh .ghost{padding:4px 8px;font-size:13px}
 .v5tip{position:fixed;inset:0;z-index:70;background:#0008;display:flex;align-items:flex-end;justify-content:center;padding:12px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
@@ -476,3 +476,19 @@ body.v5 .v5glo{border:1px solid var(--line);border-radius:12px;margin:0 0 8px;ba
 body.v5 .v5glo summary{padding:12px 14px;font-weight:800;font-size:16px;cursor:pointer}
 body.v5 .v5glr{padding:8px 14px 10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
 body.v5 .v5glr b{font-size:15px}body.v5 .v5glr span{font-size:14.5px;line-height:1.45;color:var(--txt);opacity:.85}
+/* ===== v5.8: semana em passos ===== */
+body.v5 .v5wkh{margin:4px 0 10px}
+body.v5 .v5todo{display:block;border:1px solid var(--line);border-radius:14px;background:var(--card);margin:0 0 14px}
+body.v5 .v5todo>summary,body.v5 .v5todo.ok{display:flex;align-items:center;gap:10px;padding:12px;cursor:pointer;list-style:none}
+body.v5 .v5todo>summary::-webkit-details-marker{display:none}
+body.v5 .v5todo span>b{display:block;font-size:15.5px}body.v5 .v5todo span>small{display:block;font-size:13px;color:var(--mut);line-height:1.35}
+body.v5 .v5todo>summary>span:nth-child(2),body.v5 .v5todo.ok>span:nth-child(2){flex:1}
+body.v5 .v5tdi{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:var(--gold);color:#140f0b}
+body.v5 .v5todo.ok .v5tdi{background:var(--good,#3DDC84)}
+body.v5 .v5cnt{flex:none;min-width:28px;height:28px;padding:0 8px;border-radius:14px;display:grid;place-items:center;background:var(--bad,#FF6B5B);color:#140f0b;font-weight:900}
+body.v5 .v5tdl{padding:0 8px 8px}body.v5 .v5tdl .pend{margin:6px 0 0}
+body.v5 .v5step{display:flex;gap:10px;align-items:center;margin:16px 0 8px}
+body.v5 .v5sn{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:#140f0b;font-weight:900;font-size:15px}
+body.v5 .v5step b{display:block;font-size:16.5px}body.v5 .v5step small{display:block;font-size:13.5px;color:var(--mut);line-height:1.35}
+body.v5 .v5conf{margin-top:4px}
+body.v5 .v5wk .v5links{margin-top:8px}

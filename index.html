@@ -882,7 +882,7 @@ body.v5 small,body.v5 .small{font-size:14px}body.v5 .xs{font-size:13px}
 body.v5 .k5l{font-family:var(--fu);font-size:12px;font-weight:700;letter-spacing:0;text-transform:none}
 body.v5 .v5tlh span{font-family:var(--fu);font-size:12.5px}
 body.v5 .st.k5{cursor:pointer}
-.v5q{font-style:normal;display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1.5px solid currentColor;font-size:10px;font-weight:800;margin-left:3px;opacity:.7;vertical-align:1px}
+.v5qi{font-style:normal;display:inline-grid;place-items:center;width:15px;height:15px;border-radius:50%;border:1.5px solid currentColor;font-size:10px;font-weight:800;margin-left:3px;opacity:.7;vertical-align:1px}
 body.v5 .v5tabh{display:flex;gap:8px;align-items:flex-start;justify-content:space-between;background:var(--card2);border:1px solid var(--line);border-left:4px solid var(--acc);border-radius:12px;padding:10px 10px 10px 12px;margin:10px 0;font-size:14.5px;line-height:1.4}
 body.v5 .v5tabh>div{display:flex;gap:2px;flex:none}body.v5 .v5tabh .ghost{padding:4px 8px;font-size:13px}
 .v5tip{position:fixed;inset:0;z-index:70;background:#0008;display:flex;align-items:flex-end;justify-content:center;padding:12px;padding-bottom:max(12px,env(safe-area-inset-bottom))}
@@ -892,6 +892,22 @@ body.v5 .v5glo{border:1px solid var(--line);border-radius:12px;margin:0 0 8px;ba
 body.v5 .v5glo summary{padding:12px 14px;font-weight:800;font-size:16px;cursor:pointer}
 body.v5 .v5glr{padding:8px 14px 10px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:2px}
 body.v5 .v5glr b{font-size:15px}body.v5 .v5glr span{font-size:14.5px;line-height:1.45;color:var(--txt);opacity:.85}
+/* ===== v5.8: semana em passos ===== */
+body.v5 .v5wkh{margin:4px 0 10px}
+body.v5 .v5todo{display:block;border:1px solid var(--line);border-radius:14px;background:var(--card);margin:0 0 14px}
+body.v5 .v5todo>summary,body.v5 .v5todo.ok{display:flex;align-items:center;gap:10px;padding:12px;cursor:pointer;list-style:none}
+body.v5 .v5todo>summary::-webkit-details-marker{display:none}
+body.v5 .v5todo span>b{display:block;font-size:15.5px}body.v5 .v5todo span>small{display:block;font-size:13px;color:var(--mut);line-height:1.35}
+body.v5 .v5todo>summary>span:nth-child(2),body.v5 .v5todo.ok>span:nth-child(2){flex:1}
+body.v5 .v5tdi{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:900;background:var(--gold);color:#140f0b}
+body.v5 .v5todo.ok .v5tdi{background:var(--good,#3DDC84)}
+body.v5 .v5cnt{flex:none;min-width:28px;height:28px;padding:0 8px;border-radius:14px;display:grid;place-items:center;background:var(--bad,#FF6B5B);color:#140f0b;font-weight:900}
+body.v5 .v5tdl{padding:0 8px 8px}body.v5 .v5tdl .pend{margin:6px 0 0}
+body.v5 .v5step{display:flex;gap:10px;align-items:center;margin:16px 0 8px}
+body.v5 .v5sn{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:#140f0b;font-weight:900;font-size:15px}
+body.v5 .v5step b{display:block;font-size:16.5px}body.v5 .v5step small{display:block;font-size:13.5px;color:var(--mut);line-height:1.35}
+body.v5 .v5conf{margin-top:4px}
+body.v5 .v5wk .v5links{margin-top:8px}
 </style>
 </head>
 <body>
@@ -4917,8 +4933,8 @@ function v5Tip(k){const i=V5TIPS[k];const it=V5GLO[0][1][i];V5TIP=it?{t:it[0],d:
 function v5TipShow(){let el=document.getElementById('v5tip');if(!V5TIP){if(el)el.remove();return}if(!el){el=document.createElement('div');el.id='v5tip';el.className='v5tip';document.body.appendChild(el)}
  el.innerHTML=`<div class="v5tipb" role="dialog" aria-label="${esc(V5TIP.t)}"><b>${esc(V5TIP.t)}</b><p>${esc(V5TIP.d)}</p><div class="g2"><button class="sec" onclick="V5TIP=null;v5TipShow();v5Guide()">Ver guia completo</button><button onclick="V5TIP=null;v5TipShow()">Entendi</button></div></div>`;el.onclick=e=>{if(e.target===el){V5TIP=null;v5TipShow()}}}
 {const _h=v5Hdr;v5Hdr=function(){let s=_h();try{
- s=s.replace(/<div class="st k5"><span class="k5l">(Ranking[^<]*|Caixa|Energia|Confiança)<\/span>/g,(m0,l)=>{const k=/^Ranking/.test(l)?'ranking':l.toLowerCase();return `<div class="st k5" role="button" tabindex="0" onclick="v5Tip('${k}')" title="O que é isso?"><span class="k5l">${l} <i class="v5q">?</i></span>`});
- s=s.replace(/<div class="v5tlh"><span>(\d{4}) · semana (\d+) de 52<\/span>/,(m0,y,w)=>`<div class="v5tlh" role="button" onclick="v5Tip('temporada')"><span>Temporada ${y} · semana ${w} de 52 <i class="v5q">?</i></span>`);
+ s=s.replace(/<div class="st k5"><span class="k5l">(Ranking[^<]*|Caixa|Energia|Confiança)<\/span>/g,(m0,l)=>{const k=/^Ranking/.test(l)?'ranking':l.toLowerCase();return `<div class="st k5" role="button" tabindex="0" onclick="v5Tip('${k}')" title="O que é isso?"><span class="k5l">${l} <i class="v5qi">?</i></span>`});
+ s=s.replace(/<div class="v5tlh"><span>(\d{4}) · semana (\d+) de 52<\/span>/,(m0,y,w)=>`<div class="v5tlh" role="button" onclick="v5Tip('temporada')"><span>Temporada ${y} · semana ${w} de 52 <i class="v5qi">?</i></span>`);
  s=s.replace('</div></div>',`</div></div>`)}catch(e){}return s}}
 // ---------- uma frase de ajuda no topo de cada aba ----------
 const V5TABH={home:'Aqui você decide a semana: escolha um dos caminhos (torneio, treino ou descanso) e confirme no botão de baixo.',tour:'Calendário do ano. Toque num torneio para ver se você entra direto, pelo qualifying ou com convite.',train:'Sua equipe e o seu treino. Equipe melhor faz você evoluir mais rápido, mas custa dinheiro toda semana.',social:'Suas redes sociais. Posts e vitórias trazem seguidores, e seguidores trazem patrocínio.',rank:'Ranking do mundo. Sua posição vem da soma dos seus 18 melhores resultados dos últimos 12 meses.',me:'Seu perfil: atributos, títulos, álbum de vitórias e opções da carreira.'};
@@ -4926,6 +4942,26 @@ function v5TabHelpOff(t){OPTS.thOff=OPTS.thOff||{};OPTS.thOff[t]=1;try{localStor
 {const _r=render0;render0=function(){_r();try{if(MENU||!S||INMENU||S.tour||S.ended||IM||LIVE)return;const t=TAB,h=V5TABH[t];if(!h||(OPTS.thOff&&OPTS.thOff[t]))return;const app=document.getElementById('app');if(app.querySelector('.v5tabh'))return;
  const sec=app.querySelector('#app .v5lede')||app.querySelector('.v5page section, section');const div=document.createElement('div');div.className='v5tabh';div.innerHTML=`<span>💡 ${esc(h)}</span><div><button class="ghost" onclick="v5Guide()">Guia</button><button class="ghost" onclick="v5TabHelpOff('${t}')" aria-label="Fechar dica">✕</button></div>`;
  if(sec&&sec.parentNode)sec.parentNode.insertBefore(div,sec.nextSibling);}catch(e){}}}
+
+// =============== v5.8: tela da semana limpa, em passos (pendências → escolha → confirmar) ===============
+function v5Cut(s,mk){const i=s.indexOf(mk);if(i<0)return['',s];const j=s.indexOf('<div class="v5sec">',i+mk.length);const e=j<0?s.length:j;return[s.slice(i,e),s.slice(0,i)+s.slice(e)]}
+{const _vh=v5Home;v5Home=function(){const s0=_vh();try{let s=s0;const a=s.indexOf('<section>'),b=s.indexOf('</section>');if(a<0||b<0)return s0;const sec=s.slice(a,b+10);let rest=s.slice(0,a)+s.slice(b+10);
+ const ip=sec.indexOf('<div class="v5p">');if(ip<0)return s0;const ep=v5DivEnd(sec,ip);const cards=sec.slice(ip,ep);const il=sec.indexOf('<div class="v5links">');const links=il>=0?sec.slice(il,v5DivEnd(sec,il)):'';
+ let week,mesa,news;[week,rest]=v5Cut(rest,'<div class="v5sec"><span class="v5k">Esta semana</span></div>');[mesa,rest]=v5Cut(rest,'<div class="v5sec"><span class="v5k">Na mesa');[news,rest]=v5Cut(rest,'<div class="v5sec"><span class="v5k">Agora no circuito</span></div>');
+ const pend=(mesa.match(/<button class="pend"[^]*?<\/button>/g)||[]);
+ let L=[];try{L=v5Props().L}catch(e){}const p=L[Math.min(PSEL,L.length-1)]||null;const dis=S.modals.length?'disabled':'';
+ const act=p?(/^enter\(/.test(p.a)?'Inscrever':/^(train|rest|endWeek)\(/.test(p.a)?'Confirmar':'Confirmar'):'';
+ const wk=S.w%52+1;
+ const todo=pend.length?`<details class="v5todo"${pend.length<=3?' open':''}><summary><span class="v5tdi">!</span><span><b>Pendências</b><small>Coisas esperando uma resposta sua. Não são obrigatórias, mas ajudam.</small></span><span class="v5cnt">${pend.length}</span></summary><div class="v5tdl">${pend.join('')}</div></details>`:`<div class="v5todo ok"><span class="v5tdi">✓</span><span><b>Sem pendências</b><small>Tudo em dia. Agora é escolher a semana.</small></span></div>`;
+ const html=`<div class="v5wk"><div class="v5wkh"><span class="v5k a">Semana ${wk} de 52 · Temporada ${year()}</span><h1 class="v5h1">O que fazer agora</h1></div>${todo}
+  <div class="v5step"><span class="v5sn">1</span><div><b>Escolha o que fazer nesta semana</b><small>Toque numa opção: jogar um torneio, treinar ou descansar.</small></div></div>${cards}${links}
+  ${p?`<div class="v5step"><span class="v5sn">2</span><div><b>Confirme a escolha</b><small>${esc(p.t)}</small></div></div><button class="full big v5conf" ${dis} onclick="${p.a.replace(/"/g,'&quot;')}">${act}: ${esc(p.t)} →</button>${S.modals.length?'<div class="xs mut" style="margin-top:6px">Responda a mensagem aberta para continuar.</div>':''}`:''}</div>`;
+ const wk2=week?week.replace('<div class="v5sec"><span class="v5k">Esta semana</span></div>','<div class="v5sec"><span class="v5k">Extras da semana</span></div>'):'';
+ const nw=news?`<details class="card acc v5news"><summary><span class="acct">📰 Notícias do circuito</span><span class="accs">o que aconteceu na semana</span><i class="acci">›</i></summary><div class="accb">${news.replace('<div class="v5sec"><span class="v5k">Agora no circuito</span></div>','')}</div></details>`:'';
+ rest=rest.replace(/<details id="v5acc-dash" class="card acc" open /,'<details id="v5acc-dash" class="card acc" ');
+ return html+wk2+nw+rest}catch(e){console.error(e);return s0}}}
+// a barra de baixo repete o botão de confirmar: some na tela da semana
+{const _r=render0;render0=function(){_r();try{if(document.querySelector('.v5wk')){const b=document.querySelector('.v5bar');if(b)b.style.display='none'}}catch(e){}}}
 
 // =============== tutorial ===============
 const TUT=[
