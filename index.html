@@ -925,6 +925,18 @@ body.v5 .lg.g{background:var(--good,#3DDC84)}body.v5 .lg.y{background:var(--gold
 body.v5 .v5gdm{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
 body.v5 .v5gdm span{background:var(--card2);border-radius:10px;padding:8px;font-size:12px;color:var(--mut);display:flex;flex-direction:column}
 body.v5 .v5gdm b{color:var(--txt);font-size:15px}
+body.v5 .v5chal{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:12px;background:var(--card);padding:12px;margin:0 0 10px}
+body.v5 .v5chal.ok{border-left-color:var(--good,#3DDC84)}body.v5 .v5chal .v5tdi{background:var(--card2);font-size:16px}
+body.v5 .v5chal b{display:block;font-size:15px}body.v5 .v5chal small{display:block;font-size:13px;color:var(--mut);line-height:1.35}
+.v5rt{position:fixed;inset:0;z-index:80;background:#0b0907;display:flex;align-items:center;justify-content:center}
+.v5rtb{position:relative;width:100%;height:100%;max-width:520px;padding:calc(30px + env(safe-area-inset-top)) 26px 40px;color:#F3ECDC;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:radial-gradient(#2a221b 2px,transparent 2.2px) 0 0/20px 20px;display:flex;flex-direction:column;justify-content:center;cursor:pointer}
+.v5rtp{position:absolute;top:calc(14px + env(safe-area-inset-top));left:16px;right:16px;display:flex;gap:4px}.v5rtp i{flex:1;height:4px;border-radius:2px;background:#ffffff33}.v5rtp i.d{background:#F3ECDC}.v5rtp i.a{background:#D9F24A}
+.v5rtx{position:absolute;top:calc(26px + env(safe-area-inset-top));right:12px;color:#F3ECDC;font-size:20px}
+.v5rtc{animation:v5rtin .45s ease-out}@keyframes v5rtin{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:none}}
+.v5rtc .v5k{font-size:14px;font-weight:800;color:#D9F24A;text-transform:uppercase;letter-spacing:.08em}
+.v5rth{font-family:Archivo,sans-serif;font-weight:900;font-size:44px;line-height:1.05;margin:10px 0}
+.v5rtbig{margin:16px 0 8px;display:flex;flex-direction:column;gap:4px}.v5rtbig b{font-family:Archivo,sans-serif;font-size:50px;font-weight:900;line-height:1.05}.v5rtbig small{font-size:16px;color:#cfc4ae}
+.v5rtc p{font-size:18px;line-height:1.4;color:#e9e1cf}.v5rtn{position:absolute;bottom:calc(20px + env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#a59a86}
 </style>
 </head>
 <body>
@@ -4644,7 +4656,9 @@ function v5DbShow(){const D=V5DB;let el=document.getElementById('v5dbo');if(!D){
   <button class="full big" onclick="v5DbPlay()">Jogar os pontos decisivos</button><div class="g2" style="margin-top:8px"><button class="sec" onclick="v5DbSim()">Simular esta partida</button><button class="sec" onclick="v5DbSimAll()">Simular o resto</button></div>`;
  else if(D.stage==='play')body=`<div class="row sb small" style="margin:0 0 6px"><span>Ponto ${Math.min(5,D.pn+1)} de 5</span><b>Vocês ${D.pw} × ${D.pl} eles</b></div><canvas id="v5dbc" class="v5arc v5dbc" role="img" aria-label="Quadra de duplas: deslize para rebater"></canvas><div class="xs mut" style="margin-top:6px">Toque no tempo certo. Deslize para o lado para mirar, para cima para atacar, para baixo para defender.</div>`;
  else if(D.stage==='res')body=`<p style="margin:0 0 10px">${D.last}</p>${D.out?`<button class="full big" onclick="v5DbClose()">Fechar</button>`:`<button class="full big" onclick="v5DbNext()">Próxima: ${D.k===D.R0-1?'Final':V5DRN[D.k]}</button><button class="sec full" style="margin-top:8px" onclick="v5DbSimAll()">Simular o resto</button>`}`;
- el.innerHTML=`<div class="v5dbb"><div class="v5k a">Duplas · ${esc(D.ev.name)}</div><h2 style="margin:4px 0 8px">${D.stage==='res'?(D.out?(D.champ?'Campeões de duplas!':'Fim das duplas'):'Vitória!'):rn}</h2>${body}</div>`;
+ const cel=D.stage==='res'&&D.champ?`<div class="v5cel${D.ev.tier==='GS'?' gs':''}" style="height:min(46vh,340px);margin:0 0 12px"><canvas id="v5celc" role="img" aria-label="Comemoração: vocês levantam o troféu"></canvas></div>`:'';
+ el.innerHTML=`<div class="v5dbb"><div class="v5k a">Duplas · ${esc(D.ev.name)}</div><h2 style="margin:4px 0 8px">${D.stage==='res'?(D.out?(D.champ?'Campeões de duplas!':'Fim das duplas'):'Vitória!'):rn}</h2>${cel}${body}</div>`;
+ if(cel&&!D.cel){D.cel=1;setTimeout(()=>{try{const pt=IDX.get(D.pt);v5CelStart({ev:D.ev,res:null,pt:pt.av||aiAv(pt)})}catch(e){}},40)}else if(cel)setTimeout(()=>requestAnimationFrame(v5CelFrame),40);
  if(D.stage==='play'){const cv=document.getElementById('v5dbc');cv.addEventListener('pointerdown',e=>{V5DBA&&(V5DBA.pd={x:e.clientX,y:e.clientY});e.preventDefault()});cv.addEventListener('pointerup',v5DbUp);requestAnimationFrame(v5DbFrame)}}
 function v5DbRoundEnd(win){const D=V5DB,m=S.me;m.energy=clamp(m.energy-3,0,100);m.load=clamp((m.load||0)+2,0,100);D.oppR=null;const rn=D.k===D.R0-1?'final':(V5DRN[D.k]||'rodada').toLowerCase();
  if(win){D.won++;D.k++;if(D.k>=D.R0){D.out=1;D.champ=1;D.last=`Vocês venceram a final e são campeões de duplas em ${esc(D.ev.name)}!`;v5DbFinish()}else{D.last=`Vocês venceram a ${rn}.`;D.opp=v5DbOpp(D.field,D.k)}}
@@ -4773,7 +4787,7 @@ function v5CupDraw(g,x,y,gs,sc){sc=sc||1;const gold=gs?'#f5c84c':'#d9e3ea',dark=
  g.beginPath();g.arc(-10,-16,4,Math.PI*.5,Math.PI*1.5,false);g.stroke();g.beginPath();g.arc(10,-16,4,-Math.PI*.5,Math.PI*.5,false);g.stroke();
  g.fillStyle=dark;g.beginPath();g.roundRect(-6,0,12,4,1.5);g.fill();g.stroke();g.fillStyle='#ffffff99';g.beginPath();g.ellipse(-4,-16,1.6,4,0,0,6.3);g.fill();g.restore()}
 function v5CelStart(L){const gs=L.ev.tier==='GS',n=gs?170:L.ev.tier==='M1000'||L.ev.tier==='FIN'?120:80,R2=seeded(Date.now()%1e6|0),cols=gs?['#f5c84c','#ffffff','#D9F24A','#ffd400','#e8312f','#2f6bff']:['#D9F24A','#ffffff','#3DDC84','#ff7a3d','#2f6bff'];
- V5CEL={t0:performance.now(),gs,L,conf:Array.from({length:n},()=>({x:R2(),y:R2()*1.15-.35,v:.13+R2()*.17,w:(R2()-.5)*.6,r:R2()*6.3,vr:(R2()-.5)*.3,c:cols[Math.floor(R2()*cols.length)],s:.6+R2()*.8})),fl:[]};try{SND&&sCrowd(2)}catch(e){}try{v5Vib([40,60,40,60,80])}catch(e){}
+ V5CEL={t0:performance.now(),gs,L,pt:L.pt||null,conf:Array.from({length:n},()=>({x:R2(),y:R2()*1.15-.35,v:.13+R2()*.17,w:(R2()-.5)*.6,r:R2()*6.3,vr:(R2()-.5)*.3,c:cols[Math.floor(R2()*cols.length)],s:.6+R2()*.8})),fl:[]};try{SND&&sCrowd(2)}catch(e){}try{v5Vib([40,60,40,60,80])}catch(e){}
  requestAnimationFrame(v5CelFrame)}
 function v5CelFrame(now){const C=V5CEL,cv=document.getElementById('v5celc');if(!C||!cv){V5CEL=cv?V5CEL:null;return}const dpr=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight;if(!W){requestAnimationFrame(v5CelFrame);return}
  if(cv.width!==Math.round(W*dpr)||cv.height!==Math.round(H*dpr)){cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr)}const g=cv.getContext('2d');g.setTransform(dpr,0,0,dpr,0,0);
@@ -4786,14 +4800,14 @@ function v5CelFrame(now){const C=V5CEL,cv=document.getElementById('v5celc');if(!
  const gl=g.createRadialGradient(W/2,H*.78,10,W/2,H*.78,H*.45);gl.addColorStop(0,C.gs?'#f5c84c40':'#ffffff30');gl.addColorStop(1,'#0000');g.fillStyle=gl;g.fillRect(0,0,W,H);
  // jogador levantando o troféu
  const k=clamp(t/650,0,1),jump=t>650?Math.abs(Math.sin((t-650)/300))*6*u:0,[px,py]=P(0,.1),s=2.1*u*Math.max(.8,Math.min(1.25,H/430));
- v5DrawPl(g,px,py-jump,s,myAv(),true,{mode:'troph',k,noRk:1,cup:(gg,x,y)=>v5CupDraw(gg,x,y,C.gs,1.05)},now,S.me.rkc);
+ if(C.pt){const[qx,qy]=P(-.3,.12),[rx,ry]=P(.3,.12),s2=s*.9;v5DrawPl(g,qx,qy-jump*.8,s2,C.pt,true,{mode:'troph',k,noRk:1},now);v5DrawPl(g,rx,ry-jump,s2,myAv(),true,{mode:'troph',k,noRk:1,cup:(gg,x,y)=>v5CupDraw(gg,x-24,y-4,C.gs,1.05)},now,S.me.rkc)}else v5DrawPl(g,px,py-jump,s,myAv(),true,{mode:'troph',k,noRk:1,cup:(gg,x,y)=>v5CupDraw(gg,x,y,C.gs,1.05)},now,S.me.rkc);
  // confete
  for(const c of C.conf){c.y+=c.v*.016*(1+c.s*.3);c.x+=c.w*.004*Math.sin(now/400+c.r);c.r+=c.vr;if(c.y>1.05){c.y=-.05;c.x=Math.random()}g.save();g.translate(c.x*W,c.y*H);g.rotate(c.r);g.fillStyle=c.c;g.fillRect(-3*c.s*u,-1.6*c.s*u,6*c.s*u,3.2*c.s*u);g.restore()}
  // títulos
  const pop=t<120?0:Math.min(1,(t-120)/260),sc=.6+.4*v5Ease(pop)+(pop>=1?0:.12*Math.sin(pop*3.14));g.save();g.translate(W/2,H*.15);g.scale(sc,sc);g.rotate(-.025);
- const head=G('CAMPEÃO','CAMPEÃ');g.font=`900 ${Math.round((C.gs?50:44)*u)}px Archivo, sans-serif`;g.textAlign='center';g.textBaseline='middle';g.lineJoin='round';g.lineWidth=8*u;g.strokeStyle=V5INK;g.strokeText(head,0,0);g.fillStyle=C.gs?'#f5c84c':'#D9F24A';g.fillText(head,0,0);g.restore();
+ const head=C.pt?'CAMPEÕES':G('CAMPEÃO','CAMPEÃ');g.font=`900 ${Math.round((C.gs?50:44)*u)}px Archivo, sans-serif`;g.textAlign='center';g.textBaseline='middle';g.lineJoin='round';g.lineWidth=8*u;g.strokeStyle=V5INK;g.strokeText(head,0,0);g.fillStyle=C.gs?'#f5c84c':'#D9F24A';g.fillText(head,0,0);g.restore();
  if(t>350){const a=Math.min(1,(t-350)/300);g.globalAlpha=a;const sub=(C.gs?'GRAND SLAM · ':'')+(ev.name||'').toUpperCase()+' '+year();g.font=`800 ${Math.round(12*u)}px 'JetBrains Mono', monospace`;const tw=g.measureText(sub).width;g.fillStyle=V5INK;g.beginPath();g.roundRect(W/2-tw/2-10*u,H*.15+26*u,tw+20*u,22*u,5);g.fill();g.fillStyle=V5PAP;g.textAlign='center';g.textBaseline='middle';g.fillText(sub,W/2,H*.15+37*u+1);
-  g.font=`900 ${Math.round(20*u)}px 'JetBrains Mono', monospace`;g.lineWidth=5*u;g.strokeStyle=V5INK;const sc2=scoreStr(L.res.sets);g.strokeText(sc2,W/2,H*.15+68*u);g.fillStyle='#fff';g.fillText(sc2,W/2,H*.15+68*u);g.globalAlpha=1;g.textBaseline='alphabetic'}
+  g.font=`900 ${Math.round(20*u)}px 'JetBrains Mono', monospace`;g.lineWidth=5*u;g.strokeStyle=V5INK;const sc2=L.res?scoreStr(L.res.sets):(C.pt?'CAMPEÕES DE DUPLAS':'');if(sc2){g.strokeText(sc2,W/2,H*.15+68*u);g.fillStyle='#fff';g.fillText(sc2,W/2,H*.15+68*u)}g.globalAlpha=1;g.textBaseline='alphabetic'}
  requestAnimationFrame(v5CelFrame)}
 const v5IsTitle=L=>{try{const T=S.tour;return!!(L&&L.res&&L.res.win&&T&&T.over&&S.results[0]&&S.results[0].r==='Campeão'&&S.results[0].n===L.ev.name)}catch(e){return false}};
 {const _vr=v5Res;v5Res=function(){let s=_vr();try{const L=LIVE;if(v5IsTitle(L)){const gs=L.ev.tier==='GS';
@@ -5021,6 +5035,43 @@ function v5GuideCard(id,title,steps,extra){const off=OPTS.gdOff&&OPTS.gdOff[id];
  return v5GuideCard('tour','Como escolher um torneio',[['Veja os torneios desta semana','Cada cartão mostra categoria, piso, pontos, prêmio e o custo da viagem saindo da sua base.'],['Confira o botão de cada um','O texto do botão diz como você entra (veja abaixo).'],['Toque para se inscrever','A partida aparece na aba Semana. Só dá para jogar um torneio por semana.']],leg)+s}catch(e){return s}}}
 {const _tr=trainView;trainView=function(){const s=_tr();try{const c=weekCost(),inc=fedSupport()+sponPay()+brandInc();
  const g=v5GuideCard('train','Como montar sua equipe',[['Escolha o plano de treino','Use um modelo pronto e a intensidade. Depois o jogador segue sozinho, toda semana.'],['Contrate um treinador primeiro','É quem mais acelera a evolução. Os de mais estrelas só aceitam quem tem ranking melhor.'],['Acompanhe o custo','Toda a equipe é paga por semana. Contrate o resto conforme os prêmios entram.']],`<div class="v5gdm"><span>Gasto por semana<b>${money(c)}</b></span><span>Entra por semana<b>${money(inc)}</b></span><span>Caixa<b>${money(S.me.money)}</b></span></div><div class="xs mut" style="margin-top:6px">Viagens de torneio são cobradas à parte, quando você se inscreve.</div>`);const i=s.indexOf('</section>');return i>=0?s.slice(0,i+10)+g+s.slice(i+10):g+s}catch(e){return s}}}
+
+// =============== v5.8: retrospectiva da temporada + desafio da semana ===============
+// ---------- retrospectiva ----------
+let V5RT=null;
+function v5RetroData(){const m=S.me,s0=S.season||{w0:S.w-51,rp:null,fol:m.fol,prize:0},Y=year();const H=S.hist.filter(h=>h.w>=s0.w0&&h.tier!=='TEAM');
+ const W=H.filter(h=>h.win),best=W.slice().sort((a,b)=>(a.or||999)-(b.or||999))[0]||null,ti=S.results.filter(r=>r.y===Y&&r.r==='Campeão');
+ return{y:Y,w:W.length,l:H.length-W.length,ti:ti.map(r=>r.n),rp0:s0.rp,rp1:myRank(isPro()?'pro':'jr'),pro:isPro(),best:best&&{n:best.on,r:best.or,s:best.s,e:best.e,c:best.oc},prize:Math.max(0,(m.st.prize||0)-(s0.prize||0)),fol0:s0.fol||0,fol1:m.fol,gs:ti.filter((r,i)=>S.results.find(x=>x.y===Y&&x.n===r.n&&x.tier==='GS')).length}}
+{const _ny=newYear;newYear=function(){let d=null;try{if(!QUIET&&!SIMALL&&S&&S.me&&!S.ended)d=v5RetroData()}catch(e){}const r=_ny.apply(this,arguments);if(d&&(d.w+d.l)>0){V5RT={d,i:0};setTimeout(v5RtShow,400)}return r}}
+function v5RtSlides(d){const rk=(a)=>a?'#'+a:'sem ranking',up=d.rp0&&d.rp1?d.rp0-d.rp1:null;
+ return[`<span class="v5k a">Retrospectiva</span><h1 class="v5rth">Sua temporada ${d.y}</h1><p>Um ano de quadra. Bora relembrar?</p>`,
+  `<span class="v5k a">Ranking</span><div class="v5rtbig"><small>${rk(d.rp0)}</small><b>→ ${rk(d.rp1)}</b></div><p>${up==null?'Seu primeiro ano no ranking.':up>0?`Você subiu ${up} posições.`:up<0?`Você caiu ${-up} posições. Ano que vem é revanche.`:'Você manteve a posição.'}</p>`,
+  `<span class="v5k a">Resultados</span><div class="v5rtbig"><b>${d.w}–${d.l}</b><small>vitórias e derrotas</small></div><p>${d.ti.length?`🏆 ${d.ti.length} título${d.ti.length>1?'s':''}: ${d.ti.slice(0,4).map(esc).join(', ')}${d.ti.length>4?'…':''}`:'Nenhum título ainda. O primeiro está chegando.'}</p>`,
+  d.best?`<span class="v5k a">Melhor vitória</span><div class="v5rtbig"><b>${flag(d.best.c)} ${esc(d.best.n)}</b><small>${d.best.r?'#'+d.best.r+' do ranking':''}</small></div><p>${esc(d.best.s)} · ${esc(d.best.e)}</p>`:`<span class="v5k a">Melhor vitória</span><div class="v5rtbig"><b>Ainda vem aí</b></div><p>Nenhuma vitória nesta temporada.</p>`,
+  `<span class="v5k a">Fora da quadra</span><div class="v5rtbig"><b>${money(d.prize)}</b><small>em prêmios</small></div><p>Seguidores: ${fmtK(d.fol0)} → <b>${fmtK(d.fol1)}</b></p>`,
+  `<span class="v5k a">${d.y+1}</span><h1 class="v5rth">Nova temporada!</h1><p>Monte o calendário, ajuste a equipe e vá atrás do próximo degrau.</p><button class="sec full" id="v5rtsh" onclick="event.stopPropagation();v5RtShare()">Compartilhar minha temporada</button>`]}
+const fmtK=n=>n>=1e6?(n/1e6).toFixed(1).replace('.',',')+' mi':n>=1e3?Math.round(n/1e3)+' mil':String(n);
+function v5RtShow(){let el=document.getElementById('v5rt');if(!V5RT){if(el)el.remove();return}const sl=v5RtSlides(V5RT.d),i=V5RT.i;if(!el){el=document.createElement('div');el.id='v5rt';el.className='v5rt';document.body.appendChild(el)}
+ el.innerHTML=`<div class="v5rtb" onclick="v5RtNext()"><div class="v5rtp">${sl.map((_,k)=>`<i class="${k<i?'d':k===i?'a':''}"></i>`).join('')}</div><button class="ghost v5rtx" onclick="event.stopPropagation();V5RT=null;v5RtShow()" aria-label="Fechar">✕</button><div class="v5rtc" key="${i}">${sl[i]}</div><div class="v5rtn xs">${i<sl.length-1?'toque para continuar':''}</div></div>`;
+ try{if(i===0)SND&&sCrowd(1.2)}catch(e){}}
+function v5RtNext(){if(!V5RT)return;const n=v5RtSlides(V5RT.d).length;if(V5RT.i<n-1){V5RT.i++;v5RtShow()}else{V5RT=null;v5RtShow()}}
+async function v5RtShare(){const d=V5RT&&V5RT.d;if(!d)return;const W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');try{await document.fonts.ready}catch(e){}const INK='#140f0b',PAP='#F3ECDC';
+ g.fillStyle=INK;g.fillRect(0,0,W,H);g.fillStyle='#2a221b';for(let y=0;y<H;y+=22)for(let x=(y/22%2)*11;x<W;x+=22){g.beginPath();g.arc(x,y,2.4,0,6.3);g.fill()}
+ g.fillStyle='#D9F24A';g.font='800 34px "JetBrains Mono",monospace';g.fillText('RETROSPECTIVA',80,130);g.fillStyle=PAP;g.font='900 110px Archivo,sans-serif';g.fillText('Temporada',80,250);g.fillStyle='#D9F24A';g.fillText(String(d.y),80,370);
+ const box=(y,label,val,sub)=>{g.fillStyle='#1d1712';g.strokeStyle=PAP;g.lineWidth=4;g.beginPath();g.roundRect(80,y,W-160,170,22);g.fill();g.stroke();g.fillStyle='#b9ad97';g.font='700 30px Archivo,sans-serif';g.fillText(label,120,y+52);g.fillStyle=PAP;g.font='900 64px Archivo,sans-serif';let v=val;while(g.measureText(v).width>W-260&&v.length>6)v=v.slice(0,-2);g.fillText(v,120,y+128);if(sub){g.fillStyle='#D9F24A';g.font='700 28px Archivo,sans-serif';g.textAlign='right';g.fillText(sub,W-120,y+128);g.textAlign='left'}};
+ box(430,'Ranking',`${d.rp0?'#'+d.rp0:'—'} → ${d.rp1?'#'+d.rp1:'—'}`,d.rp0&&d.rp1&&d.rp0>d.rp1?`▲ ${d.rp0-d.rp1}`:'');box(630,'Vitórias e derrotas',`${d.w}–${d.l}`,d.ti.length?`🏆 ${d.ti.length}`:'');box(830,'Melhor vitória',d.best?d.best.n:'—',d.best&&d.best.r?'#'+d.best.r:'');box(1030,'Prêmios',money(d.prize),'');
+ g.fillStyle=PAP;g.font='900 36px Archivo,sans-serif';g.fillText('BREAKPOINT TÊNIS',80,H-60);g.font='700 26px "JetBrains Mono",monospace';g.textAlign='right';g.fillText('breakpoint-vercel-one.vercel.app',W-80,H-60);
+ const blob=await new Promise(r=>c.toBlob(r,'image/png'));const file=new File([blob],`breakpoint_temporada_${d.y}.png`,{type:'image/png'});
+ try{if(navigator.canShare&&navigator.canShare({files:[file]}))await navigator.share({files:[file],title:'Minha temporada no Breakpoint Tênis'});else{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=file.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}}catch(e){}}
+// ---------- desafio da semana (vale nos pontos jogados em tempo real) ----------
+const V5CHL=[['ace',2,'Faça 2 aces'],['win',3,'Ganhe 3 pontos com winners'],['bps',2,'Salve 2 break points no seu saque'],['drop',1,'Ganhe um ponto com deixadinha'],['net',2,'Ganhe 2 pontos na rede'],['perf',5,'Acerte 5 golpes PERFEITOS'],['bpw',1,'Converta um break point']];
+function v5ChCur(){const m=S.me;const L=V5CHL.length,i=((((S.w*7)+(m.born||0))%L)+L)%L;if(!m.wch||m.wch.w!==S.w||!V5CHL[m.wch.i])m.wch={w:S.w,i,c:0,done:0};return m.wch}
+function v5ChAdd(k){try{if(!S||!S.me||QUIET)return;const c=v5ChCur(),[kk,n,t]=V5CHL[c.i];if(c.done||kk!==k)return;c.c++;if(c.c>=n){c.done=1;const m=S.me,rk=myRank(isPro()?'pro':'jr')||800,pr=Math.round(clamp(30000/Math.sqrt(rk),800,12000)/100)*100;m.money+=pr;m.conf=clamp((m.conf||50)+5,0,100);m.fol=Math.round(m.fol*1.02)+50;TOAST=`🎯 Desafio da semana cumprido: ${t}! +${money(pr)}, +5 de confiança e novos fãs.`;news(`🎯 Desafio da semana cumprido: ${t}.`);try{v5Vib([30,40,30])}catch(e){}}}catch(e){}}
+{const _e=v5End;v5End=function(aw,kind,txt){const A=V5A,had=A&&!A.end;let key=null;try{key=IM&&eKey(IM.E)}catch(e){}const net=A&&A.meNet,drop=A&&A.ball&&A.ball.drop&&!A.ball.toMe;_e(aw,kind,txt);
+ try{if(had&&aw){if(kind==='ace')v5ChAdd('ace');if(kind==='win'){v5ChAdd('win');if(drop)v5ChAdd('drop');if(net)v5ChAdd('net')}if(key==='BREAK POINT CONTRA')v5ChAdd('bps');if(key==='BREAK POINT A FAVOR')v5ChAdd('bpw')}}catch(e){}}}
+{const _h=v5MeHit;v5MeHit=function(dir,kind){_h(dir,kind);try{const A=V5A;if(A&&A.flash&&A.flash.t==='PERFEITO'&&performance.now()-A.flash.t0<50)v5ChAdd('perf')}catch(e){}}}
+{const _vh=v5Home;v5Home=function(){let s=_vh();try{const c=v5ChCur(),[k,n,t]=V5CHL[c.i];const card=`<div class="v5chal${c.done?' ok':''}"><span class="v5tdi">${c.done?'✓':'🎯'}</span><span><b>Desafio da semana: ${esc(t)}</b><small>${c.done?'Cumprido! Volte na próxima semana para um novo.':`Vale nos pontos que você jogar em tempo real (Entrar em quadra). Progresso: ${c.c} de ${n}. Prêmio: dinheiro, confiança e fãs.`}</small></span></div>`;
+ s=s.includes('<div class="v5sec"><span class="v5k">Extras da semana</span></div>')?s.replace('<div class="v5sec"><span class="v5k">Extras da semana</span></div>','<div class="v5sec"><span class="v5k">Extras da semana</span></div>'+card):s+card}catch(e){}return s}}
 
 // =============== tutorial ===============
 const TUT=[
