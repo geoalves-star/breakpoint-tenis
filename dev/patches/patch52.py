@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='5.8';")
+    R("const VERSION='5.5';","const VERSION='5.9';")
     # v5.7: corrige a saída de som (o volume geral estava ligado nele mesmo e nada tocava)
     R("let MGN=null;function MG(c){if(!MGN||MGN.context!==c){MGN=c.createGain();MGN.gain.value=OPTS.vol;MGN.connect(MG(c))}return MGN}","let MGN=null;function MG(c){if(!MGN||MGN.context!==c){MGN=c.createGain();MGN.gain.value=OPTS.vol;MGN.connect(c.destination)}return MGN}")
     # v5.8: calendário atual da Copa Davis (qualificatórias em fev e set, Final 8 em nov) e da BJK Cup (qualificatória em abr, Finais em set)
@@ -39,3 +39,10 @@ def apply(s,R):
     R("esc(chKey(ev)).replace(/'/g,\"\\\\'\")","esc(String(chKey(ev)).replace(/'/g,\"\\\\'\"))")
     R("esc(k).replace(/'/g,\"\\\\'\")","esc(String(k).replace(/'/g,\"\\\\'\"))")
     R("esc(p.a).replace(/'/g,\"\\\\'\")","esc(String(p.a).replace(/'/g,\"\\\\'\"))",2)
+    # v5.9: carreira rápida no formulário de novo jogo
+    R('<div class="sec-t">Dificuldade</div><div class="chips">${opt(\'diff\'','<div class="sec-t">Duração</div><div class="chips">${opt(\'quick\',[[0,\'Carreira completa\'],[1,\'Carreira rápida (5 temporadas)\']])}</div><div class="xs mut">${F.quick?\'Cinco temporadas, calendário montado sozinho, partidas no modo simular direto e sem entrevistas nem mensagens obrigatórias. Boa para jogar em pausas curtas.\':\'A carreira inteira, até a aposentadoria, com todas as decisões.\'}</div>\n <div class="sec-t">Dificuldade</div><div class="chips">${opt(\'diff\'')
+    R(":S.ended.why==='cmapos'?'O treinador pendurou a prancheta. Hora de aproveitar a aposentadoria.':'O corpo disse que era a hora.'}",":S.ended.why==='cmapos'?'O treinador pendurou a prancheta. Hora de aproveitar a aposentadoria.':/^Fim da carreira rápida/.test(S.ended.why||'')?'As cinco temporadas da carreira rápida terminaram.':'O corpo disse que era a hora.'}")
+    # v5.9: acessibilidade nas opções
+    R('<div class="small" style="margin:8px 0 4px">🔊 Volume dos sons</div>','${v5A11yOpts()}<div class="small" style="margin:8px 0 4px">🔊 Volume dos sons</div>')
+    # v5.9: idioma nas opções
+    R('${v5A11yOpts()}','<div class="small" style="margin:12px 0 4px">🌐 Idioma</div>${v5LangPick()}${v5A11yOpts()}')

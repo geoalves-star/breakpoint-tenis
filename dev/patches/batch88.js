@@ -1,0 +1,5 @@
+// =============== v5.9: acessibilidade (cores para daltonismo, alto contraste) ===============
+{const _ao=applyOpts;applyOpts=function(){_ao();try{const b=document.body;b.classList.toggle('cb-rg',OPTS.cb==='rg');b.classList.toggle('cb-by',OPTS.cb==='by');b.classList.toggle('hc',!!OPTS.hc)}catch(e){}}}
+try{applyOpts()}catch(e){}
+function v5A11yOpts(){return `<div class="small" style="margin:12px 0 4px">🎨 Cores</div><div class="chips">${[['','Padrão'],['rg','Vermelho e verde'],['by','Azul e amarelo']].map(([v,l])=>`<button class="${(OPTS.cb||'')===v?'on':''}" onclick="setOptG('cb','${v}')">${l}</button>`).join('')}</div><div class="xs mut">Para quem tem daltonismo: troca as cores de vitória e derrota por pares fáceis de distinguir e marca V e D com ✓ e ✕.</div>
+ <button class="opt${OPTS.hc?' on':''}" style="margin-top:8px" onclick="setOptG('hc',!OPTS.hc)"><b>${OPTS.hc?'✓ ':''}Alto contraste</b><small>Textos mais claros, bordas mais fortes e foco bem visível ao navegar pelo teclado.</small></button>`}
