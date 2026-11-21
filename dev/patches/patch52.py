@@ -35,3 +35,7 @@ def apply(s,R):
     R("let MGN=null;function MG(c){if(!MGN||MGN.context!==c){MGN=c.createGain();MGN.gain.value=OPTS.vol;MGN.connect(MG(c))}return MGN}","let MGN=null;function MG(c){if(!MGN||MGN.context!==c){MGN=c.createGain();MGN.gain.value=OPTS.vol;MGN.connect(c.destination)}return MGN}")
     # v5.8: calendário atual da Copa Davis (qualificatórias em fev e set, Final 8 em nov) e da BJK Cup (qualificatória em abr, Finais em set)
     R("const SPW=()=>CIRC()==='WTA'?{q:14,f:46,lv:-1}:{q:4,f:47,lv:37};","let SPW=()=>CIRC()==='WTA'?{q:14,f:46,lv:-1}:{q:4,f:47,lv:37};")
+    # v5.8: nomes com apóstrofo (d'Italia, 's-Hertogenbosch, O'Connor) quebravam o clique
+    R("esc(chKey(ev)).replace(/'/g,\"\\\\'\")","esc(String(chKey(ev)).replace(/'/g,\"\\\\'\"))")
+    R("esc(k).replace(/'/g,\"\\\\'\")","esc(String(k).replace(/'/g,\"\\\\'\"))")
+    R("esc(p.a).replace(/'/g,\"\\\\'\")","esc(String(p.a).replace(/'/g,\"\\\\'\"))",2)
