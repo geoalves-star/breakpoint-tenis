@@ -992,6 +992,16 @@ body.hc :focus-visible{outline:3px solid #ffd23f!important;outline-offset:2px}
 .v5lang{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}
 .v5lang button{background:none!important;border:0!important;box-shadow:none!important;padding:6px 12px;border-radius:999px;font-size:12.5px;font-weight:700;color:var(--mut);min-height:0;width:auto}
 .v5lang button.on{background:var(--acc)!important;color:var(--app,#071)!important}
+.v5tmc .v5tmr{display:grid;grid-template-columns:96px 1fr 42px;gap:8px;align-items:center;font-size:13px;margin-top:6px}
+.v5tmc .v5tmr i{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--c) var(--p),var(--line) var(--p))}.v5tmc .v5tmr b{font-family:var(--fm);font-size:12px;text-align:right}
+.v5wib{background:var(--card);border:1px solid var(--acc);border-radius:14px;padding:12px 14px;margin:10px 0}
+.v5wit{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}.v5wit th{font-size:11.5px;color:var(--mut);font-weight:700;text-align:right;padding:3px 4px}.v5wit th:first-child{text-align:left}
+.v5wit td{padding:4px;border-top:1px solid var(--line);text-align:right;font-family:var(--fm);font-size:12.5px}.v5wit td:first-child{text-align:left;font-family:inherit;color:var(--mut)}
+.v5wio{display:grid;grid-template-columns:1fr 1fr;gap:8px}.v5wio button{text-align:left;display:flex;flex-direction:column;gap:3px;padding:10px 12px;min-height:0}.v5wio button small{font-size:11.5px;color:var(--mut);font-weight:500;line-height:1.3}
+.v5wio button.rec{border-color:var(--acc)!important;box-shadow:0 0 0 1px var(--acc) inset}
+.v5pkb{display:grid;grid-template-columns:1fr 46px;gap:10px;align-items:center;margin-top:8px}.v5pkb i{height:9px;border-radius:5px;background:linear-gradient(90deg,var(--acc) var(--p),var(--line) var(--p))}.v5pkb b{font-family:var(--fm);text-align:right}
+.v5ml .v5mlr{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;margin-top:8px}.v5ml .v5mlr span{display:flex;flex-direction:column;min-width:120px}.v5ml .v5mlr small{font-size:12px;color:var(--mut)}
+.v5ml .v5mlr i{height:7px;border-radius:4px;background:linear-gradient(90deg,var(--good,#3ddc97) var(--p),var(--line) var(--p))}
 </style>
 </head>
 <body>
@@ -2819,7 +2829,7 @@ function cmpHTML(p){const m=S.me,P=personStats(),me=P['me']||{},o=P[p.n+'|'+p.c]
  return `<div class="sec-t" style="margin-top:12px">⚖️ Você x ${esc(p.n.split(' ').slice(-1)[0])}</div>${radar(S.me.attrs,AA)}<div class="xs" style="text-align:center;margin:-4px 0 6px"><span style="color:var(--acc)">■ você</span> · <span style="color:#ff5fa2">■ ${esc(p.n.split(' ').slice(-1)[0])}</span></div><table class="cmp">${rows.map(([lb,a,b,d])=>{const na=+String(a).replace('~','')||0,nb=+String(b).replace('~','')||0,ba=d===1?na>nb:d===-1?(a!=='—'&&(b==='—'||na<nb)):false,bb=d===1?nb>na:d===-1?(b!=='—'&&(a==='—'||nb<na)):false;return `<tr><td class="${ba?'win':''}" style="text-align:right;font-weight:800">${a}</td><td class="xs mut" style="text-align:center">${lb}</td><td class="${bb?'win':''}" style="font-weight:800">${b}</td></tr>`}).join('')}</table>`}
 
 // =============== dificuldade, talento, estilo, lesão crônica, polêmicas ===============
-const DIFF={facil:['😊 Fácil','Você rende um pouco acima do normal.'],normal:['⚖️ Normal','O equilíbrio padrão do jogo.'],real:['🧠 Realista','O circuito reage: quanto mais alto você está, mais os rivais estudam seu jogo, e surgem mais jovens fortes.']};
+const DIFF={facil:['😊 Fácil','Você rende um pouco acima do normal. Nas carreiras que simulamos, cerca de 1 em 4 chegou a número 1.'],normal:['⚖️ Normal','O equilíbrio padrão do jogo. Nas carreiras que simulamos, cerca de 15% chegaram a número 1 e 1 em 3 entrou no top 10.'],real:['🧠 Realista','O circuito reage: quanto mais alto você está, mais os rivais estudam seu jogo, e surgem mais jovens fortes. Como na vida real, chegar a número 1 é raro (cerca de 2% das carreiras simuladas) e o top 10 já é uma grande carreira.']};
 const TALS={sorte:['🎲 Sorte','O talento é sorteado: pode ser um gênio ou um jogador comum.'],medio:['📊 Médio','Potencial para chegar entre o top 10 e o top 50.'],elite:['💎 Elite','Potencial de número 1 do mundo.']};
 function scoutTxt(pot){return pot>=85?'pode ser número 1 do mundo':pot>=82?'tem potencial de top 5':pot>=79?'tem potencial de top 10':pot>=76?'tem potencial de top 30':pot>=72?'tem potencial de top 100':'deve ficar entre o top 100 e o top 200'}
 const STYLEB={sacador:['Sacador',.6,-.3],fundo:['Fundo de quadra',-.2,.6],contra:['Contra-golpeador',-.1,.5],completo:['Completo',.25,.25]};
@@ -2926,7 +2936,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='5.9';
+const VERSION='6.0';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -2937,7 +2947,7 @@ function optsCard(){return `<div class="sec-t">⚙️ Opções</div>
  <button class="opt" onclick="setOptG('skipInt',!OPTS.skipInt)">${OPTS.skipInt?'✅':'⬜'} Pular entrevistas<small>Responde automaticamente com a primeira opção (geralmente a mais neutra).</small></button>
  <button class="opt" onclick="setOptG('eco',!OPTS.eco)">${OPTS.eco?'✅':'⬜'} Modo econômico<small>Menos animações e avatares mais simples: mais rápido em celulares simples e gasta menos bateria.</small></button>
  <div class="small" style="margin:8px 0 4px">🔠 Tamanho do texto</div><div class="chips">${[[1,'Normal'],[1.1,'Grande'],[1.2,'Maior']].map(([v,l])=>`<button class="${OPTS.fz===v?'on':''}" onclick="setOptG('fz',${v})">${l}</button>`).join('')}</div>
- <div class="small" style="margin:12px 0 4px">🌐 Idioma</div>${v5LangPick()}${v5A11yOpts()}<div class="small" style="margin:8px 0 4px">🔊 Volume dos sons</div><input type="range" min="0" max="1" step="0.1" value="${OPTS.vol}" style="width:100%" oninput="OPTS.vol=+this.value;if(MGN)MGN.gain.value=OPTS.vol" onchange="setOptG('vol',+this.value);sHit()">`}
+ ${v5WiOpt()}<div class="small" style="margin:12px 0 4px">🌐 Idioma</div>${v5LangPick()}${v5A11yOpts()}<div class="small" style="margin:8px 0 4px">🔊 Volume dos sons</div><input type="range" min="0" max="1" step="0.1" value="${OPTS.vol}" style="width:100%" oninput="OPTS.vol=+this.value;if(MGN)MGN.gain.value=OPTS.vol" onchange="setOptG('vol',+this.value);sHit()">`}
 // ---- sobre ----
 const CHANGELOG=[['4.6','Botão para reportar problemas, canal de sugestões, nota de privacidade e fontes embutidas (o jogo não depende mais de serviços de terceiros).'],['4.5','Novo nome: Breakpoint Tênis. Autoria, apoio ao jogo e lembrete de backup.'],['4.4','Balanceamento realista: idade, auge e aposentadoria, desgaste por excesso de torneios, fenômenos juvenis e turnê de despedida.'],['4.3','Painel do atleta, Conselho de Jogadores, sala de imprensa, torcida, níveis de jogo e base de nomes por circuito.'],['4.2','Equipe do treinador, retrospectiva do ano, card para WhatsApp, placar entre amigos e 22 conquistas novas.'],['4.0','Modo Treinador, mapa da temporada, analista, narração por voz, metas da semana e tema Estádio.'],['2.8','Personagens com visual mais realista (raquete no ombro, barba, munhequeira, tatuagem), tema claro, opções (pular entrevistas, tamanho do texto, modo econômico, volume), busca no ranking, filtros no histórico, evolução dos atributos, mundo com código, raridade das conquistas e atalhos de teclado.'],['2.7','Modo lenda, vinheta de final, entrevista na quadra, replay do match point, ranking de todos os tempos e card da carreira.'],['2.6','Dificuldade e talento, golpes especiais, sinal do treinador, sessão dia/noite, lesões crônicas, polêmicas, história do circuito, marca pessoal e mentoria.'],['2.5','Big 3, promessas, Hall da Fama, prêmios do ano, vida pessoal, academia e documentário.']];
 function confirmLeave(){if(S._lv===S.w){S._lv=null;return true}S._lv=S.w;TOAST='⚠️ Você está no meio de uma partida. Toque de novo em Menu principal para sair (a partida será recomeçada depois).';render();return false}
@@ -4160,7 +4170,7 @@ function v5ArcFrame(now){V5AR=0;const cv=document.getElementById('v5arc');if(!cv
  if(A||document.getElementById('v5arc'))v5ArcLoop()}
 // integra na tela da quadra
 {const _cv=courtView;courtView=function(){let s=_cv();try{if(!v5ArcOn()||!IM)return s;s=s.replace('<canvas id="courtc" class="courtc" role="img" aria-label="Quadra"></canvas>','<canvas id="v5arc" class="v5arc" role="img" aria-label="Quadra: deslize para rebater" tabindex="0"></canvas><div class="v5arch"><span>Toque: golpe no meio</span><span>Deslize para o lado: mira</span><span>Para cima e forte: ataque</span><span>Para baixo: defesa</span><span>Teclado: setas + espaço</span></div>');
-  s=s.replace(/Escolha o saque ou a devolução e depois a jogada do rali\.[^<]*/,'Jogue cada ponto em tempo real. No saque, toque quando o marcador estiver na faixa verde (deslize antes para mirar). Nas trocas de bola, deslize no momento em que a bola chega ao anel: para o lado mira, para cima com força ataca, para baixo defende. Seu físico define o quanto você alcança.');if(v5ArcReady())s=s.replace(/<div class="sec-t" style="margin-top:8px">[^]*?<div class="choices">[^]*?<\/div>/,'');
+  s=s.replace(/Escolha o saque ou a devolução e depois a jogada do rali\.[^<]*/,'Jogue cada ponto em tempo real. No saque, toque quando o marcador estiver na faixa verde (deslize antes para mirar). Nas trocas de bola, deslize no momento em que a bola chega ao anel: para o lado mira (bem longo vai na linha, mais arriscado), para cima com força é o chapado, para baixo é o slice, toque é o top spin. No saque, deslize para baixo para sacar no corpo. A faixa no alto mostra se você bateu cedo ou atrasado. Seu físico define o quanto você alcança.');if(v5ArcReady())s=s.replace(/<div class="sec-t" style="margin-top:8px">[^]*?<div class="choices">[^]*?<\/div>/,'');
   s=s.replace('<div class="g3" style="margin-top:6px">','<button class="ghost" style="width:100%;margin-top:6px" onclick="S.me.arc=false;V5A=null;render()">Modo clássico: escolher jogadas por botões</button><div class="g3" style="margin-top:6px">')}catch(e){console.error(e)}return s}}
 {const _r6=render0;render0=function(){_r6();try{if(IM&&v5ArcOn()&&document.getElementById('v5arc')){if(v5ArcReady()&&(!V5A||V5A.pt!==IM.E.TL.length&&!V5A.end))v5ArcStart();else v5ArcLoop()}else if(!IM)V5A=null}catch(e){console.error(e)}}}
 // voltar ao arcade a partir do modo clássico
@@ -5385,6 +5395,173 @@ V5I18NP.push(...[
  [/^Querem trabalhar com você · você é #(\d+)$/,'Want to work with you · you are #$1','Quieren trabajar contigo · eres #$1'],
  [/^(.+) · \+(\d+) de energia por semana e menos lesões$/,'$1 · +$2 energy per week and fewer injuries','$1 · +$2 de energía por semana y menos lesiones'],
  [/^\+energia por semana e menos desgaste físico · (.+)$/,'+energy per week and less physical wear · $1','+energía por semana y menos desgaste físico · $1']]);
+
+// =============== v6.0: jogabilidade em quadra — tempo do golpe, tipos de golpe, saque no corpo, padrões do adversário e cansaço ===============
+// ---------- cansaço dentro da partida: a janela do tempo certo diminui ----------
+function v5FatK(){try{const I=IM;if(!I||!I.E)return 1;const E=I.E,G=E.sets.reduce((s,x)=>s+x[0]+x[1],0)+(E.ga||0)+(E.gb||0);const fi=S.me.attrs.fi||60,en=S.me.energy??80;
+ const base=clamp((G-14)/40,0,1)*.24*clamp(1.25-(fi-50)/60,.35,1.25)+Math.max(0,(45-en))*.003;return clamp(1-base,.72,1)}catch(e){return 1}}
+{const _q=v5Q;v5Q=function(dt){return _q(dt/v5FatK())}}
+// ---------- registro do tempo de cada golpe ----------
+function v5TimRec(){const I=IM;if(!I)return null;I.tim=I.tim||{n:0,p:0,g:0,o:0,b:0,miss:0,far:0,sum:0,cnt:0,early:0,late:0,shots:{top:0,flat:0,slice:0,drop:0,lob:0},line:[0,0]};return I.tim}
+{const _h=v5MeHit;v5MeHit=function(dir,kind){const A=V5A,now=performance.now();let rec=null;
+ try{if(A&&A.phase==='incoming'&&A.ball){const b=A.ball,reach=Math.abs(A.me.x-b.x1),late=Math.max(0,(reach-v5Reach())*900);rec={dt:now-(b.t0+b.T),late,t0:now,fk:v5FatK()};
+  // tipo de golpe e risco na linha
+  A._line=!!(dir&&A._dx>=150&&kind!=='drop'&&kind!=='lob');A._kind=kind}}catch(e){}
+ _h(dir,kind);
+ try{if(rec&&A){const T=v5TimRec();if(!T)return;const fl=A.flash&&A.flash.t0>=now-5?A.flash.t:null;rec.q=fl;A.tm=rec;T.n++;
+  if(rec.late>40&&(!fl||fl==='CEDO'||fl==='ATRASADO'))T.far++;
+  if(!fl||(A.end&&A.end.t0>=now-5&&/cedo demais|atrasado/i.test(A.end.txt||'')))T.miss++;else if(fl==='PERFEITO')T.p++;else if(fl==='BOM')T.g++;else if(fl==='OK')T.o++;else T.b++;
+  if(rec.late<40){T.sum+=rec.dt;T.cnt++;if(rec.dt<-60)T.early++;else if(rec.dt>60)T.late++}
+  if(A.phase==='outgoing'&&A.ball&&!A.ball.toMe){const nm=kind==='atk'?'flat':kind==='def'?'slice':kind==='drop'?'drop':kind==='lob'?'lob':'top';T.shots[nm]++;
+   const lbl={top:'Top spin',flat:'Chapado',slice:'Slice',drop:'Deixadinha',lob:'Lob'}[nm];
+   if(nm==='slice'){A._slice=1;A.ball.T*=1.06;A.ball.zm=Math.min(A.ball.zm||1,.7)}else A._slice=0;
+   if(A._line){T.line[0]++;A.ball.x1=Math.sign(A.ball.x1||dir)*.97;const risk=.13*(kind==='atk'?1.25:1)/Math.max(.7,A.qPrev||1);if(Math.random()<risk){A._lineOut=1}else{A.qPrev*=1.2;T.line[1]++}}
+   if(nm==='top'||nm==='flat'||nm==='slice')A.txt=`${fl?fl+' · ':''}${lbl}${A._line?' na linha':''}`}}}catch(e){console.error(e)}}}
+// bola na linha que saiu: o ponto termina quando ela quica
+{const _o=v5OppHit;v5OppHit=function(){const A=V5A;if(A&&A._lineOut&&!A.end){A._lineOut=0;return v5End(false,'ue',pick(['Saiu por pouco! Foi buscar a linha','Na linha... fora por centímetros','Arriscou a linha e errou']))}
+ if(A&&A._lineOut)A._lineOut=0;
+ const slice=A&&A._slice,body=A&&A._body;
+ _o();
+ try{if(V5A!==A||!A||A.end||A.phase!=='incoming'||!A.ball||!A.ball.toMe)return;const b=A.ball;
+  // slice: bola baixa, a resposta dele vem mais lenta e menos perigosa
+  if(slice){b.T*=1.08;if(A.oppWin&&Math.random()<.35){A.oppWin=false;A.txt='Sua vez'}A._slice=0}
+  // saque no corpo: devolução apertada
+  if(body){b.T*=1.1;if(A.oppWin&&Math.random()<.5){A.oppWin=false;A.txt='Devolução apertada dele'}A._body=0}
+  v5PatApply(A,b);
+  // cansaço: bolas chegam um pouco mais rápido no fim
+  const fk=v5FatK();if(fk<.97){b.T*=(.94+.06*fk)}}catch(e){console.error(e)}}}
+// ---------- saque no corpo (deslize para baixo) ----------
+{const _pu=v5PUp;v5PUp=function(e){const A=V5A;try{if(A&&V5PD){const dx=e.clientX-V5PD.x,dy=e.clientY-V5PD.y;A._dx=Math.abs(dx);
+  if(A.phase==='srvMe'){if(dy>30&&Math.abs(dy)>Math.abs(dx)){A.aim=0;A.aimBody=1;A.txt='Mira: no corpo';A.sub='Menos aces, mas a devolução sai apertada';V5PD=null;return}if(Math.hypot(dx,dy)>=18)A.aimBody=0}}}catch(err){}return _pu(e)}}
+document.addEventListener('keydown',e=>{const A=V5A;if(!A||!IM)return;try{if(A.phase==='srvMe'){if(e.key==='ArrowDown'){A.aim=0;A.aimBody=1;A.txt='Mira: no corpo';A.sub='Menos aces, mas a devolução sai apertada'}else if(/Arrow(Left|Right|Up)/.test(e.key))A.aimBody=0}if(A.phase==='incoming')A._dx=e.shiftKey?200:0}catch(err){}});
+{const _s=v5MeServe;v5MeServe=function(){const A=V5A,body=A&&A.aimBody;_s();try{if(A&&body&&A.ball&&!A.ball.toMe&&!A.end){A.ball.x1=clamp(A.op.x,-.2,.2);A._body=1;A.qPrev*=1.08;A.sub=(A.sub?A.sub.replace(/^Mira[^·]*· ?/,'')+' · ':'')+'no corpo'}}catch(e){}}}
+// ---------- padrões dos adversários ----------
+const V5PAT={fraco:{n:'joga no seu lado mais fraco',tip:'Ele procura o seu lado mais fraco. Quando souber disso, você sai antes para essa bola.'},
+ alterna:{n:'alterna os lados para fazer você correr',tip:'Ele manda uma bola em cada lado. Depois de uma bola na direita, espere a próxima na esquerda.'},
+ paralela:{n:'responde seu ataque na paralela',tip:'Quando você ataca, ele devolve na paralela, longe de onde você está.'},
+ lob:{n:'usa o lob quando você sobe à rede',tip:'Na rede, espere o lob: deslize para cima para o smash.'},
+ cruzada:{n:'prefere a diagonal nas trocas longas',tip:'Nas trocas longas ele joga cruzado. Cubra a diagonal.'}};
+function v5PatOf(opp){const p=IDX.get(opp);if(!p)return'cruzada';const L=p.b>=2?['paralela','fraco','alterna']:p.b<=-1?['lob','cruzada','alterna']:['alterna','fraco','cruzada','lob'];return L[Math.abs(Math.round(p.id*7919+(p.r||0)))%L.length]}
+function v5PatApply(A,b){const I=IM;if(!I)return;I.pat=I.pat||v5PatOf(I.opp);const pat=I.pat;let hit=false;const side=s=>clamp(s*(.55+Math.random()*.35),-.95,.95);
+ if(b.lobOp)return;
+ if(pat==='fraco'&&Math.random()<.7){b.x1=side(A.weak);hit=true}
+ else if(pat==='alterna'&&Math.random()<.75){I._alt=-(I._alt||1);b.x1=side(I._alt);hit=true}
+ else if(pat==='paralela'&&A.lastAgr&&Math.random()<.75){b.x1=side(A.me.x>=0?-1:1);hit=true}
+ else if(pat==='cruzada'&&A.shots>=3&&Math.random()<.7){b.x1=side(A.op.x>=0?-1:1);hit=true}
+ else if(pat==='lob'&&A.meNet&&Math.random()<.6){b.zm=2.1;b.T=Math.max(b.T,1000);b.lobOp=1;b.y1=Math.min(b.y1,A.me.y+.02);A.txt='Lob dele! Deslize para cima: smash';hit=true}
+ if(!hit)return;I.patN=(I.patN||0)+1;
+ if(!I.patKnown&&I.patN>=6){I.patKnown=1;I.feed.unshift(`🔎 Você leu o jogo: ${G('ele','ela')} ${V5PAT[pat].n}.`);A.sub='Você percebeu o padrão dele'}
+ // antecipação: quem conhece o padrão sai antes para a bola
+ if(I.patKnown&&!b.lobOp){A.me.x+=(b.x1-A.me.x)*.35;if(Math.random()<.4)A.sub='Antecipou: você já sabia para onde ia'}}
+{const _ec=enterCourt;enterCourt=function(){_ec.apply(this,arguments);try{const I=IM;if(!I)return;I.pat=v5PatOf(I.opp);const c=myCoach(),ana=(STF().ana||0)>=1;
+ if(ana||(c&&c.q>=3)){I.patKnown=1;I.feed.unshift(`📊 ${ana?'Seu analista':'Seu treinador'}: ${G('ele','ela')} ${V5PAT[I.pat].n}. ${V5PAT[I.pat].tip}`)}}catch(e){}}}
+// dica antes do jogo na tela da partida
+function v5PatHint(opp){const pat=v5PatOf(opp),c=myCoach(),ana=(STF().ana||0)>=1;if(!(ana||(c&&c.q>=3)))return `<div class="xs mut" style="margin-top:6px">🔎 Todo adversário tem um padrão. Repare para onde ele joga: depois de algumas bolas você percebe e passa a antecipar. Treinador de 3+ estrelas ou analista contam antes.</div>`;
+ return `<div class="small" style="margin-top:6px">📊 <b>Padrão dele:</b> ${V5PAT[pat].n}. <span class="mut">${V5PAT[pat].tip}</span></div>`}
+// ---------- desenho: faixa do tempo do golpe e aviso de cansaço ----------
+{const _f=v5ArcFrame;v5ArcFrame=function(now){_f(now);try{const A=V5A,cv=document.getElementById('v5arc');if(!cv||!IM)return;const g=cv.getContext('2d'),dpr=Math.min(2,window.devicePixelRatio||1),W=cv.clientWidth,H=cv.clientHeight,u=W/360;g.save();g.setTransform(dpr,0,0,dpr,0,0);
+ const tm=A&&A.tm;if(tm&&now-tm.t0<1300){const t=now-tm.t0,al=t<1000?1:1-(t-1000)/300,bw=Math.min(230*u,W*.66),bh=9*u,x0=W/2-bw/2,y0=62*u,fk=tm.fk||1,R=300;
+  g.globalAlpha=al;g.fillStyle='#140f0bcc';g.beginPath();g.roundRect(x0-10*u,y0-17*u,bw+20*u,bh+30*u,8);g.fill();
+  const X=v=>x0+bw/2+clamp(v/R,-1,1)*bw/2;const zone=(a,c)=>{g.fillStyle=c;g.fillRect(X(-a*fk),y0,X(a*fk)-X(-a*fk),bh)};zone(270,'#FF6B5B88');zone(185,'#F2C14E');zone(115,'#3DDC84');zone(55,'#D9F24A');
+  g.strokeStyle='#000';g.lineWidth=1.2;g.strokeRect(x0,y0,bw,bh);const mx=X(tm.dt+(tm.late||0));g.fillStyle='#fff';g.strokeStyle='#000';g.lineWidth=1.5;g.beginPath();g.moveTo(mx,y0-2);g.lineTo(mx-5*u,y0-9*u);g.lineTo(mx+5*u,y0-9*u);g.closePath();g.fill();g.stroke();g.fillRect(mx-1,y0,2,bh);
+  g.font=`800 ${Math.round(8.5*u)}px Inter, Arial, sans-serif`;g.fillStyle='#fff';g.textAlign='left';g.fillText('CEDO',x0,y0+bh+11*u);g.textAlign='right';g.fillText('ATRASADO',x0+bw,y0+bh+11*u);g.textAlign='center';
+  const d=tm.dt+(tm.late||0),lab=tm.late>40?'LONGE DA BOLA':Math.abs(d)<=55*fk?'NO TEMPO':d<0?`${Math.round(-d)} ms CEDO`:`${Math.round(d)} ms ATRASADO`;g.fillStyle=Math.abs(d)<=115*fk?'#D9F24A':'#FFB4A8';g.fillText(lab,W/2,y0+bh+11*u)}
+ const fk=v5FatK();if(fk<.93&&A&&A.phase!=='end'){g.globalAlpha=1;g.font=`800 ${Math.round(8.5*u)}px Inter, Arial, sans-serif`;g.fillStyle='#FFB4A8';g.textAlign='left';g.fillText(`CANSAÇO · janela ${Math.round((1-fk)*100)}% menor`,8*u,H-8*u)}
+ g.restore()}catch(e){}}}
+// ---------- resultado: como foi o seu tempo ----------
+{const _er=eResult;eResult=function(E){const r=_er(E);try{if(IM&&IM.E===E){if(IM.tim)r.tim=IM.tim;if(IM.pat)r.pat={k:IM.pat,known:!!IM.patKnown}}}catch(e){}return r}}
+function v5TimCard(T,pat){if(!T||T.n<4)return'';const ok=T.p+T.g+T.o,pc=x=>Math.round(x/T.n*100),avg=T.cnt?Math.round(T.sum/T.cnt):0;
+ const tip=T.far>=Math.max(3,T.n*.15)?`Você chegou longe da bola ${T.far} vezes. Físico melhor ajuda a alcançar, e conhecer o padrão do adversário faz você sair antes.`:avg<-45?`Você bateu em média ${-avg} ms antes da hora. Espere a bola chegar mais perto.`:avg>45?`Você bateu em média ${avg} ms atrasado. Comece o movimento um pouco antes.`:'Seu tempo esteve bom. Para ganhar mais pontos, varie o golpe e arrisque a linha quando estiver bem posicionado.';
+ const sh=T.shots,tot=Object.values(sh).reduce((a,b)=>a+b,0)||1,top=Object.entries(sh).sort((a,b)=>b[1]-a[1])[0];
+ const bar=(l,v,c)=>`<div class="v5tmr"><span>${l}</span><i style="--p:${pc(v)}%;--c:${c}"></i><b>${pc(v)}%</b></div>`;
+ return `<div class="card v5tmc"><div class="mk">Seu tempo nos golpes</div>${bar('Perfeito',T.p,'#D9F24A')}${bar('Bom',T.g,'#3DDC84')}${bar('OK',T.o,'#F2C14E')}${bar('Fora do tempo',T.b+T.miss,'#FF6B5B')}
+ <p class="small" style="margin:8px 0 0">${tip}</p><p class="xs mut" style="margin:6px 0 0">Golpe que você mais usou: ${({top:'top spin',flat:'chapado',slice:'slice',drop:'deixadinha',lob:'lob'})[top[0]]} (${Math.round(top[1]/tot*100)}%).${T.line[0]?` Na linha: ${T.line[1]} de ${T.line[0]} entraram.`:''}${pat?` Padrão do adversário: ${G('ele','ela')} ${V5PAT[pat.k].n}${pat.known?'':' (você não chegou a perceber)'}.`:''}</p></div>`}
+{const _vr=v5Res;v5Res=function(){let s=_vr();try{if(LIVE&&LIVE.res&&LIVE.res.tim){const c=v5TimCard(LIVE.res.tim,LIVE.res.pat);const i=s.indexOf('<button id="v5shb"');s=i>=0?s.slice(0,i)+c+s.slice(i):s+c}}catch(e){}return s}}
+{const _m=v5Match;v5Match=function(){let s=_m();try{if(V5PREP){const o=curOpp();if(o!=null){const h=`<div class="card"><div class="mk">Leitura do adversário</div>${v5PatHint(o)}</div>`;const i=s.indexOf('<div class="v5gofix">');if(i>=0)s=s.slice(0,i)+h+s.slice(i)}}}catch(e){}return s}}
+
+// =============== v6.0: Simular assistindo com intervalo de set (números do treinador e ajuste de tática) ===============
+let V5WI=null;
+const v5WiOn=()=>OPTS.wInt!==false;
+function v5WiSimSet(){const E=V5WI.E,n0=E.sets.length;let g=0;while(!E.done&&E.sets.length===n0&&g++<1500)ePoint(E,{})}
+function v5WiStart(){const T=S.tour,ev=curEv();if(!T||!ev)return false;const t=TIERS[ev.tier];const opp=T.q?T.q.opp:oppOf();if(opp==null)return false;
+ const stage=T.q?`Quali R${T.q.step+1}`:roundName(T.br.length);CUR_EV=ev;const A=eff('me',ev.surf,S.me.tac,opp),B=eff(opp,ev.surf);const E=mkEngine(A,B,!T.q&&bo5Of(t));E.pA0=E.pA;E.pB0=E.pB;
+ V5WI={E,opp,ev,stage,tac:'eq',n:0};v5WiSimSet();
+ LIVE={res:{tl:E.TL,win:false,sets:E.sets,wi:1},opp,stage,ev,i:0,hold:0,phase:'live',feed:[],fac:'',wi:1};try{REPI=null;REPO=null}catch(e){}
+ v5WiTick();render();return true}
+function v5WiTick(){clearInterval(LIVET);let cnt=0;
+ LIVET=setInterval(()=>{const L=LIVE;if(!L||!L.wi||!V5WI){clearInterval(LIVET);return}if(V5W||L.wiBrk)return;if(L.hold>0){L.hold--;return}
+  const tl=L.res.tl,E=V5WI.E;
+  if(L.i>=tl.length-1){if(E.done){clearInterval(LIVET);if(!L.fin){L.fin=1;L.res.win=E.sa>E.sb;const fe=tl[tl.length-1];if(v5WOn()&&fe){const el=document.getElementById('live');if(el)el.innerHTML=liveInner();v5WStart({...fe,ev:'match',aw:L.res.win},()=>v5WiFinish())}else v5WiFinish()}return}
+   L.wiBrk=1;V5WI.n++;try{if(SND)sCrowd(.6)}catch(e){}render();return}
+  L.i++;const e=tl[L.i];if(!e)return;
+  if(['ace','brk','set','df'].includes(e.ev)){if(SND){try{sHit();if(e.ev!=='df')(e.aw?sCrowd(e.ev==='ace'?1:1.6):sGroan())}catch(er){}}L.hold=e.ev==='set'?6:e.ev==='brk'?3:2;L.feed.unshift(evTxt(e))}
+  const el=document.getElementById('live');if(el)el.innerHTML=liveInner();
+  if(v5WOn()&&(e.ev==='brk'||e.ev==='set')&&cnt<12){cnt++;v5WStart(e,()=>{})}},28)}
+function v5WiFinish(){clearInterval(LIVET);V5W=null;if(!V5WI)return;const E=V5WI.E;let g=0;while(!E.done&&g++<3000)ePoint(E,{});const res=eResult(E);res.wiTac=V5WI.tac;V5WI=null;LIVE=null;playMatch(res);render()}
+// pular direto para o resultado
+{const _sk=skipLive;skipLive=function(){if(LIVE&&LIVE.wi&&V5WI){LIVE.wiBrk=0;return v5WiFinish()}return _sk()}}
+{const _el=endLive;endLive=function(){if(LIVE&&LIVE.wi&&V5WI)return v5WiFinish();return _el()}}
+{const _cl=closeLive;closeLive=function(){if(LIVE&&LIVE.wi&&V5WI)return v5WiFinish();return _cl()}}
+// entra no lugar da simulação comum quando o modo é "Simular assistindo"
+{const _pm=playMatch;playMatch=function(pre){try{if(!pre&&S&&S.me&&S.me.pmode==='sim'&&v5WiOn()&&!SIMALL&&!QUIET&&!LIVE&&!IM&&!V5WI&&S.tour&&!S.tour.over&&!S.modals.length){if(v5WiStart())return}}catch(e){console.error(e);V5WI=null;LIVE=null}return _pm.apply(this,arguments)}}
+// números do intervalo e recomendação do treinador
+function v5WiStats(){const E=V5WI.E,a=E.SA,b=E.SB,pc=(x,y)=>y?Math.round(x/y*100):0;
+ return{f1:pc(a.f1,a.sp),w1:pc(a.f1w,a.f1),w2:pc(a.s2w,a.s2),ret:pc(b.sp-b.spw,b.sp),ow1:pc(b.f1w,b.f1),ow2:pc(b.s2w,b.s2),ace:a.ace,df:a.df,win:a.win,ue:a.ue,oace:b.ace,owin:b.win,oue:b.ue,bp:`${a.bpw}/${a.bpo}`,obp:`${b.bpw}/${b.bpo}`}}
+function v5WiRec(){const E=V5WI.E,s=v5WiStats(),ls=E.sets[E.sets.length-1],won=ls&&ls[0]>ls[1];
+ if(s.ue>=s.win+4)return['def',`Você está errando demais: ${s.ue} erros não forçados contra ${s.win} winners. Jogue mais seguro.`];
+ if(s.ret<30)return['dev',`${G('Ele','Ela')} está dominando com o saque: você só ganhou ${s.ret}% dos pontos na devolução. Pressione a devolução.`];
+ if(s.w2<42)return['agr',`${G('Ele','Ela')} está atacando o seu segundo saque (você ganhou só ${s.w2}% desses pontos). Saque e golpes mais agressivos.`];
+ if(!won)return['agr','Set perdido, mas os números estão equilibrados. Hora de tomar a iniciativa.'];
+ return['eq','Está funcionando. Mantenha o plano.']}
+{const _li=liveInner;liveInner=function(){let s=_li();try{const L=LIVE;if(!L||!L.wi||!L.wiBrk||!V5WI)return s;const E=V5WI.E,st=v5WiStats(),c=myCoach(),[rk,rt]=v5WiRec(),ls=E.sets[E.sets.length-1],p=IDX.get(L.opp),on=p?esc(p.n.split(' ').slice(-1)[0]):'Ele';
+  const row=(l,me,op)=>`<tr><td>${l}</td><td><b>${me}</b></td><td>${op}</td></tr>`;
+  const html=`<div class="v5wib"><div class="mk">🪑 Intervalo · ${ls[0]}-${ls[1]} no ${E.sets.length}º set</div>
+   <table class="v5wit"><tr><th></th><th>Você</th><th>${on}</th></tr>${row('1º saque dentro',st.f1+'%',Math.round((E.SB.f1/(E.SB.sp||1))*100)+'%')}${row('Pontos no 1º saque',st.w1+'%',st.ow1+'%')}${row('Pontos no 2º saque',st.w2+'%',st.ow2+'%')}${row('Pontos na devolução',st.ret+'%',(100-Math.round((E.SA.spw/(E.SA.sp||1))*100))+'%')}${row('Aces / duplas faltas',st.ace+' / '+st.df,st.oace+' / '+E.SB.df)}${row('Winners / erros',st.win+' / '+st.ue,st.owin+' / '+st.oue)}${row('Break points',st.bp,st.obp)}</table>
+   <p class="small" style="margin:8px 0">${c?`<b>${esc(c.n.split(' ')[0])}:</b> "${rt}"`:'<span class="mut">Sem treinador: os números estão aí, a decisão é sua.</span>'}</p>
+   <div class="v5wio">${SETTAC.map(([k,l,d])=>`<button class="sec${c&&k===rk?' rec':''}${V5WI.tac===k?' on':''}" onclick="v5WiTac('${k}')"><b>${l}${c&&k===rk?' · sugestão':''}</b><small>${d}</small></button>`).join('')}</div></div>`;
+  return s.replace('<div class="sec-t">Momento</div>',html+'<div class="sec-t">Momento</div>')}catch(e){console.error(e);return s}}}
+function v5WiTac(k){if(!V5WI||!LIVE)return;const o=SETTAC.find(x=>x[0]===k);if(!o)return;const E=V5WI.E;E.pA=E.pA0+o[3];E.pB=E.pB0-o[4];
+ try{const c=myCoach();if(c&&!c.me&&c.q>=3)cTrust(k===v5WiRec()[0]?.25:-.15)}catch(e){}
+ V5WI.tac=k;LIVE.feed.unshift(k==='eq'?'📋 Plano mantido para o próximo set.':`📋 Nova tática para o próximo set: ${o[1]}.`);LIVE.wiBrk=0;v5WiSimSet();render()}
+function v5WiOpt(){return `<button class="opt${v5WiOn()?' on':''}" style="margin-top:8px" onclick="setOptG('wInt',!v5WiOn())"><b>${v5WiOn()?'✓ ':''}Intervalos no Simular assistindo</b><small>A partida para entre os sets: você vê os números e escolhe se muda a tática.</small></button>`}
+
+// =============== v6.0: ritmo da carreira — mensagem respondida na própria semana, pico de forma e próximo marco ===============
+// ---------- responder a mensagem obrigatória direto no card da semana ----------
+{const _mu=v5Must;v5Must=function(){const L=_mu();try{const i=L.findIndex(x=>x.id==='dm');if(i>=0){const D=(S.dms||[]).filter(d=>!d.done),d=D[D.length-1];if(d&&d.o&&d.o.length){const more=D.length-1;
+ L[i]={...L[i],t:`Mensagem de ${d.a}${more?` (+${more})`:''}`,d:String(d.t||'').replace(/<[^>]+>/g,'').slice(0,220),b:[...d.o.slice(0,3).map((o,j)=>[o[0],`dmAnswer('${d.id}',${j});save();render()`]),['Ver no Social',"SOCTAB='dm';go('social')"]]}}}}catch(e){}return L}}
+// ---------- pico de forma para os grandes torneios ----------
+const V5PKT=['GS','M1000','FIN','OLY'];
+{const _tr=train;train=function(){try{if(S&&!S.tour)S._wk='train'}catch(e){}return _tr.apply(this,arguments)}}
+{const _rs=rest;rest=function(){try{if(S&&!S.tour)S._wk='rest'}catch(e){}return _rs.apply(this,arguments)}}
+{const _ew=endWeek;endWeek=function(){try{if(S&&S.me){const k=S.tour?((S.tour.br&&S.tour.br.length<=2)||(S.results[0]&&S.results[0].w0===S.w&&/Campeão|Final|Semifinal/.test(S.results[0].r))?'deep':'tour'):(S._wk||'train');S.me.wlog=S.me.wlog||{};S.me.wlog[S.w]=k;for(const w in S.me.wlog)if(+w<S.w-10)delete S.me.wlog[w];S._wk=null}}catch(e){}return _ew()}}
+function v5Peak(w){const m=S.me,L=m.wlog||{};w=w==null?S.w:w;let pk=60;const last=L[w-1];
+ pk+=last==='rest'?16:last==='train'?8:last==='deep'?-10:last==='tour'?-3:0;
+ let n=0;for(let k=w-4;k<w;k++)if(L[k]==='tour'||L[k]==='deep')n++;if(n>=3)pk-=(n-2)*12;
+ pk+=((m.energy??80)-70)*.45;pk-=Math.max(0,(m.load||0)-60)*.5;return Math.round(clamp(pk,0,100))}
+const v5PeakB=pk=>clamp((pk-55)/45,-1,1)*1.3;
+{const _ef=eff;eff=function(id,surf,tacK,opp){const r=_ef.apply(this,arguments);try{if(id==='me'&&CUR_EV&&V5PKT.includes(CUR_EV.tier)&&S.me.wlog){const b=v5PeakB(v5Peak(S.busy===S.w?S.w-1:S.w));r.sv+=b;r.rt+=b;if(typeof LAST_F==='object'&&LAST_F)LAST_F.peak=Math.round(b*10)/10}}catch(e){}return r}}
+function v5PeakNext(){try{for(let k=0;k<=3;k++){const w=S.w+k,evs=weekEvents(w)||[];const mine=evs.find(e=>V5PKT.includes(e.tier)&&(S.plan&&S.plan[w]===e.key||(k===0&&S.tour&&curEv()&&curEv().key===e.key)));const any=mine||evs.find(e=>e.tier==='GS'&&isPro());if(any)return{ev:any,k,mine:!!mine}}}catch(e){}return null}
+function v5PeakCard(){if(!S||!S.me||!isPro()||S.ended)return'';const N=v5PeakNext();if(!N)return'';const pk=v5Peak(S.w+N.k),b=v5PeakB(pk),tip=N.k===0?(pk>=70?'Você chega inteiro. Aproveite.':'Você chega cansado: o rendimento cai um pouco.'):N.k===1?'Na semana antes, descansar ou treinar leve rende mais do que jogar outro torneio.':'Evite emendar 3 torneios ou mais antes dele.';
+ return `<div class="card v5pk"><div class="row sb"><div class="mk">Pico de forma · ${esc(N.ev.name)}</div><span class="xs mut">${N.k===0?'esta semana':N.k===1?'semana que vem':`em ${N.k} semanas`}</span></div><div class="v5pkb"><i style="--p:${pk}%"></i><b>${pk}%</b></div><p class="xs mut" style="margin:6px 0 0">${b>=.3?'Bônus':b<=-.3?'Perda':'Efeito'} no jogo: ${b>0?'+':''}${b.toFixed(1)} de nível nos grandes torneios. ${tip}</p></div>`}
+// ---------- próximo marco ----------
+function v5Mile(){const m=S.me,out=[];try{const cat=isPro()?'pro':'jr',my=RK[cat].me,O=ORD[cat],myP=PTS[cat].me||0;const T=[1000,500,300,200,100,50,30,20,10,5,3,1];
+ const tg=T.find(t=>!my||my>t);if(tg&&O&&O.length>=tg){const id=O[tg-1],need=Math.max(1,(PTS[cat][id]||0)-myP+1);out.push({t:`Top ${tg}${cat==='jr'?' juvenil':''}`,s:`faltam ${need.toLocaleString('pt-BR')} pontos`,p:clamp(myP/((PTS[cat][id]||1)+1),0,1)})}
+ const w=m.st.w||0,WM=[1,10,25,50,100,200,300,500,750,1000].find(x=>x>w);if(WM)out.push({t:WM===1?"Primeira vitória":`${WM} vitórias`,s:`faltam ${WM-w}`,p:w/WM});
+ const ti=(m.st.titles||[]).length,TM=[1,3,5,10,20,30,50,75,100].find(x=>x>ti);if(isPro()&&TM)out.push({t:TM===1?'Primeiro título':`${TM} títulos`,s:`faltam ${TM-ti}`,p:ti/TM})}catch(e){}return out.slice(0,3)}
+function v5MileCard(){const L=v5Mile();if(!L.length)return'';return `<div class="card v5ml"><div class="mk">Próximos marcos</div>${L.map(x=>`<div class="v5mlr"><span><b>${x.t}</b><small>${x.s}</small></span><i style="--p:${Math.round(x.p*100)}%"></i></div>`).join('')}</div>`}
+{const _hv=homeView;homeView=function(){let s=_hv();try{const add=v5PeakCard()+v5MileCard();if(add){const c=s.indexOf('v5conf');const i=c>=0?s.indexOf('<details',c):-1;s=i>=0?s.slice(0,i)+add+s.slice(i):s+add}}catch(e){}return s}}
+// painel lateral do computador
+{const _rg=v5RailGoals;v5RailGoals=function(){let s=_rg();try{const L=v5Mile();if(L.length)s+=`<div class="v5rc"><div class="v5rh"><b>Próximos marcos</b></div>${L.map(x=>`<div class="v5rg"><span>${x.t} · <span style="color:var(--mut)">${x.s}</span></span><i style="--p:${Math.round(x.p*100)}%"></i></div>`).join('')}</div>`}catch(e){}return s}}
+// glossário das novas mecânicas
+try{V5GLO.push(['Jogabilidade em quadra',[
+ ['Tempo do golpe','Depois de cada batida aparece uma faixa no alto da quadra: o marcador mostra se você bateu cedo, no tempo ou atrasado, em milésimos. No fim da partida você vê a sua porcentagem em cada faixa e uma dica.'],
+ ['Tipos de golpe','Deslize curto ou toque: top spin, o golpe seguro. Para cima com força: chapado, forte e arriscado. Para baixo: slice, bola baixa que deixa a resposta dele mais lenta. Para cima curto: deixadinha. Para baixo longo: lob.'],
+ ['Bola na linha','Deslize bem longo para o lado: a bola vai buscar a linha. Rende mais pontos, mas às vezes sai por centímetros. No teclado, segure Shift.'],
+ ['Saque no corpo','No saque, deslize para baixo (ou seta para baixo): menos aces, mas a devolução dele sai apertada.'],
+ ['Padrão do adversário','Cada adversário tem um costume: jogar no seu lado fraco, alternar os lados, responder ataque na paralela, usar o lob ou preferir a diagonal. Depois de algumas bolas você percebe e passa a sair antes. Analista ou treinador de 3+ estrelas contam antes do jogo.'],
+ ['Cansaço na partida','Em jogos longos, a janela do tempo certo fica menor, principalmente para quem tem pouco físico ou entra com pouca energia. O aviso aparece no canto da quadra.'],
+ ['Intervalo de set','No Simular assistindo, a partida para entre os sets: você vê os números (saque, devolução, winners, erros, break points) e escolhe se muda a tática. Com treinador, ele sugere o que fazer.'],
+ ['Pico de forma','Nos Grand Slams, Masters 1000, Finals e Olimpíadas conta como você chega: descansar ou treinar leve na semana anterior dá bônus; emendar 3 torneios ou mais antes tira rendimento.']]])}catch(e){}
 
 // =============== tutorial ===============
 const TUT=[

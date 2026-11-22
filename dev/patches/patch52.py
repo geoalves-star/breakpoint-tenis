@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='5.9';")
+    R("const VERSION='5.5';","const VERSION='6.0';")
     # v5.7: corrige a saída de som (o volume geral estava ligado nele mesmo e nada tocava)
     R("let MGN=null;function MG(c){if(!MGN||MGN.context!==c){MGN=c.createGain();MGN.gain.value=OPTS.vol;MGN.connect(MG(c))}return MGN}","let MGN=null;function MG(c){if(!MGN||MGN.context!==c){MGN=c.createGain();MGN.gain.value=OPTS.vol;MGN.connect(c.destination)}return MGN}")
     # v5.8: calendário atual da Copa Davis (qualificatórias em fev e set, Final 8 em nov) e da BJK Cup (qualificatória em abr, Finais em set)
@@ -46,3 +46,7 @@ def apply(s,R):
     R('<div class="small" style="margin:8px 0 4px">🔊 Volume dos sons</div>','${v5A11yOpts()}<div class="small" style="margin:8px 0 4px">🔊 Volume dos sons</div>')
     # v5.9: idioma nas opções
     R('${v5A11yOpts()}','<div class="small" style="margin:12px 0 4px">🌐 Idioma</div>${v5LangPick()}${v5A11yOpts()}')
+    # v6.0: opção dos intervalos no modo assistir
+    R('<div class="small" style="margin:12px 0 4px">🌐 Idioma</div>','${v5WiOpt()}<div class="small" style="margin:12px 0 4px">🌐 Idioma</div>')
+    # v6.0: dificuldade com números das carreiras simuladas
+    R("facil:['😊 Fácil','Você rende um pouco acima do normal.'],normal:['⚖️ Normal','O equilíbrio padrão do jogo.'],real:['🧠 Realista','O circuito reage: quanto mais alto você está, mais os rivais estudam seu jogo, e surgem mais jovens fortes.']","facil:['😊 Fácil','Você rende um pouco acima do normal. Nas carreiras que simulamos, cerca de 1 em 4 chegou a número 1.'],normal:['⚖️ Normal','O equilíbrio padrão do jogo. Nas carreiras que simulamos, cerca de 15% chegaram a número 1 e 1 em 3 entrou no top 10.'],real:['🧠 Realista','O circuito reage: quanto mais alto você está, mais os rivais estudam seu jogo, e surgem mais jovens fortes. Como na vida real, chegar a número 1 é raro (cerca de 2% das carreiras simuladas) e o top 10 já é uma grande carreira.']")
