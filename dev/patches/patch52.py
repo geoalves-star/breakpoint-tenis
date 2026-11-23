@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='6.6';")
+    R("const VERSION='5.5';","const VERSION='6.7';")
     # v6.2: estilo, mão e personalidade explicados
     R("""<div class="sec-t">Mão</div><div class="chips">${opt('hand',[['destro','Destro'],['canhoto','Canhoto (+saque)']])}</div>""","""${bcPick('hand')}""")
     R("""<div class="sec-t">Estilo de jogo</div><div class="chips">${opt('style',[['fundo','Fundo de quadra'],['sacador','Sacador'],['contra','Contra-golpeador'],['completo','Completo']])}</div>""","""${bcPick('style')}""")
@@ -49,6 +49,7 @@ def apply(s,R):
     R("CMMAX+1} atletas","(typeof bcSlots==='function'?bcSlots():CMMAX)+1} atletas")
     R("const cmRep=()=>{const st=S.me.st;return 1+(st.hiJr&&st.hiJr<=20?1:0)+(st.hiPro&&st.hiPro<=100?1:0)+(st.hiPro&&st.hiPro<=10?1:0)+(st.titles.some(t=>t.tier==='GS')?1:0)};","const cmRep=()=>{const st=S.me.st;return Math.min(5,1+(st.hiJr&&st.hiJr<=20?1:0)+(st.hiPro&&st.hiPro<=100?1:0)+(st.hiPro&&st.hiPro<=10?1:0)+(st.titles.some(t=>t.tier==='GS')?1:0)+(typeof bcRepB==='function'?bcRepB():0))};")
     R("const c=S.cm;if(c){const y=year(),s0=S.season||{}","const c=S.cm;if(c&&!c.v2){const y=year(),s0=S.season||{}")
+    R("if(m.chron)L.push(['🦴'","if(typeof bcIdle==='function'){const _x=bcIdle();if(_x)L.push(_x)}if(m.chron)L.push(['🦴'")
     # v6.1: cabelos redesenhados
     R("\n // accessories","\n {const _bh=typeof bcHair==='function'?bcHair(c,{HR,H,hc,ac,f}):null;if(_bh){back=_bh.back;front=_bh.front}}\n // accessories")
     # v5.7: corrige a saída de som (o volume geral estava ligado nele mesmo e nada tocava)
