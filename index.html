@@ -1145,6 +1145,11 @@ body.bc .bcmb>.opt{margin:6px 0!important}
 body.bc .bcmb>.sec-t,body.bc .bcmb>.small{margin:12px 4px 6px}
 body.bc .bcmenu>.opt{margin-top:8px}
 @keyframes bcfade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+/* iPhone: o placar fixo ocupa também a faixa do relógio, sem nada por cima */
+body.bc .hdr.bch{padding-top:env(safe-area-inset-top)!important;top:0}
+body.bc #app:has(.hdr.bch){padding-top:0!important}
+body.bc:has(.hdr.bch)::before{background:var(--bar,#000)}
+html:has(body.bc),body.bc{overflow-x:clip!important;overflow-y:visible!important}
 </style>
 </head>
 <body>
