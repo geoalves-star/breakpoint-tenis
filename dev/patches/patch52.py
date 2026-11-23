@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='6.3';")
+    R("const VERSION='5.5';","const VERSION='6.4';")
     # v6.2: estilo, mão e personalidade explicados
     R("""<div class="sec-t">Mão</div><div class="chips">${opt('hand',[['destro','Destro'],['canhoto','Canhoto (+saque)']])}</div>""","""${bcPick('hand')}""")
     R("""<div class="sec-t">Estilo de jogo</div><div class="chips">${opt('style',[['fundo','Fundo de quadra'],['sacador','Sacador'],['contra','Contra-golpeador'],['completo','Completo']])}</div>""","""${bcPick('style')}""")
@@ -43,6 +43,10 @@ def apply(s,R):
     R("COACH[m.coach].m*(m.energy<30?.6:1)","(typeof bcCoM==='function'?bcCoM():COACH[m.coach].m)*(m.energy<30?.6:1)")
     R("if(!m.coachId)L.push(['🧑‍🏫','Contrate um treinador',","if(typeof bcCoUp==='function'?bcCoUp():!m.coachId)L.push(['🧑‍🏫','Você já pode pagar um treinador melhor',")
     R("ATTR.find(a=>a[0]===c.sp)[1]","(ATTR.find(a=>a[0]===c.sp)||[0,'sem especialidade'])[1]",2)
+    R("c.pup.length>=CMMAX","c.pup.length>=(typeof bcSlots==='function'?bcSlots():CMMAX)")
+    R("pu.length>=CMMAX","pu.length>=(typeof bcSlots==='function'?bcSlots():CMMAX)")
+    R("/${CMMAX+1}","/${(typeof bcSlots==='function'?bcSlots():CMMAX)+1}")
+    R("CMMAX+1} atletas","(typeof bcSlots==='function'?bcSlots():CMMAX)+1} atletas")
     # v6.1: cabelos redesenhados
     R("\n // accessories","\n {const _bh=typeof bcHair==='function'?bcHair(c,{HR,H,hc,ac,f}):null;if(_bh){back=_bh.back;front=_bh.front}}\n // accessories")
     # v5.7: corrige a saída de som (o volume geral estava ligado nele mesmo e nada tocava)

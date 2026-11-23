@@ -1173,6 +1173,38 @@ body.bc .bcsfr{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top
 body.bc .bcsf{font:700 13px var(--fc);text-transform:uppercase;padding:4px 8px;border-radius:6px;background:var(--card2);border:1px solid var(--line)}
 body.bc .bcsf.up{color:#3ddc97;border-color:#3ddc9755}body.bc .bcsf.dn{color:#ff6b6b;border-color:#ff6b6b55}
 @media(max-width:380px){body.bc .bcpk-pers{grid-template-columns:1fr}}
+/* modo treinador: peneira */
+body.bc .bcpen{padding:16px 16px 120px}
+body.bc .bcpen .bcbig{font-size:46px;margin:4px 0 6px}
+body.bc .bcpl{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+body.bc .bcpcd{display:grid;grid-template-columns:92px 1fr;gap:12px;text-align:left;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--txt);cursor:pointer;font:inherit}
+body.bc .bcpcd.on{border-color:var(--hi,var(--acc));box-shadow:inset 0 0 0 1px var(--hi,var(--acc));animation:bcpop .25s ease}
+body.bc .bcpa{width:92px;height:92px;border-radius:10px;overflow:hidden;background:var(--card2)}body.bc .bcpa svg{width:100%;height:100%}
+body.bc .bcpb>b{display:block;font:800 21px/1 var(--fc);text-transform:uppercase}body.bc .bcpb>span{display:block;font-size:13px;color:var(--mut);margin:3px 0 6px}
+body.bc .bcpt{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}body.bc .bcpt em{font:700 12.5px var(--fc);font-style:normal;text-transform:uppercase;padding:3px 7px;border-radius:5px;background:var(--card2);border:1px solid var(--line)}
+body.bc .bcpr{display:grid;grid-template-columns:72px 1fr auto;align-items:center;gap:8px;font-size:12.5px;margin:3px 0}body.bc .bcpr i{height:7px;border-radius:4px;background:var(--line);display:block;overflow:hidden}body.bc .bcpr i b{display:block;height:100%;background:var(--hi,var(--acc))}
+body.bc .bcpr strong{font:800 15px var(--fc)}body.bc .bcst{grid-column:2/4;letter-spacing:2px;color:var(--hi,var(--acc))}
+body.bc .bcpd{margin-top:6px;font-size:12.5px;line-height:1.35;color:#e9a23b}body.bc .bcpd.ok{color:#3ddc97}
+body.bc .bcpgo{position:sticky;bottom:12px;margin-top:16px}
+/* modo treinador: equipe */
+body.bc .bcteam{padding:14px}
+body.bc .bctmt{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+body.bc .bctm{border:1px solid var(--line);border-radius:10px;padding:10px;margin-top:8px;background:var(--card2)}
+body.bc .bctm.on{border-color:var(--hi,var(--acc))}
+body.bc .bctmh{display:flex;align-items:center;gap:10px}body.bc .bctmh>div{flex:1;min-width:0}body.bc .bctmh b{display:block;font:800 17px var(--fc);text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}body.bc .bctmh span{font-size:12.5px;color:var(--mut)}
+body.bc .bcboxb{flex:none;font:700 13px var(--fc);text-transform:uppercase;padding:7px 10px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--txt);cursor:pointer}
+body.bc .bcboxb.on{background:var(--hi,var(--acc));color:var(--acctxt,#000);border-color:transparent}
+body.bc .bctb{display:grid;grid-template-columns:104px 1fr 30px;align-items:center;gap:8px;font-size:12.5px;margin-top:6px}body.bc .bctb i{height:7px;border-radius:4px;background:var(--line);display:block;overflow:hidden}body.bc .bctb i b{display:block;height:100%;background:var(--hi,var(--acc))}body.bc .bctb i b.low{background:var(--bad,#e5484d)}body.bc .bctb em{font:700 14px var(--fc);font-style:normal;text-align:right}
+body.bc .bcfoc{display:flex;gap:6px;margin-top:8px}body.bc .bcfoc button{flex:1;font:700 12.5px var(--fc);text-transform:uppercase;padding:7px 4px;border-radius:7px;border:1px solid var(--line);background:var(--card);color:var(--txt);cursor:pointer}body.bc .bcfoc button.on{border-color:var(--hi,var(--acc));color:var(--hi,var(--acc))}
+body.bc .bcsk{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+body.bc .bcskg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+body.bc .bcsi{position:relative;border:1px solid var(--line);border-radius:9px;padding:9px 10px;background:var(--card2)}body.bc .bcsi b{display:block;font:800 14px var(--fc);text-transform:uppercase}body.bc .bcsi span{display:block;font-size:11.5px;line-height:1.3;color:var(--mut);margin-top:2px}
+body.bc .bcsl{display:flex;gap:3px;margin-top:7px}body.bc .bcsl u{flex:1;height:5px;border-radius:3px;background:var(--line);text-decoration:none}body.bc .bcsl u.on{background:var(--hi,var(--acc))}
+body.bc .bcsi button{position:absolute;top:7px;right:7px;width:26px;height:26px;border-radius:6px;border:0;background:var(--hi,var(--acc));color:var(--acctxt,#000);font:800 17px/1 var(--fc);cursor:pointer}
+body.bc .bctmh>:first-child{flex:none!important;width:46px!important;height:46px!important;border-radius:50%;overflow:hidden}
+body.bc .bctmh>:first-child svg{width:100%!important;height:100%!important}
+body.bc .bcsi{padding-right:38px}
+body.bc .bcskt{width:100%;background:none;border:0;padding:0;color:var(--txt);cursor:pointer;font:inherit}
 </style>
 </head>
 <body>
@@ -3107,7 +3139,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='6.3';
+const VERSION='6.4';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -3378,13 +3410,13 @@ const CMMAX=2;
 function cmPups(){const c=S.cm;if(!c)return[];c.pup=(c.pup||[]).filter(x=>IDX.get(x.id));return c.pup}
 function cmArchive(m){const c=S.cm;if(!c||!m||m._arch)return;m._arch=1;(c.formed=c.formed||[]).push({n:m.name,c:m.c,from:c.since||0,to:S.w,hi:m.st.hiPro||null,hj:m.st.hiJr||null,t:m.st.titles.length,gs:m.st.titles.filter(t=>t.tier==='GS').length,main:1})}
 function cmArchPup(x){const c=S.cm;(c.formed=c.formed||[]).push({n:x.n,c:x.c,from:x.since,to:S.w,hi:x.hi||null,hj:x.hj||null,t:x.t||0,gs:0,main:0})}
-function cmAddPup(id){const c=S.cm,p=IDX.get(id);if(!c||!p)return;c.pup=c.pup||[];if(c.pup.length>=CMMAX||c.pup.some(x=>x.id===id))return;c.pup.push({id,since:S.w,r0:p.r,n:p.n,c:p.c,t:0});c.pupN=(c.pupN||0)+1;news(`🧑‍🏫 ${flag(p.c)} ${p.n} agora faz parte da sua equipe.`)}
+function cmAddPup(id){const c=S.cm,p=IDX.get(id);if(!c||!p)return;c.pup=c.pup||[];if(c.pup.length>=(typeof bcSlots==='function'?bcSlots():CMMAX)||c.pup.some(x=>x.id===id))return;c.pup.push({id,since:S.w,r0:p.r,n:p.n,c:p.c,t:0});c.pupN=(c.pupN||0)+1;news(`🧑‍🏫 ${flag(p.c)} ${p.n} agora faz parte da sua equipe.`)}
 function cmDrop(id){const c=S.cm;if(!c)return;const x=(c.pup||[]).find(q=>q.id===id);if(!x)return;cmArchPup(x);c.pup=c.pup.filter(q=>q.id!==id);news(`👋 Você dispensou ${x.n} da sua equipe.`);save();render()}
-function cmOffer(){const c=S.cm;if(!c||S.ended||c.fired||(c.offW||-99)>S.w-6||S.modals.length||S.tour)return;const pu=cmPups(),rep=cmRep();if(pu.length>=CMMAX||rep<2||R()>.2)return;
+function cmOffer(){const c=S.cm;if(!c||S.ended||c.fired||(c.offW||-99)>S.w-6||S.modals.length||S.tour)return;const pu=cmPups(),rep=cmRep();if(pu.length>=(typeof bcSlots==='function'?bcSlots():CMMAX)||rep<2||R()>.2)return;
  const taken=new Set([S.rival,...pu.map(x=>x.id)]),myO=ovr();
  const pool=S.jr.filter(p=>!taken.has(p.id)&&ageOf(p)>=14&&ageOf(p)<=17&&p.r<myO+4).concat(S.pro.filter(p=>!taken.has(p.id)&&ageOf(p)<=23&&p.r<myO-2&&(RK.pro[p.id]||999)>40));if(!pool.length)return;
  pool.sort((a,b)=>b.pot-a.pot);const top=pool.slice(0,Math.max(8,Math.round(pool.length*(rep>=4?.05:rep>=3?.15:.35))));const p=pick(top);c.offW=S.w;
- S.modals.push({k:'Treinador',e:'🧑‍🏫',ti:`${p.n} quer treinar com você`,q:`${p.n}, ${ageOf(p)} anos (${rkOf(p.id)}, nível ${Math.round(p.r)}), gostou do seu trabalho com ${S.me.name}. Sua equipe pode ter até ${CMMAX+1} atletas. Cada aluno rende US$ 120 por semana, mais bônus por ranking e títulos, mas tira 5% do rendimento do treino de ${S.me.name.split(' ')[0]}.`,o:[{l:'Aceitar o aluno',t:`${flag(p.c)} ${COUNTRIES[p.c][1]} · olheiros: ${scoutTxt(p.pot)}`,fx:{cmPup:p.id}},{l:'Recusar',t:`Foco total em ${S.me.name.split(' ')[0]}`,fx:{cmT:1}}]})}
+ S.modals.push({k:'Treinador',e:'🧑‍🏫',ti:`${p.n} quer treinar com você`,q:`${p.n}, ${ageOf(p)} anos (${rkOf(p.id)}, nível ${Math.round(p.r)}), gostou do seu trabalho com ${S.me.name}. Sua equipe pode ter até ${(typeof bcSlots==='function'?bcSlots():CMMAX)+1} atletas. Cada aluno rende US$ 120 por semana, mais bônus por ranking e títulos, mas tira 5% do rendimento do treino de ${S.me.name.split(' ')[0]}.`,o:[{l:'Aceitar o aluno',t:`${flag(p.c)} ${COUNTRIES[p.c][1]} · olheiros: ${scoutTxt(p.pot)}`,fx:{cmPup:p.id}},{l:'Recusar',t:`Foco total em ${S.me.name.split(' ')[0]}`,fx:{cmT:1}}]})}
 function cmPupWeek(){const c=S.cm;if(!c||S.ended)return;const keep=[];
  for(const x of(c.pup||[])){const p=IDX.get(x.id);if(!p){cmArchPup(x);news(`👋 ${x.n} deixou o circuito e saiu da sua equipe.`);continue}
   x.n=p.n;x.c=p.c;const rk=RK.pro[p.id]||null,rj=RK.jr[p.id]||null;if(rk&&(!x.hi||rk<x.hi))x.hi=rk;if(rj&&(!x.hj||rj<x.hj))x.hj=rj;
@@ -3411,7 +3443,7 @@ function cmTake(id){const c=S.cm,old=S.me,p=IDX.get(id);if(!c||!p)return;cmArchi
  news(`🧑‍🏫 Novo capítulo: ${c.n} agora treina ${flag(m.c)} ${m.name}, ${ag} anos.`);hl(`🧑‍🏫 Começou a treinar ${m.name}`);TAB='home'}
 function cmQuit(why){const c=S.cm;if(c)c.final=1;endCareer(why==='idade'?'idade':'demitido')}
 function cmTeamCard(){const c=S.cm;if(!c)return'';const pu=cmPups(),F=c.formed||[],f1=esc(S.me.name.split(' ')[0]);const mr=myRank('pro'),mj=myRank('jr');
- return `<div class="card"><h3>👥 Sua equipe <span class="xs mut">${pu.length+1}/${CMMAX+1}</span></h3>
+ return `<div class="card"><h3>👥 Sua equipe <span class="xs mut">${pu.length+1}/${(typeof bcSlots==='function'?bcSlots():CMMAX)+1}</span></h3>
  <div class="spn">${av(S.me.name,S.me.c,'sm',myAv())}<div style="flex:1;min-width:0"><b>${esc(S.me.name)}</b> <span class="xs" style="color:var(--acc)">principal</span><div class="xs mut">${meAge()} anos · ${mr?'#'+mr+' '+CIRC():mj?'#'+mj+' JR':'s/ rank'} · nível ${Math.round(ovr())}</div></div></div>
  ${pu.map(x=>{const p=IDX.get(x.id);const d=p.r-x.r0;return `<div class="spn"><span onclick="openP(${p.id})" style="cursor:pointer">${av(p.n,p.c,'sm',pAv(p))}</span><div style="flex:1;min-width:0;cursor:pointer" onclick="openP(${p.id})"><b>${esc(p.n)}</b><div class="xs mut">${ageOf(p)} anos · ${rkOf(p.id)} · nível ${Math.round(p.r)} <span class="${d>=0?'win':'loss'}">(${d>=0?'+':''}${d.toFixed(1)})</span>${x.t?` · 🏆 ${x.t}`:''}</div></div><button class="ghost" onclick="cmDrop(${p.id})">Dispensar</button></div>`}).join('')}
  <p class="xs mut" style="margin:8px 0 0">${pu.length?`Cada aluno rende US$ 120 por semana, mais bônus por ranking e títulos. Em troca, ${f1} perde 5% do rendimento no treino e um pouco de confiança.`:cmRep()>=2?'Com a sua reputação, outros atletas podem pedir para treinar com você.':'Com ★★ de reputação, outros atletas vão pedir para treinar com você.'}</p>
@@ -5982,6 +6014,115 @@ function bcCoUp(){try{const m=S.me,c=myCoach();if(S.cm||!c)return false;if(!(c.c
 {const _ew2=endWeek;endWeek=function(){const r=_ew2.apply(this,arguments);try{if(S&&S.coaches&&S.w%4===0){for(const p of S.pro.concat(S.jr)){if(p.co&&COI.get(p.co))continue;const c=mkCoach(1);c.club=1;c.sal=0;c.c=p.c;S.coaches.push(c);COI.set(c.id,c);p.co=c.id}}}catch(e){}return r}}
 // saves antigos: garante técnico já na primeira tela
 {const _r=render;render=function(...a){try{if(S&&S.me&&!S.cm&&!S.ended&&S.coaches&&!S.me.coachId&&!MENU)bcEnsureCo()}catch(e){}return _r.apply(this,a)}}
+
+// =============== v6.4 · modo treinador novo: você cria o técnico, escolhe o talento na peneira e cuida da equipe ===============
+BCPICK.cori={t:'Sua origem',o:{
+ ex:{n:'Ex-jogador',i:'🎾',d:'Você já jogou o circuito.',p:['Quando você está no box, seu atleta ganha +0,3 no saque e na devolução.'],c:['Sem bônus no treino.']},
+ tat:{n:'Estudioso do jogo',i:'📊',d:'Vive de vídeo e estatística.',p:['Ajustes nos intervalos de set 50% mais fortes.','O atleta segue mais as suas instruções.','Os olheiros erram menos na peneira.'],c:['Sem bônus físico.']},
+ fis:{n:'Preparador físico',i:'💪',d:'Corpo em primeiro lugar.',p:['Cansaço 15% menor nas partidas.','A carga física cai mais rápido.','Treino de físico rende 10% a mais.'],c:['Ajustes táticos sem bônus.']},
+ psi:{n:'Psicólogo esportivo',i:'🧠',d:'Cabeça de campeão.',p:['A confiança cai 40% menos depois de derrotas.','Treino mental rende 30% a mais.'],c:['Sem bônus técnico.']}}};
+BCPICK.cfil={t:'Sua filosofia',o:{
+ ofensiva:{n:'Ofensiva',i:'⚡',d:'Ganhar o ponto antes do adversário.',p:['Saque, forehand e voleio evoluem 15% mais rápido.'],c:['Devolução e físico sem bônus.']},
+ defensiva:{n:'Defensiva',i:'🛡️',d:'Devolver tudo e esperar o erro.',p:['Devolução, backhand e físico evoluem 15% mais rápido.'],c:['Saque e voleio sem bônus.']},
+ formadora:{n:'Formadora',i:'🌱',d:'Construir o atleta para o futuro.',p:['Atletas de até 18 anos evoluem 12% mais rápido em tudo.','Seus alunos também crescem mais.'],c:['Depois dos 18, sem bônus.']}}};
+const BCSK={tat:['📊','Leitura de jogo','+10% na força dos ajustes por nível.'],dev:['🌱','Desenvolvimento','+4% no treino e +10% na evolução dos alunos por nível.'],mot:['🔥','Motivação','A confiança em você sobe 10% mais e o atleta segue mais as instruções.'],ges:['💼','Gestão','+5% na sua renda por nível e +1 vaga na equipe nos níveis 2 e 4.']};
+const BCDEM={none:['✅','Sem exigências.'],fee:['💸','A família pede ajuda de custo: US$ 120 por semana da sua conta.'],excl:['🔒','Quer exclusividade: nada de outros alunos no primeiro ano.'],comp:['🏆','Muito competitivo: já começa confiando em você.'],shy:['🙈','Tímido: começa desconfiado, mas a confiança cresce 30% mais rápido.']};
+const bcV2=()=>!!(S&&S.cm&&S.cm.v2);
+function bcSlots(){if(!bcV2())return CMMAX;const c=S.cm,g=(c.sk&&c.sk.ges)||0;return Math.min(3,(c.acad||0)+(g>=2?1:0)+(g>=4?1:0))}
+// ---------- peneira ----------
+let PEN=null,BCSKO=false;
+function bcPenOpen(){const F=FORM;if(!(F.cname||'').trim()){TOAST='Escreva o seu nome de técnico.';render();return}
+ const fe=F.circ==='WTA',hs=fe?['rabo','longo','coque','medio','trancas','cacheado','blackpower']:['curto','degrade','topete','raspado','cacheado','medio','blackpower'];const L=[];const dems=['none','fee','excl','comp','shy'].sort(()=>Math.random()-.5);
+ for(let i=0;i<4;i++){const c=i<2?F.c:pickCountry();const tal=['elite','medio','sorte','sorte','medio'][Math.floor(Math.random()*5)];const age=Math.random()<.5?14:15;const style=['fundo','sacador','contra','completo'][Math.floor(Math.random()*4)];const pers=['calmo','normal','normal','explosivo'][Math.floor(Math.random()*4)];
+  const pot=tal==='elite'?4.4:tal==='medio'?3.2:2+Math.random()*2.6,err=F.cori==='tat'?.5:1.1,est=clamp(Math.round(pot+(Math.random()-.5)*2*err),1,5);
+  const lvl=Math.round(30+Math.min(age-14,6)*2.8+(tal==='elite'?3:1.5)+(Math.random()-.5)*4);
+  L.push({n:genName(c,fe),c,age,style,pers,hand:Math.random()<.12?'canhoto':'destro',tal,est,lvl,dem:dems[i],av:{g:fe?'f':'m',sk:Math.floor(Math.random()*6),h:hs[Math.floor(Math.random()*hs.length)],hc:Math.floor(Math.random()*5),a:Math.random()<.3?'faixa':'nada',sh:Math.floor(Math.random()*8),ey:Math.floor(Math.random()*3),bs:0}})}
+ PEN={L,sel:0};render();window.scrollTo(0,0)}
+function bcPenView(){const F=FORM;const st=(n)=>'★'.repeat(n)+'<span class="mut">'+'★'.repeat(5-n)+'</span>';
+ return `<div class="bcpen"><button class="bcback" onclick="PEN=null;render()">‹ Voltar para o técnico</button>
+ <div class="bckick">Peneira · ${esc(F.cname||'')}</div><h1 class="bcbig">Escolha seu talento.</h1><p class="small mut">Quatro ${F.circ==='WTA'?'meninas':'meninos'} fizeram o teste hoje. O potencial é uma estimativa dos olheiros${F.cori==='tat'?', e como estudioso do jogo você erra menos':''}. Toque para ver e escolha um.</p>
+ <div class="bcpl">${PEN.L.map((p,i)=>{const so=BCPICK.style.o[p.style],po=BCPICK.pers.o[p.pers],dm=BCDEM[p.dem];return `<button class="bcpcd ${PEN.sel===i?'on':''}" onclick="PEN.sel=${i};render()">
+  <div class="bcpa">${avSVG({...p.av,bd:false})}</div><div class="bcpb"><b>${esc(p.n)}</b><span>${flag(p.c)} ${esc(COUNTRIES[p.c][1])} · ${p.age} anos${p.hand==='canhoto'?' · canhoto':''}</span>
+  <div class="bcpt"><em>${so.i} ${so.n}</em><em>${po.i} ${po.n}</em></div>
+  <div class="bcpr"><span>Nível hoje</span><i><b style="width:${p.lvl}%"></b></i><strong>${p.lvl}</strong></div>
+  <div class="bcpr"><span>Potencial</span><strong class="bcst">${st(p.est)}</strong></div>
+  <div class="bcpd ${p.dem==='none'||p.dem==='comp'?'ok':''}">${dm[0]} ${dm[1]}</div></div></button>`}).join('')}</div>
+ <button class="full big bcpgo" onclick="bcPenGo()">Treinar ${esc(PEN.L[PEN.sel].n.split(' ')[0])} →</button></div>`}
+function bcPenGo(){const p=PEN.L[PEN.sel],F=FORM;const cav={...F.av,g:F.cg==='f'?'f':'m'};const cc=F.c;
+ PEN=null;newGame({...F,name:p.n,age:p.age,c:p.c,style:p.style,pers:p.pers,hand:p.hand,tal:p.tal,av:p.av,coach:true,leg:false});
+ try{const c=S.cm,m=S.me;Object.assign(c,{v2:1,ori:F.cori||'ex',fil:F.cfil||'formadora',sk:{tat:0,dev:0,mot:0,ges:0},xp:0,pts:0,lw:m.st.w,lt2:0,c:cc,av:cav,f:F.cg==='f',dem:p.dem,box:'me'});
+  c.trust=p.dem==='comp'?78:p.dem==='shy'?48:62;const d=p.lvl-ovr();ATTR.forEach(([k])=>m.attrs[k]=clamp(m.attrs[k]+d,10,95));m.pmode='sim';OPTS.wInt=true;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}
+  S.news=(S.news||[]).filter(x=>!/assume o trabalho/.test(x.t||x));news(`🧑‍🏫 Peneira concluída: ${c.n} escolheu ${flag(m.c)} ${m.name}, ${p.age} anos.`);save()}catch(e){console.error(e)}
+ render();window.scrollTo(0,0)}
+// ---------- formulário do técnico ----------
+function bcCoachForm(){try{if(S&&!MENU)return;if(!FORM.coach||PEN)return;const nm=document.getElementById('fName');if(!nm)return;const app=document.getElementById('app');if(!app||app.querySelector('.bccf'))return;
+ const hide=['Mão','Estilo de jogo','Personalidade','Primeiro técnico','Talento'];
+ [...app.querySelectorAll('.sec-t')].forEach(h=>{const t=h.textContent.trim();if(!hide.some(x=>t.startsWith(x)))return;let e=h;const L=[h];while((e=e.nextElementSibling)&&!e.classList.contains('sec-t')&&e.tagName!=='LABEL'&&e.tagName!=='BUTTON')L.push(e);L.forEach(x=>x.style.display='none')});
+ const lb=nm.previousElementSibling;if(lb&&lb.tagName==='LABEL')lb.style.display='none';nm.style.display='none';
+ const sel=[...app.querySelectorAll('select')].find(s=>s.previousElementSibling&&/pa[ií]s/i.test(s.previousElementSibling.textContent));
+ [...app.querySelectorAll('label')].forEach(l=>{if(l.textContent.trim()==='País')l.textContent='Seu país'});
+ [...app.querySelectorAll('h3')].forEach(h=>{if(h.textContent.trim()==='Visual')h.textContent='Seu visual de técnico'});
+ 
+ if(!FORM.cg)FORM.cg=FORM.circ==='WTA'?'f':'m';if(!FORM.cori)FORM.cori='ex';if(!FORM.cfil)FORM.cfil='formadora';
+ const extra=`<div class="bccf"></div><div class="sec-t">Você é</div><div class="chips"><button class="chip ${FORM.cg!=='f'?'on':''}" onclick="FORM.cg='m';render()">Técnico</button><button class="chip ${FORM.cg==='f'?'on':''}" onclick="FORM.cg='f';render()">Técnica</button></div>${bcPick('cori')}${bcPick('cfil')}<div class="bcpx"><div class="bcpxh">🧑‍🏫 Como funciona</div><div class="bcpp">＋ Você não joga os pontos: assiste do box e ajusta nos intervalos.</div><div class="bcpp">＋ Começa com 1 atleta, escolhido na peneira, e chega a 4 com a academia.</div><div class="bcpp">＋ Ganha pontos de habilidade com vitórias e títulos.</div></div>`;
+ if(sel)sel.insertAdjacentHTML('afterend',extra);
+ const go=[...app.querySelectorAll('button')].find(b=>/^newGame/.test(b.getAttribute('onclick')||''));if(go){go.setAttribute('onclick','bcPenOpen()');go.textContent='Ir para a peneira →'}}catch(e){console.error(e)}}
+// ---------- topo do técnico ----------
+{const _h=v5Hdr;v5Hdr=function(){if(!bcV2())return _h.apply(this,arguments);try{let s=_h.apply(this,arguments);const c=S.cm,m=S.me,stars='★'.repeat(cmRep());
+ const who=`<div class="bcwho"><b>${esc(c.n)}</b><span>${c.f?'Técnica':'Técnico'} ${stars} · ${esc(m.name.split(' ')[0])}${m.injury>0?` · lesionado ${m.injury} sem.`:''}</span></div>`;
+ s=s.replace(/<div class="bchr1">[\s\S]*?<div class="bcwho">[\s\S]*?<\/div>/,`<div class="bchr1">${av(c.n,c.c??m.c,'sm',c.av||myAv())}${who}`);
+ s=s.replace(/<div class="bcc [^"]*"><span>Caixa<\/span><b>[^<]*<\/b><\/div>/,`<div class="bcc"><span>Sua conta</span><b>${money(c.wallet).replace('US$ ','').toUpperCase()}</b></div>`);
+ s=s.replace(/<span>Confiança<\/span><b>\d+%<\/b>(<i style="--p:)\d+%/,`<span>Confia em você</span><b>${Math.round(c.trust)}%</b>$1${Math.round(c.trust)}%`);return s}catch(e){return _h.apply(this,arguments)}}}
+// ---------- equipe na tela da semana ----------
+const BCFOC={comp:['🎾','Competir'],treino:['🏋️','Treinar forte'],desc:['🛌','Descansar']};
+function bcBox(id){const c=S.cm;if(!c)return;if(c.boostId){const q=IDX.get(c.boostId);if(q)q.r-=1.5;c.boostId=null}c.box=id;if(id!=='me'){const p=IDX.get(+id);if(p){p.r+=1.5;c.boostId=p.id}}save();render()}
+function bcFoc(id,k){const x=(S.cm.pup||[]).find(q=>q.id===id);if(x){x.foc=k;save();render()}}
+function bcSkUp(k){const c=S.cm;if(!c||!(c.pts>0)||(c.sk[k]||0)>=5)return;c.sk[k]=(c.sk[k]||0)+1;c.pts--;news(`📈 ${BCSK[k][1]} subiu para o nível ${c.sk[k]}.`);save();render()}
+function bcTeamPanel(){const c=S.cm,m=S.me,pu=cmPups(),box=c.box||'me',mr=myRank('pro'),mj=myRank('jr');
+ const ath=(id,n,cc,avo,sub,extra,on)=>`<div class="bctm ${on?'on':''}"><div class="bctmh">${av(n,cc,'sm',avo)}<div><b>${esc(n)}</b><span>${sub}</span></div><button class="bcboxb ${on?'on':''}" onclick="bcBox('${id}')">${on?'🪑 No box':'Ir ao box'}</button></div>${extra}</div>`;
+ const bar=(l,v,cls)=>`<div class="bctb"><span>${l}</span><i><b class="${cls||''}" style="width:${clamp(v,0,100)}%"></b></i><em>${Math.round(v)}</em></div>`;
+ let h=`<div class="card bcteam"><div class="bctmt"><span class="bckick">Sua equipe · ${pu.length+1}/${bcSlots()+1}</span>${pu.length?'<span class="xs mut">Quem tem você no box joga melhor.</span>':''}</div>`;
+ h+=ath('me',m.name,m.c,myAv(),`${mr?'#'+mr+' '+CIRC():mj?'#'+mj+' juvenil':'sem ranking'} · nível ${Math.round(ovr())}`,bar('Energia',m.energy,m.energy<35?'low':'')+bar('Confia em você',c.trust,c.trust<30?'low':''),box==='me'||!pu.length);
+ for(const x of pu){const p=IDX.get(x.id);if(!p)continue;const rk=RK.pro[p.id],rj=RK.jr[p.id];x.tr=x.tr??60;x.foc=x.foc||'comp';
+  h+=ath(p.id,p.n,p.c,pAv(p),`${rk?'#'+rk:rj?'#'+rj+' juvenil':'sem ranking'} · nível ${Math.round(p.r)} · ${ageOf(p)} anos`,bar('Confia em você',x.tr,x.tr<30?'low':'')+`<div class="bcfoc">${Object.entries(BCFOC).map(([k,[i,l]])=>`<button class="${x.foc===k?'on':''}" onclick="bcFoc(${p.id},'${k}')">${i} ${l}</button>`).join('')}</div>`,String(box)===String(p.id))}
+ if(!pu.length)h+=`<p class="xs mut" style="margin:8px 0 0">${(c.acad||0)<1?'Construa uma quadra própria na aba Equipe para abrir vaga para mais um atleta.':'Você tem vaga: propostas de novos alunos chegam conforme a sua reputação cresce.'}</p>`;
+ // habilidades (abre e fecha)
+ const need=40,head=`<button class="bctmt bcskt" onclick="BCSKO=!BCSKO;render()"><span class="bckick">Suas habilidades ${BCSKO?'▾':'▸'}</span><span class="xs mut">${c.pts>0?`<b style="color:var(--hi,var(--acc))">${c.pts} ponto${c.pts>1?'s':''} para usar</b>`:`Próximo ponto: ${Math.round(c.xp)}/${need}`}</span></button>`;
+ h+=`<div class="bcsk">${head}${BCSKO?`<div class="bcskg">${Object.entries(BCSK).map(([k,[i,l,d]])=>`<div class="bcsi"><div><b>${i} ${l}</b><span>${d}</span></div><div class="bcsl">${[1,2,3,4,5].map(n=>`<u class="${(c.sk[k]||0)>=n?'on':''}"></u>`).join('')}</div>${c.pts>0&&(c.sk[k]||0)<5?`<button onclick="bcSkUp('${k}')" aria-label="Subir ${l}">+</button>`:''}</div>`).join('')}</div><div class="xs mut" style="margin-top:6px">${BCPICK.cori.o[c.ori].i} ${BCPICK.cori.o[c.ori].n} · ${BCPICK.cfil.o[c.fil].i} Filosofia ${BCPICK.cfil.o[c.fil].n.toLowerCase()}. Vitórias e títulos dão experiência.</div>`:''}</div></div>`;
+ return h}
+// ---------- efeitos do técnico ----------
+function bcTrainMul(k){const c=S.cm;if(!bcV2())return 1;let f=1+.04*(c.sk.dev||0);if(c.fil==='ofensiva'&&['sv','fh','vo'].includes(k))f*=1.15;if(c.fil==='defensiva'&&['rt','bh','fi'].includes(k))f*=1.15;if(c.fil==='formadora'&&meAge()<=18)f*=1.12;if(c.ori==='fis'&&k==='fi')f*=1.1;if(c.ori==='psi'&&k==='me')f*=1.3;return f}
+{const _g=gain;gain=function(k,base){return _g(k,base*bcTrainMul(k))}}
+{const _cm=bcCoM;bcCoM=function(){if(bcV2())return 1.2+.05*(cmRep()-1);return _cm()}}
+{const _e=eff;eff=function(id,surf){const r=_e.apply(this,arguments);try{if(id==='me'&&r&&bcV2()){const c=S.cm,here=(c.box||'me')==='me';if(here&&c.ori==='ex'){r.sv+=.3;r.rt+=.3}if(!here){r.sv-=.4;r.rt-=.4}}}catch(e){}return r}}
+{const _f=fatOf;fatOf=function(E,me){const v=_f(E,me);try{if(me&&E.meA&&bcV2()&&S.cm.ori==='fis')return v*.85}catch(e){}return v}}
+{const _u=userMatch;userMatch=function(){const m=S.me,c0=m.conf??50;const r=_u.apply(this,arguments);try{if(bcV2()&&S.cm.ori==='psi'){const d=(m.conf??50)-c0;if(d<0)m.conf=clamp(c0+d*.6,10,95)}}catch(e){}return r}}
+// intervalo de set: a instrução pode ser ignorada; estudioso e leitura de jogo deixam o ajuste mais forte
+{const _t=v5WiTac;v5WiTac=function(k){if(!bcV2()||!V5WI||k==='eq')return _t.apply(this,arguments);const c=S.cm,o=SETTAC.find(x=>x[0]===k);if(!o)return _t.apply(this,arguments);
+ const E=V5WI.E,key=(E.sa||0)+(E.sb||0);if(V5WI._ivk===key&&V5WI._ign){TOAST='Você já falou neste intervalo.';render();return}V5WI._ivk=key;
+ const fol=clamp(.5+c.trust/200+(c.ori==='tat'?.1:0)+.04*(c.sk.mot||0),.3,.97);
+ if(R()>fol){V5WI._ign=1;try{LIVE.feed.unshift(`🙉 ${S.me.name.split(' ')[0]} ouviu, mas preferiu manter o plano.`)}catch(e){}c.trust=clamp(c.trust-.3,0,100);render();return}
+ V5WI._ign=0;const K=(c.ori==='tat'?1.5:1)*(1+.1*(c.sk.tat||0)),a=o[3],b=o[4];o[3]=a*K;o[4]=b*K;try{return _t.apply(this,arguments)}finally{o[3]=a;o[4]=b}}}
+// confiança e renda
+{const _w=cmWeek;cmWeek=function(){if(!bcV2())return _w.apply(this,arguments);const c=S.cm,t0=c.trust,w0=c.wallet;const r=_w.apply(this,arguments);try{const dt=c.trust-t0;if(dt>0)c.trust=clamp(t0+dt*(1+.1*(c.sk.mot||0))*(c.dem==='shy'?1.3:1),0,100);const dw=c.wallet-w0;if(dw>0)c.wallet=Math.round(w0+dw*(1+.05*(c.sk.ges||0)));if(c.dem==='fee')c.wallet-=120}catch(e){}return r}}
+{const _p=cmPupWeek;cmPupWeek=function(){if(!bcV2())return _p.apply(this,arguments);const c=S.cm,w0=c.wallet;const r=_p.apply(this,arguments);try{c.wallet=Math.round(w0+(c.wallet-w0)*(1+.05*(c.sk.ges||0)));
+  for(const x of (c.pup||[]).slice()){const p=IDX.get(x.id);if(!p)continue;x.tr=x.tr??60;const g=(1+.1*(c.sk.dev||0))*(c.fil==='formadora'?1.25:1);
+   if(x.foc==='treino'){if(p.r<p.pot)p.r=Math.min(p.pot,p.r+.02*g);x.tr=clamp(x.tr-.25,0,100)}else if(x.foc==='desc'){x.tr=clamp(x.tr+.6,0,100)}else{if(p.r<p.pot)p.r=Math.min(p.pot,p.r+.004*g)}
+   if(String(c.box)===String(x.id))x.tr=clamp(x.tr+.8,0,100);else x.tr=clamp(x.tr-.08,0,100);
+   if(x.tr<12){news(`🚪 ${x.n} perdeu a confiança no seu trabalho e saiu da equipe.`);cmDrop(x.id)}}}catch(e){}return r}}
+{const _o=cmOffer;cmOffer=function(){try{const c=S.cm;if(bcV2()&&c.dem==='excl'&&S.w<(c.since||0)+52)return}catch(e){}return _o.apply(this,arguments)}}
+// experiência e pontos de habilidade; o box volta para o atleta principal depois da semana
+{const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);try{if(bcV2()){const c=S.cm,m=S.me;const dw=Math.max(0,m.st.w-(c.lw??m.st.w)),tt=m.st.titles.length+m.st.jrTitles.length,dt=Math.max(0,tt-(c.lt2??tt));c.lw=m.st.w;c.lt2=tt;c.xp=(c.xp||0)+dw*2+dt*15;
+  while(c.xp>=40){c.xp-=40;c.pts=(c.pts||0)+1;news('📈 Você ganhou um ponto de habilidade de técnico.')}
+  if(c.boostId){const q=IDX.get(c.boostId);if(q)q.r-=1.5;c.boostId=null}c.box='me';if(!['sim','fast'].includes(m.pmode))m.pmode='sim'}}catch(e){}return r}}
+// quem treina é você
+{const _v=v5Who;v5Who=function(kind){if(bcV2()&&kind==='coach')return[S.cm.n.split(' ')[0],'você, técnico'];return _v.apply(this,arguments)}}
+// partidas do box: sem opção de jogar os pontos
+{const _s=v5SetMM;v5SetMM=function(k){if(bcV2()&&k==='play')k='watch';return _s.call(this,k)}}
+// montagem na tela
+{const _r=render;render=function(...a){const v=_r.apply(this,a);try{if(PEN&&(!S||MENU)){const app=document.getElementById('app');if(app)app.innerHTML=bcPenView();return v}bcCoachForm();
+ if(bcV2()&&!MENU){if(!['sim','fast'].includes(S.me.pmode))S.me.pmode='sim';document.querySelectorAll('[onclick^="v5SetMM(\'play\')"],[onclick^="v5SetPM("]').forEach(e=>e.style.display='none');
+  if(TAB==='home'&&!S.tour){const wk=document.querySelector('.bcwk');if(wk&&!document.querySelector('.bcteam'))wk.insertAdjacentHTML('afterend',bcTeamPanel())}}}catch(e){console.error(e)}return v}}
 
 // =============== tutorial ===============
 const TUT=[
