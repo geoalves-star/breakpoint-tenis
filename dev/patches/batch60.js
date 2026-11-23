@@ -40,7 +40,7 @@ function v5MeHit(dir,kind){const A=V5A,now=performance.now();if(!A||A.phase!=='i
  A.shots++;A.qPrev=Q;A.lastAgr=agr;A.lastDef=def;const tx=dir?dir*(agr?.85:.6):(Math.random()-.5)*.3;
  A.ball=v5Ball(A.me.x,-.02,tx,1.02,agr?480:def?780:600,false);A.phase='outgoing';A.txt=q[0]+(agr?' · ataque':def?' · defesa':'');A.sub=`${side==='fh'?'Forehand':'Backhand'}${dir?dir<0?' na cruzada esquerda':' na paralela direita':''}`;
  setTimeout(()=>{if(V5A===A)v5OppHit()},A.ball.T)}
-const v5Reach=()=>clamp(.35+((S.me.attrs.fi||60)-50)/110,.3,.85);
+const v5Reach=()=>clamp((.35+((S.me.attrs.fi||60)-50)/110)*(S.me.style==='contra'?1.15:1),.3,.9);
 function v5End(aw,kind,txt){const A=V5A;if(!A||A.end)return;A.end={aw,kind,txt,t0:performance.now()};A.phase='end';A.txt=txt;A.sub=aw?'Ponto seu':'Ponto do adversário';try{aw?sCrowd(kind==='ace'||kind==='win'?2:1):sGroan()}catch(e){}
  setTimeout(()=>v5ArcCommit(),650)}
 function v5ArcCommit(){const A=V5A,I=IM;if(!A||!I)return;V5A=null;const sA=eSrv(I.E);V5ARC={fw:sA?A.end.aw:!A.end.aw,fev:A.end.kind==='ace'?'ace':A.end.kind==='df'?'df':'forced',txt:A.end.txt,kind:A.end.kind,aw:A.end.aw};

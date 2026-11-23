@@ -30,7 +30,14 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='6.1';")
+    R("const VERSION='5.5';","const VERSION='6.2';")
+    # v6.2: estilo, mão e personalidade explicados
+    R("""<div class="sec-t">Mão</div><div class="chips">${opt('hand',[['destro','Destro'],['canhoto','Canhoto (+saque)']])}</div>""","""${bcPick('hand')}""")
+    R("""<div class="sec-t">Estilo de jogo</div><div class="chips">${opt('style',[['fundo','Fundo de quadra'],['sacador','Sacador'],['contra','Contra-golpeador'],['completo','Completo']])}</div>""","""${bcPick('style')}""")
+    R("""<div class="sec-t">Personalidade</div><div class="chips">${opt('pers',[['calmo','Calmo e exemplar'],['normal','Normal'],['explosivo','Explosivo']])}</div>""","""${bcPick('pers')}${bcPrev()}""")
+    R("const sponPay=()=>Math.round((S.rules&&S.rules.spon?1.1:1)*","const sponPay=()=>Math.round((S.rules&&S.rules.spon?1.1:1)*(typeof bcPersSp==='function'?bcPersSp():1)*")
+    R("return[f,(neg&&r()<.6?COMN:COMP)[Math.floor(r()*(neg&&r()<.6?COMN:COMP).length)]]","const L=neg&&r()<.6?COMN:COMP;return[f,L[Math.floor(r()*L.length)]]")
+    R("if(st.wc){const wc=S.me.wc;if(ev.tier==='GS')wc.gs--;else wc.n--;","if(st.wc){const wc=S.me.wc=S.me.wc||{n:0,gs:0};if(ev.tier==='GS')wc.gs=Math.max(0,wc.gs-1);else wc.n=Math.max(0,wc.n-1);")
     # v6.1: cabelos redesenhados
     R("\n // accessories","\n {const _bh=typeof bcHair==='function'?bcHair(c,{HR,H,hc,ac,f}):null;if(_bh){back=_bh.back;front=_bh.front}}\n // accessories")
     # v5.7: corrige a saída de som (o volume geral estava ligado nele mesmo e nada tocava)

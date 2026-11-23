@@ -1150,6 +1150,29 @@ body.bc .hdr.bch{padding-top:env(safe-area-inset-top)!important;top:0}
 body.bc #app:has(.hdr.bch){padding-top:0!important}
 body.bc:has(.hdr.bch)::before{background:var(--bar,#000)}
 html:has(body.bc),body.bc{overflow-x:clip!important;overflow-y:visible!important}
+/* criação: cartões de mão, estilo e personalidade */
+body.bc .bcpk{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+body.bc .bcpk-pers{grid-template-columns:1fr 1fr 1fr}
+body.bc .bcpo{margin:0!important;display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;padding:12px!important;min-height:0}
+body.bc .bcpo b{font:800 17px/1.05 var(--fc);text-transform:uppercase;letter-spacing:.01em}
+body.bc .bcpo small{font-size:12.5px;line-height:1.3;color:var(--mut)}
+body.bc .bcpi{font-size:22px;line-height:1}
+body.bc .bcpo.on{border-color:var(--hi,var(--acc))!important;box-shadow:inset 0 0 0 1px var(--hi,var(--acc))}
+body.bc .bcpx{margin:8px 0 4px;padding:12px 14px;border-radius:10px;background:var(--card2);border:1px solid var(--line);animation:bcfade .2s ease}
+body.bc .bcpxh{font:800 15px var(--fc);text-transform:uppercase;letter-spacing:.03em;color:var(--hi,var(--acc));margin-bottom:6px}
+body.bc .bcpp,body.bc .bcpc{font-size:13.5px;line-height:1.4;padding:2px 0}
+body.bc .bcpp{color:var(--txt)}body.bc .bcpc{color:var(--mut)}
+body.bc .bcprev{margin:14px 0 4px;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--card)}
+body.bc .bcar{display:grid;grid-template-columns:86px 1fr 64px;align-items:center;gap:10px;padding:3px 0;font-size:13px}
+body.bc .bcar i{height:8px;border-radius:4px;background:var(--line);overflow:hidden;display:block}
+body.bc .bcar i b{display:block;height:100%;background:var(--hi,var(--acc));transition:width .3s ease}
+body.bc .bcar em{font:700 15px var(--fc);font-style:normal;text-align:right}
+body.bc .bcar em small{font-size:12px;margin-left:2px}
+body.bc .bcar em.up small{color:#3ddc97}body.bc .bcar em.dn small{color:#ff6b6b}
+body.bc .bcsfr{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:10px}
+body.bc .bcsf{font:700 13px var(--fc);text-transform:uppercase;padding:4px 8px;border-radius:6px;background:var(--card2);border:1px solid var(--line)}
+body.bc .bcsf.up{color:#3ddc97;border-color:#3ddc9755}body.bc .bcsf.dn{color:#ff6b6b;border-color:#ff6b6b55}
+@media(max-width:380px){body.bc .bcpk-pers{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1850,7 +1873,7 @@ function enter(key){
  const ev=weekEvents(S.w).find(e=>e.key===key),t=TIERS[ev.tier],st=entryStatus(ev);
  if(!st.ok||S.tour||S.me.injury>0||S.me.energy<20||S.busy===S.w)return;delete S.plan[S.w];
  const _from=myLoc(),_tr=tripOf(ev,_from,!!st.main);S.me.money-=_tr.total;travLog(_tr);S.me.loc={city:ev.city,iso:ev.iso};try{tripAdd({a:_from.city,ai:_from.iso,b:ev.city,bi:ev.iso,km:_tr.km||0,e:ev.name})}catch(e){}
- if(st.wc){const wc=S.me.wc;if(ev.tier==='GS')wc.gs--;else wc.n--;news(`🎟️ Você usou um convite para ${ev.name}.`)}
+ if(st.wc){const wc=S.me.wc=S.me.wc||{n:0,gs:0};if(ev.tier==='GS')wc.gs=Math.max(0,wc.gs-1);else wc.n=Math.max(0,wc.n-1);news(`🎟️ Você usou um convite para ${ev.name}.`)}
  S.tour={key,q:st.main?null:{step:0,n:t.qr,opp:null},br:null,round:0,log:[],over:false,int:0,dbl:!!(S.me.dbl&&['GS','M1000','A500','A250','C175','C125','C100','C75','C50','OLY'].includes(ev.tier))};
  if(ev.tier==='OLY'){S.me.energy=clamp(S.me.energy+25,0,100);S.tour.log.push({c:'mut',t:'🏟️ Vila olímpica: energia renovada (+25).'})}
  S.tour.log.push({c:'mut',t:_tr.c?`✈️ ${_from.city} → ${ev.city} (${fmt(_tr.km)} km): ${money(_tr.c)}${_tr.lodge?` · hospedagem ${money(_tr.lodge)}`:' · hospedagem paga pelo torneio'}${_tr.fam?' (família e federação pagam 65%)':''}`:(_tr.paid?'✈️ Viagem e hospedagem pagas pela organização':_tr.lodge?`🏨 Hospedagem: ${money(_tr.lodge)}`:'🏠 Torneio na sua cidade: sem custo de viagem')});
@@ -2354,7 +2377,7 @@ function devAI(p){
  p.r+=r/52+gauss()*.05;
 }
 function fedSupport(){let s=0;const r=myRank('pro'),j=meAge()<=18?myRank('jr'):null;if(r)s+=Math.round(20000/Math.pow(r,.95));if(j&&j<=100)s+=Math.round(2500/Math.sqrt(j));if(meAge()<18)s+=150;return s}
-const sponPay=()=>Math.round((S.rules&&S.rules.spon?1.1:1)*S.me.spons.reduce((s,c)=>s+Math.round(SPONSORS.find(x=>x.id===c.id).pay*(c.mult||1)*(c.pm||1)),0));
+const sponPay=()=>Math.round((S.rules&&S.rules.spon?1.1:1)*(typeof bcPersSp==='function'?bcPersSp():1)*S.me.spons.reduce((s,c)=>s+Math.round(SPONSORS.find(x=>x.id===c.id).pay*(c.mult||1)*(c.pm||1)),0));
 const ASSETS=[
  {id:'casa',n:'Casa própria',e:'🏡',p:300000,u:500,d:'Mais conforto em casa: +saúde e +2⚡ por semana.',hl:4,en:2},
  {id:'carro',n:'Carro esportivo',e:'🏎️',p:200000,u:300,d:'Chama atenção: +4% seguidores, imagem um pouco mais ostentadora.',folP:4,behav:2},
@@ -3084,7 +3107,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='6.1';
+const VERSION='6.2';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -4263,7 +4286,7 @@ function v5MeHit(dir,kind){const A=V5A,now=performance.now();if(!A||A.phase!=='i
  A.shots++;A.qPrev=Q;A.lastAgr=agr;A.lastDef=def;const tx=dir?dir*(agr?.85:.6):(Math.random()-.5)*.3;
  A.ball=v5Ball(A.me.x,-.02,tx,1.02,agr?480:def?780:600,false);A.phase='outgoing';A.txt=q[0]+(agr?' · ataque':def?' · defesa':'');A.sub=`${side==='fh'?'Forehand':'Backhand'}${dir?dir<0?' na cruzada esquerda':' na paralela direita':''}`;
  setTimeout(()=>{if(V5A===A)v5OppHit()},A.ball.T)}
-const v5Reach=()=>clamp(.35+((S.me.attrs.fi||60)-50)/110,.3,.85);
+const v5Reach=()=>clamp((.35+((S.me.attrs.fi||60)-50)/110)*(S.me.style==='contra'?1.15:1),.3,.9);
 function v5End(aw,kind,txt){const A=V5A;if(!A||A.end)return;A.end={aw,kind,txt,t0:performance.now()};A.phase='end';A.txt=txt;A.sub=aw?'Ponto seu':'Ponto do adversário';try{aw?sCrowd(kind==='ace'||kind==='win'?2:1):sGroan()}catch(e){}
  setTimeout(()=>v5ArcCommit(),650)}
 function v5ArcCommit(){const A=V5A,I=IM;if(!A||!I)return;V5A=null;const sA=eSrv(I.E);V5ARC={fw:sA?A.end.aw:!A.end.aw,fev:A.end.kind==='ace'?'ace':A.end.kind==='df'?'df':'forced',txt:A.end.txt,kind:A.end.kind,aw:A.end.aw};
@@ -5762,7 +5785,7 @@ function bcNext(){const out=[];try{for(let w=S.w+1;w<=S.w+9&&out.length<4;w++){c
 {const _pv=profileView;profileView=function(){let s=_pv();try{const u=dmUnread();s=`<div class="bcsoc"><span class="bcnk">Social</span><div><button class="sec" onclick="SOCTAB='feed';go('social')">Feed</button><button class="sec" onclick="SOCTAB='dm';go('social')">Mensagens${u?` (${u})`:''}</button><button class="sec" onclick="SOCTAB='press';go('social')">Imprensa</button></div></div>`+s}catch(e){}return s}}
 {const _sv=socialView;socialView=function(){let s=_sv();try{s=`<button class="ghost bcback" onclick="go('me')">‹ Voltar para Carreira</button>`+s}catch(e){}return s}}
 // ---------- frases com ponto final ----------
-const BCPX='button,h1,h2,h3,h4,h5,label,option,select,textarea,input,th,nav,.bch,.chips,.v5pt,.mk,.sec-t,.v5k,.bckick,.bcnk,svg,canvas,code,.v5noi18n,.pill,.lg,.v5stamp,.v5stamp2,b,strong,.tag,.badge,summary .acct,.acct,.v5tl,.bcc,.flash,#v5rail .v5rh,.v5rr,.k5l,.fxt,.fxl,.btag,.brandbig';
+const BCPX='button,h1,h2,h3,h4,h5,label,option,select,textarea,input,th,nav,.bch,.chips,.v5pt,.mk,.sec-t,.v5k,.bckick,.bcnk,svg,canvas,code,.v5noi18n,.pill,.lg,.v5stamp,.v5stamp2,b,strong,.tag,.badge,summary .acct,.acct,.v5tl,.bcc,.flash,#v5rail .v5rh,.v5rr,.k5l,.fxt,.fxl,.btag,.brandbig,.bcpxh,.bcpo';
 function bcDot(el){try{if(!el||el.nodeType!==1||el.closest(BCPX))return;const tx=el.textContent.replace(/\s+/g,' ').trim();if(tx.length<22||tx.split(' ').length<4)return;if(!/^[A-ZÀ-Ý"“(¿¡0-9]/.test(tx))return;if(!/[a-zà-ÿ]/.test(tx))return;if(/[.!?…:;»”")\]]$/.test(tx)&&!/[A-Za-zÀ-ú0-9]\)$/.test(tx))return;if(/[→›▶↗+]$/.test(tx))return;
  let n=el.lastChild;while(n&&n.nodeType===3&&!n.nodeValue.trim())n=n.previousSibling;if(!n||n.nodeType!==3)return;n.nodeValue=n.nodeValue.replace(/\s*$/,'')+'.'}catch(e){}}
 function bcDotScan(root){if(!root||root.nodeType!==1)return;const L=root.querySelectorAll('p,small,span,div,li,dd,.small,.xs');for(const el of L){if(el.children.length>3)continue;bcDot(el)}}
@@ -5867,6 +5890,65 @@ function bcMenuFix(){try{if(INMENU!==true)return;const box=document.querySelecto
  sec('mais','Mais',items.splice(0));
  if(mp)box.append(...mp.els);box.append(...tail)}catch(e){console.error(e)}}
 {const _r=render;render=function(...a){const v=_r.apply(this,a);bcMenuFix();return v}}
+
+// =============== v6.2 · estilo, mão e personalidade explicados e com efeito real no jogo ===============
+const BCPICK={
+ hand:{t:'Mão',o:{
+  destro:{n:'Destro',i:'🤚',d:'O padrão do circuito.',p:['Sem ajustes: o jogo de sempre.'],c:[]},
+  canhoto:{n:'Canhoto',i:'🫲',d:'Raro no circuito: o efeito do saque abre a quadra.',p:['Saque +2 desde o início.','Adversários estranham: +0,3 no saque em toda partida.'],c:[]}}},
+ style:{t:'Estilo de jogo',o:{
+  fundo:{n:'Fundo de quadra',i:'🧱',d:'Constrói o ponto com golpes pesados da linha de base.',p:['Forehand +4, backhand +3 e físico +1.','Rende mais no saibro (+1).','Na quadra, seus golpes de fundo pressionam mais.'],c:['Voleio −3.','Rende menos na grama (−0,6).','Desgasta coxa e tornozelo.']},
+  sacador:{n:'Sacador',i:'🚀',d:'Ganha pontos rápidos com o saque e sobe à rede.',p:['Saque +6 e voleio +2.','Rende mais na grama (+1) e na quadra dura (+0,4).','Na quadra, seu saque força mais erros.'],c:['Devolução −2.','Sofre no saibro (−0,8).','Desgasta mais o ombro.']},
+  contra:{n:'Contra-golpeador',i:'🛡️',d:'Devolve tudo e vence pelo cansaço.',p:['Devolução +4 e físico +4.','Cansa 30% menos em jogos longos.','Na quadra, alcança mais bolas.'],c:['Saque −3.','Rende menos na grama (−0,4).']},
+  completo:{n:'Completo',i:'⚖️',d:'Sem ponto fraco e sem arma decisiva.',p:['+1 em todos os atributos.','Rende bem em todos os pisos (+0,3 em cada).'],c:['Sem um piso onde é especialista.','Nenhum golpe decide sozinho.']}}},
+ pers:{t:'Personalidade',o:{
+  calmo:{n:'Calmo e exemplar',i:'🧘',d:'Cabeça fria nos momentos decisivos.',p:['Mais forte em break points e tie-breaks.','A confiança cai menos depois de derrotas.','Patrocinadores pagam 10% a mais.'],c:['Seguidores crescem mais devagar.','Não ganha impulso quando está atrás no placar.']},
+  normal:{n:'Normal',i:'🙂',d:'Equilibrado dentro e fora da quadra.',p:['Sem riscos de comportamento.','Imagem neutra com torcida e patrocinadores.'],c:['Sem bônus especiais.']},
+  explosivo:{n:'Explosivo',i:'🔥',d:'Joga com raça e vira jogos, mas pode perder a cabeça.',p:['Cresce quando está perdendo no placar.','A confiança sobe mais com vitórias.','Seguidores crescem mais rápido.'],c:['Erra mais em pontos de pressão.','Risco de advertência e multa.','Patrocinadores pagam 8% a menos.']}}}};
+const BCSTB={sacador:{sv:6,vo:2,rt:-2},fundo:{fh:4,bh:3,fi:1,vo:-3},contra:{rt:4,fi:4,sv:-3},completo:{sv:1,rt:1,fh:1,bh:1,vo:1,fi:1,me:1}};
+const BCSTSF={sacador:{grass:1,hard:.4,clay:-.8},fundo:{clay:1,hard:.2,grass:-.6},contra:{clay:.6,hard:.3,grass:-.4},completo:{hard:.3,clay:.3,grass:.3}};
+function bcPersOf(m){m=m||(S&&S.me);if(!m)return 'normal';if(m.pers)return m.pers;const b=m.base??40;return b<=25?'calmo':b>=55?'explosivo':'normal'}
+function bcPersSp(){try{const p=bcPersOf();return p==='calmo'?1.1:p==='explosivo'?.92:1}catch(e){return 1}}
+// cartões de escolha com o que cada opção faz
+function bcPick(k){const P=BCPICK[k],cur=FORM[k];
+ return `<div class="sec-t">${P.t}</div><div class="bcpk bcpk-${k}">${Object.entries(P.o).map(([v,o])=>`<button class="opt bcpo ${cur===v?'on':''}" onclick="setF('${k}','${v}')"><span class="bcpi">${o.i}</span><b>${o.n}</b><small>${o.d}</small></button>`).join('')}</div>
+ ${(()=>{const o=P.o[cur];if(!o)return'';return `<div class="bcpx"><div class="bcpxh">${o.i} ${o.n} na prática</div>${o.p.map(x=>`<div class="bcpp">＋ ${x}</div>`).join('')}${o.c.map(x=>`<div class="bcpc">− ${x}</div>`).join('')}</div>`})()}`}
+// prévia dos atributos iniciais conforme as escolhas
+function bcPrev(){const F=FORM;if(F.coach)return'';const age=F.leg?(+F.age||31):(+F.age||14);
+ const base=F.leg?78.5:30+Math.min(age-14,6)*2.8+Math.max(0,age-20)*1.2+(F.tal==='elite'?3:F.tal==='medio'?1.5:1.5);
+ const st=BCSTB[F.style]||{},sf=BCSTSF[F.style]||{};const rows=ATTR.map(([k,l])=>{const d=(st[k]||0)+(k==='sv'&&F.hand==='canhoto'?2:0),v=Math.round(base+d);return `<div class="bcar"><span>${l}</span><i><b style="width:${clamp(v,5,100)}%"></b></i><em class="${d>0?'up':d<0?'dn':''}">${v}${d?` <small>${d>0?'+':''}${d}</small>`:''}</em></div>`}).join('');
+ const sfx=['hard','clay','grass'].map(s=>{const v=(sf[s]||0);return `<span class="bcsf ${v>0?'up':v<0?'dn':''}">${SURF[s]} ${v>0?'+':''}${v?String(v).replace('.',','):'0'}</span>`}).join('');
+ return `<div class="bcprev"><div class="bcpxh">Como você começa</div>${rows}<div class="bcsfr"><span class="xs mut">Rendimento por piso</span>${sfx}</div></div>`}
+// guarda a personalidade escolhida (saves antigos: deduz pelo comportamento)
+{const _ng=newGame;newGame=function(o){const r=_ng.apply(this,arguments);try{if(S&&S.me){S.me.pers=o&&o.pers||'normal'}}catch(e){}return r}}
+// força em quadra: piso, canhoto e completo
+{const _e=eff;eff=function(id,surf,tacK,opp){const r=_e.apply(this,arguments);try{if(id==='me'&&r){const m=S.me,b=(BCSTSF[m.style]||{})[surf]||0;r.sv+=b;r.rt+=b;if(m.hand==='canhoto')r.sv+=.3;r._me=1}}catch(e){}return r}}
+{const _m=mkEngine;mkEngine=function(A,B,bo5){const E=_m.apply(this,arguments);try{E.meA=!!(A&&A._me)}catch(e){}return E}}
+// personalidade nos pontos: calmo cresce na pressão, explosivo cresce quando está atrás
+{const _p=ePoint;ePoint=function(E,mod){try{if(E&&E.meA&&!(mod&&mod.fw!=null)){const ps=bcPersOf();if(ps!=='normal'){const sA=eSrv(E),sp=sA?E.a:E.b,rp=sA?E.b:E.a;const big=E.tb||(!E.tb&&rp>=3&&rp>sp);const behind=E.sb>E.sa||(E.sa===E.sb&&E.gb-E.ga>=2);let k=0;
+  if(ps==='calmo'&&big)k=.025;if(ps==='explosivo'){if(behind)k=.03;else if(big)k=-.012}
+  if(k){mod={...(mod||{}),dp:((mod&&mod.dp)||0)+(sA?k:-k)}}}}}catch(e){}return _p.call(this,E,mod)}}
+// confiança depois da partida
+{const _u=userMatch;userMatch=function(){const m=S.me,c0=m.conf??50;const r=_u.apply(this,arguments);try{const d=(m.conf??50)-c0,ps=bcPersOf();if(d<0&&ps==='calmo')m.conf=clamp(c0+d*.7,10,95);if(d>0&&ps==='explosivo')m.conf=clamp(c0+d*1.3,10,95);if(d<0&&ps==='explosivo')m.conf=clamp(c0+d*1.1,10,95)}catch(e){}return r}}
+// seguidores
+{const _f=folTarget;folTarget=function(){const v=_f();try{return bcPersOf()==='calmo'?v*.92:v}catch(e){return v}}}
+// cansaço: contra-golpeador cansa menos (simulação e quadra)
+{const _f=fatOf;fatOf=function(E,me){const v=_f(E,me);try{if(me&&E.meA&&S.me.style==='contra')return v*.7}catch(e){}return v}}
+{const _k=v5FatK;v5FatK=function(){const k=_k();try{if(S.me.style==='contra')return 1-(1-k)*.7}catch(e){}return k}}
+// quadra: saque do sacador e golpes do fundo de quadra pressionam mais
+{const _s=v5MeServe;v5MeServe=function(){const A=V5A;_s.apply(this,arguments);try{if(A&&A===V5A&&A.phase==='outgoing'&&S.me.style==='sacador')A.qPrev*=1.1}catch(e){}}}
+{const _h=v5MeHit;v5MeHit=function(dir,kind){const A=V5A,b0=A&&A.ball,net=A&&A.meNet;_h.apply(this,arguments);try{if(A&&A===V5A&&A.phase==='outgoing'&&A.ball!==b0){const st=S.me.style;if(st==='fundo'&&!net)A.qPrev*=1.06;if(st==='sacador'&&net)A.qPrev*=1.05}}catch(e){}}}
+// tela Equipe: estilo explicado e personalidade
+{const _sc=styleCard;styleCard=function(){let h=_sc();try{const m=S.me,o=BCPICK.style.o[m.style]||BCPICK.style.o.completo,ps=BCPICK.pers.o[bcPersOf()],sf=BCSTSF[m.style]||{};
+ const box=`<div class="bcpx"><div class="bcpxh">${o.i} ${o.n}: ${o.d.replace(/\.$/,'')}.</div>${o.p.map(x=>`<div class="bcpp">＋ ${x}</div>`).join('')}${o.c.map(x=>`<div class="bcpc">− ${x}</div>`).join('')}<div class="bcsfr">${['hard','clay','grass'].map(s=>{const v=sf[s]||0;return `<span class="bcsf ${v>0?'up':v<0?'dn':''}">${SURF[s]} ${v>0?'+':''}${v?String(v).replace('.',','):'0'}</span>`}).join('')}</div></div>
+ <div class="bcpx"><div class="bcpxh">${ps.i} Personalidade: ${ps.n}</div>${ps.p.map(x=>`<div class="bcpp">＋ ${x}</div>`).join('')}${ps.c.map(x=>`<div class="bcpc">− ${x}</div>`).join('')}<div class="xs mut" style="margin-top:6px">A personalidade vem da criação. O comportamento do dia a dia muda com suas escolhas.</div></div>`;
+ h=h.replace(/<div class="xs mut">Saque [\s\S]*?adaptação\.<\/div>/,box+'<div class="xs mut">Mudar de estilo exige 12 semanas de adaptação.</div>')}catch(e){}return h}}
+// =============== correções achadas no teste de 10 temporadas ===============
+// quadra: cronômetros que disparam depois que a partida já fechou
+{const _o=v5OppServe;v5OppServe=function(){if(!IM||!IM.E||!V5A)return;return _o.apply(this,arguments)}}
+{const _c=v5ArcCommit;v5ArcCommit=function(){if(!V5A||!V5A.end||!IM||!IM.E)return;return _c.apply(this,arguments)}}
+// caixa sempre em valores inteiros
+{const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);try{if(S&&S.me&&Number.isFinite(S.me.money))S.me.money=Math.round(S.me.money)}catch(e){}return r}}
 
 // =============== tutorial ===============
 const TUT=[
@@ -6357,9 +6439,9 @@ function createView(){
   <label>País</label><select onchange="FORM.c=+this.value;render()">${COUNTRIES.map((c,i)=>`<option value="${i}" ${i===+F.c?'selected':''}>${isoFlag(c[0])} ${c[1]}</option>`).join('')}</select>
   <label>${F.coach?'Idade do atleta':'Idade inicial'}</label><select onchange="FORM.age=+this.value;render()">${(F.leg?[30,31,32,33,34]:Array.from({length:11},(_,i)=>i+14)).map(a=>`<option value="${a}" ${a===F.age?'selected':''}>${a} anos${F.leg?' · veterano':a<=18?' · juvenil':' · profissional'}</option>`).join('')}</select>
  </div><p class="xs mut">${F.age<=18?`Começa no circuito juvenil${F.age>14?' com algum ranking':''}. Só torneios juniores até os 17 anos; a partir daí você escolhe quando virar profissional (automático aos 19).`:`Começa direto no profissional, já mais ${F.circ==='WTA'?'desenvolvida':'desenvolvido'}, mas com ranking baixo (por volta de #${430-(F.age-19)*15}–#${560-(F.age-19)*15}) e menos tempo para evoluir.`}</p>
- <div class="sec-t">Mão</div><div class="chips">${opt('hand',[['destro','Destro'],['canhoto','Canhoto (+saque)']])}</div>
- <div class="sec-t">Estilo de jogo</div><div class="chips">${opt('style',[['fundo','Fundo de quadra'],['sacador','Sacador'],['contra','Contra-golpeador'],['completo','Completo']])}</div>
- <div class="sec-t">Personalidade</div><div class="chips">${opt('pers',[['calmo','Calmo e exemplar'],['normal','Normal'],['explosivo','Explosivo']])}</div>
+ ${bcPick('hand')}
+ ${bcPick('style')}
+ ${bcPick('pers')}${bcPrev()}
  <div class="sec-t">Talento</div><div class="chips">${opt('tal',Object.entries(TALS).map(([k,v])=>[k,v[0]]))}</div><div class="xs mut">${TALS[F.tal||'sorte'][1]}</div>
  <div class="sec-t">🌍 Código do mundo (opcional)</div><input placeholder="Ex.: BREAK2027" maxlength="20" value="${esc(F.seed||'')}" oninput="FORM.seed=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" style="width:100%"><div class="xs mut">Com o mesmo código, você e seus amigos começam no mesmo mundo: mesmos adversários, rival e torneios. Deixe em branco para um mundo aleatório.</div>
  <div class="sec-t">Duração</div><div class="chips">${opt('quick',[[0,'Carreira completa'],[1,'Carreira rápida (5 temporadas)']])}</div><div class="xs mut">${F.quick?'Cinco temporadas, calendário montado sozinho, partidas no modo simular direto e sem entrevistas nem mensagens obrigatórias. Boa para jogar em pausas curtas.':'A carreira inteira, até a aposentadoria, com todas as decisões.'}</div>
@@ -6504,7 +6586,7 @@ function sceneSVG(p,small){const k=phKind(p);if(!k)return'';const r=seeded(p.sd|
  return `<svg viewBox="0 0 ${W} ${H}" class="phimg" preserveAspectRatio="xMidYMid slice">${g}</svg>`}
 const COMP=['🔥🔥🔥','que fase!!','orgulho demais','vamooo 🎾','monstro','top 1 em breve','torcendo daqui','lenda','👏👏','que jogo foi aquele','meu ídolo','chora não, rival 😂'];
 const COMN=['precisa treinar mais','não tá jogando nada','que fase ruim','foco no tênis!','decepcionante','menos post e mais treino'];
-function cmts(p){const r=seeded((p.sd||3)+11),neg=/cai|derrota|polêm|TRETA|vergonha|balada|ruim/.test(p.t||'');return[0,1].map(()=>{const f=pick(FAN_FIRST)+'_'+pick(FAN_SUF);return[f,(neg&&r()<.6?COMN:COMP)[Math.floor(r()*(neg&&r()<.6?COMN:COMP).length)]]})}
+function cmts(p){const r=seeded((p.sd||3)+11),neg=/cai|derrota|polêm|TRETA|vergonha|balada|ruim/.test(p.t||'');return[0,1].map(()=>{const f=pick(FAN_FIRST)+'_'+pick(FAN_SUF);const L=neg&&r()<.6?COMN:COMP;return[f,L[Math.floor(r()*L.length)]]})}
 function likePost(id){const p=S.feed.find(x=>x.id===id);if(!p)return;p.lk=!p.lk;p.l+=p.lk?1:-1;save();const el=document.getElementById('lk_'+id);if(el){el.classList.toggle('on',p.lk);el.textContent=p.lk?'❤️':'🤍';el.classList.remove('pop2');void el.offsetWidth;el.classList.add('pop2')}const n=document.getElementById('ln_'+id);if(n)n.textContent=kfmt(p.l)+' curtidas'}
 function timeAgo(w){const d=S.w-w;return d<=0?'agora':d===1?'há 1 sem':d<5?`há ${d} sem`:d<52?`há ${Math.round(d/4.3)} meses`:`há ${Math.floor(d/52)} ano(s)`}
 function verified(p){if(p.k==='md')return true;if(p.k==='me')return S.me.fol>=100000;const pl=S.pro.find(x=>x.n===p.a);return pl&&(RK.pro[pl.id]||999)<=100}
