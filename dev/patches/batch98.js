@@ -33,7 +33,7 @@ function bcPenView(){const F=FORM;const st=(n)=>'★'.repeat(n)+'<span class="mu
  <button class="full big bcpgo" onclick="bcPenGo()">Treinar ${esc(PEN.L[PEN.sel].n.split(' ')[0])} →</button></div>`}
 function bcPenGo(){const p=PEN.L[PEN.sel],F=FORM;const cav={...F.av,g:F.cg==='f'?'f':'m'};const cc=F.c;
  PEN=null;newGame({...F,name:p.n,age:p.age,c:p.c,style:p.style,pers:p.pers,hand:p.hand,tal:p.tal,av:p.av,coach:true,leg:false});
- try{const c=S.cm,m=S.me;Object.assign(c,{v2:1,ori:F.cori||'ex',fil:F.cfil||'formadora',sk:{tat:0,dev:0,mot:0,ges:0},xp:0,pts:0,lw:m.st.w,lt2:0,c:cc,av:cav,f:F.cg==='f',dem:p.dem,box:'me'});
+ try{const c=S.cm,m=S.me;Object.assign(c,{v2:1,start:S.w,ori:F.cori||'ex',fil:F.cfil||'formadora',sk:{tat:0,dev:0,mot:0,ges:0},xp:0,pts:0,lw:m.st.w,lt2:0,c:cc,av:cav,f:F.cg==='f',dem:p.dem,box:'me'});
   c.trust=p.dem==='comp'?78:p.dem==='shy'?48:62;const d=p.lvl-ovr();ATTR.forEach(([k])=>m.attrs[k]=clamp(m.attrs[k]+d,10,95));m.pmode='sim';OPTS.wInt=true;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}
   S.news=(S.news||[]).filter(x=>!/assume o trabalho/.test(x.t||x));news(`🧑‍🏫 Peneira concluída: ${c.n} escolheu ${flag(m.c)} ${m.name}, ${p.age} anos.`);save()}catch(e){console.error(e)}
  render();window.scrollTo(0,0)}
