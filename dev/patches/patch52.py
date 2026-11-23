@@ -16,7 +16,7 @@ def apply(s,R):
     R("const tabs=[['stats','Atributos'],['career','Carreira']","const tabs=[['stats','Atributos'],['album','Álbum'],['career','Carreira']")
     # v5.6: apoio, contato e aviso
     R("const PIX={key:'',name:'Geovanne',city:'SAO PAULO'};","const PIX={key:'e0078871-b04e-408e-9589-51f81f18979b',name:'Geovanne',city:'SAO PAULO'};")
-    R("const CONTACT={ig:'',email:'',form:''};","const CONTACT={ig:'geoaaalves',x:'',email:'',form:''};")
+    R("const CONTACT={ig:'',email:'',form:''};","const CONTACT={ig:'geoaaalves',x:'ga44lh',email:'',form:''};")
     R("const hasContact=()=>!!(CONTACT.ig||CONTACT.email||CONTACT.form);","const hasContact=()=>!!(CONTACT.ig||CONTACT.x||CONTACT.email||CONTACT.form);")
     R("if(CONTACT.email)L.push(`<a class=\"btn sec\" href=\"mailto:","if(CONTACT.x)L.push(`<a class=\"btn sec\" href=\"https://x.com/${esc(CONTACT.x.replace('@',''))}\" target=\"_blank\" rel=\"noopener\">𝕏 @${esc(CONTACT.x.replace('@',''))}</a>`);if(CONTACT.email)L.push(`<a class=\"btn sec\" href=\"mailto:")
     R("<div class=\"xs mut\" style=\"margin-top:6px\">Criado por <b>Geovanne</b></div>","<div class=\"xs mut\" style=\"margin-top:6px\">Criado por <b>Geovanne</b></div><div class=\"xs mut\" style=\"margin-top:4px;opacity:.7\">Jogo independente, sem vínculo com ATP, WTA, ITF ou os torneios citados.</div>")
@@ -28,7 +28,7 @@ def apply(s,R):
     R("if(!r.aw&&r.raw!=='df'&&!I.E.done&&R()<.12)I.chal=","if(!r.aw&&r.raw!=='df'&&!I.E.done&&v5Lines()==='mark'&&R()<.12)I.chal=")
     R("else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&R()<.08){","else if(r.aw&&['win','ace'].includes(r.raw)&&!I.E.done&&v5Lines()==='mark'&&R()<.08){")
     # v5.7: metatags absolutas para compartilhar no X
-    R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg">')
+    R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
     R("const VERSION='5.5';","const VERSION='6.1';")
     # v6.1: cabelos redesenhados
