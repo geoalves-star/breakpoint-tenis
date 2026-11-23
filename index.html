@@ -1249,7 +1249,7 @@ const COACH=[{n:'Sem treinador',c:0,m:1},{n:'★',c:200,m:1.2},{n:'★★',c:600
 const COACH_ST={ofensivo:'Ofensivo',defensivo:'Defensivo',equilibrado:'Equilibrado'};
 const CREQ=[0,0,0,600,300,100];
 let COI=new Map();
-const cq=p=>{const c=p&&p.co?COI.get(p.co):null;return c?c.q:0};
+const cq=p=>{const c=p&&p.co?COI.get(p.co):null;return c&&!c.club?c.q:0};
 const myCoach=()=>S.me.coachId?COI.get(S.me.coachId):null;
 const coachSal=()=>{const c=myCoach();return c?c.sal:0};
 function mkCoach(q,free){const cc=pickCountry(),ex=R()<.25,fe=R()<(CIRC()==='WTA'?.45:.15);return{id:'c'+(S.nextId++),n:genName(cc,fe),f:fe,c:cc,q,sp:pick(ATTR)[0],st:pick(['ofensivo','defensivo','equilibrado']),sal:Math.round(COACH[q].c*(.8+R()*.4)),ex}}
@@ -1261,7 +1261,7 @@ function assignCoaches(){
  for(const id of ord){if(i>=pool2.length-25)break;const p=IDX.get(id);if(p&&R()<.92){p.co=pool2[i].id;i++}}
  if(S.me&&!S.ended&&keepFree.size){const b=[...keepFree].map(id=>COI.get(id)).filter(Boolean).sort((a,b)=>b.q-a.q)[0];if(b)news(`🧑‍🏫 Mercado: ${flag(b.c)} ${b.n} (${'★'.repeat(b.q)}) terminou o contrato e está livre.`)}
 }
-const freeCoaches=()=>{const busy=new Set(S.pro.map(p=>p.co).filter(Boolean));return S.coaches.filter(c=>!busy.has(c.id)&&c.id!==S.me.coachId)};
+const freeCoaches=()=>{const busy=new Set(S.pro.map(p=>p.co).filter(Boolean));return S.coaches.filter(c=>!busy.has(c.id)&&c.id!==S.me.coachId&&!c.club)};
 function hireCoach(id){const c=COI.get(id),m=S.me;if(!c)return;const r=myRank('pro')||9999,j=meAge()<=18?(myRank('jr')||9999):9999;
  if(CREQ[c.q]&&r>CREQ[c.q]&&j>CREQ[c.q]/10){TOAST=`${c.n} só aceita ${G('jogadores','jogadoras')} do top ${CREQ[c.q]}`;render();return}
  const bot=S.pro.find(p=>p.co===id),fee=bot?c.sal*10:0;if(m.money<fee+c.sal){TOAST='Dinheiro insuficiente';render();return}
@@ -2346,7 +2346,7 @@ const retireAge=()=>Math.round(V5CAL.ra+V5CAL.rr*clamp((cond()-40)/45,0,1));
 const meAgeF=()=>(S.w-S.me.born)/52;
 function ageF(){const a=meAgeF(),pk=peakAge();return a<22?1.25:a<pk-1?1:a<pk+1?.5:.08}
 function phase(a,pk){return a<pk-3?['Em evolução','win']:a<=pk+1?['No auge','win']:a<=pk+5?['Começando a cair','mut']:['Em declínio','loss']}
-function gain(k,base){const m=S.me,a=m.attrs[k],room=Math.pow(Math.max(0,m.pot-a)/m.pot,.7);const g=base*room*ageF()*COACH[m.coach].m*(m.energy<30?.6:1);m.attrs[k]=Math.min(99,a+g);return g}
+function gain(k,base){const m=S.me,a=m.attrs[k],room=Math.pow(Math.max(0,m.pot-a)/m.pot,.7);const g=base*room*ageF()*(typeof bcCoM==='function'?bcCoM():COACH[m.coach].m)*(m.energy<30?.6:1);m.attrs[k]=Math.min(99,a+g);return g}
 function needRemind(act){const m=S.me;if(m.noRemind||S.tour||S.busy===S.w||m.injury>0||m.energy<20||S.modals.length)return false;const ok=weekEvents(S.w).filter(e=>entryStatus(e).ok);if(!ok.length)return false;REMIND={act,ev:ok};render();return true}
 const DAYS=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
 const DOPT=[...ATTR,['geral','Tático/geral'],['rest','Descanso']];
@@ -3107,7 +3107,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='6.2';
+const VERSION='6.3';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -3177,7 +3177,7 @@ function decisionCard(){const D=decide(),dis=S.modals.length?'disabled':'';const
 function pendings(){const m=S.me,L=[];const un=dmUnread();
  if(!isPro()&&meAge()>=17)L.push(['🚀',`Decida se vira profissional`,"go('tour')"]);
  if(un)L.push(['✉️',`${un} mensage${un>1?'ns':'m'} para responder`,"SOCTAB='dm';go('social')"]);
- if(!m.coachId)L.push(['🧑‍🏫','Contrate um treinador',"ACCO.coach=true;go('train')"]);
+ if(typeof bcCoUp==='function'?bcCoUp():!m.coachId)L.push(['🧑‍🏫','Você já pode pagar um treinador melhor',"ACCO.coach=true;go('train')"]);
  if(m.chron)L.push(['🦴',`Trate a dor no ${m.chron.p}`,"ACCO.chron=true;go('train')"]);
  if(m.money<0)L.push(['💸','Suas finanças estão no vermelho',"PROFTAB='bens';go('me')"]);
  if(!Object.keys(S.plan).some(w=>+w>S.w&&+w<=S.w+8)&&!S.tour)L.push(['📅','Monte sua temporada no calendário',"TOURTAB='cal';go('tour')"]);
@@ -4064,7 +4064,7 @@ coachCard=function(){const m=S.me,c=myCoach(),fr=freeCoaches();
  const elite=S.coaches.filter(x=>x.q>=4&&S.pro.some(p=>p.co===x.id)).sort((a,b)=>b.q-a.q||(RK.pro[S.pro.find(p=>p.co===a.id).id]||999)-(RK.pro[S.pro.find(p=>p.co===b.id).id]||999)).slice(0,4);
  const r=myRank('pro');
  let cur='<p class="small mut">Você está sem treinador. Um treinador acelera o treino e ajuda nas partidas.</p>';
- if(c){cInit();const[tn,td]=v5Trait(c);cur=`<button class="v5co me" onclick="V5CO='${c.id}';render()">${av(c.n,c.c,'md',v5CAv(c))}<span class="v5cod"><b>${esc(c.n)}</b><span><span class="stars">${'★'.repeat(c.q)}</span> · ${v5CAge(c)} anos · ${tn}</span><small>${COACH_ST[c.st]} · ${ATTR.find(a=>a[0]===c.sp)[1]} · ${money(c.sal)}/sem</small></span><i>›</i></button>${c.me?'':`<div class="small" style="margin:10px 0 4px">Confiança do treinador: <b class="${m.cTrust<35?'loss':m.cTrust>=65?'win':''}">${Math.round(m.cTrust)}/100</b> · contrato até ${wkDate(m.cUntil)} ${year0(m.cUntil)}</div><div class="bar"><i style="width:${m.cTrust}%"></i></div><div class="xs mut" style="margin-top:4px">Sobe quando você segue as dicas e vence. Abaixo de 18, ele pede demissão.</div>`}`}
+ if(c){cInit();const[tn,td]=v5Trait(c);cur=`<button class="v5co me" onclick="V5CO='${c.id}';render()">${av(c.n,c.c,'md',v5CAv(c))}<span class="v5cod"><b>${esc(c.n)}</b><span><span class="stars">${'★'.repeat(c.q)}</span> · ${v5CAge(c)} anos · ${tn}</span><small>${COACH_ST[c.st]} · ${(ATTR.find(a=>a[0]===c.sp)||[0,'sem especialidade'])[1]} · ${money(c.sal)}/sem</small></span><i>›</i></button>${c.me?'':`<div class="small" style="margin:10px 0 4px">Confiança do treinador: <b class="${m.cTrust<35?'loss':m.cTrust>=65?'win':''}">${Math.round(m.cTrust)}/100</b> · contrato até ${wkDate(m.cUntil)} ${year0(m.cUntil)}</div><div class="bar"><i style="width:${m.cTrust}%"></i></div><div class="xs mut" style="margin-top:4px">Sobe quando você segue as dicas e vence. Abaixo de 18, ele pede demissão.</div>`}`}
  return `<div class="card"><h3>Treinador</h3>${cur}
  <div class="sec-t" style="margin-top:14px">Querem trabalhar com você${r?` · você é #${r}`:''}</div>${pickV.map(x=>v5CRow(x)).join('')||'<p class="small mut">Ninguém disponível agora.</p>'}
  ${locked.length?`<div class="sec-t" style="margin-top:14px">Ainda fora do seu alcance</div>${locked.map(x=>v5CRow(x,`só aceita top ${CREQ[x.q]}`)).join('')}`:''}
@@ -4075,9 +4075,9 @@ function v5CoachView(){const c=COI.get(V5CO);if(!c)return'';const m=S.me,mine=m.
  const hist=H.map(h=>`<div class="v5ch"><span class="v5chy">${h.y0===h.y1?h.y0:`${h.y0}–${String(h.y1).slice(-2)}`}</span><span><b>${h.me?esc(m.name)+' (você)':esc(h.n)}</b> ${flag(h.c)}<small>${h.jr?'juvenil · ':''}${h.hi?`melhor ranking #${h.hi}`:'sem ranking'}${h.t?` · ${h.t} título${h.t>1?'s':''}`:''}${h.gs?` · ${h.gs} Slam${h.gs>1?'s':''}`:''}</small></span></div>`).join('');
  return `<div class="modal" onclick="if(event.target===this){V5CO=null;V5CF=null;render()}"><div class="box"><div class="v5cph">${av(c.n,c.c,'lg',v5CAv(c))}<div><span class="v5k a">Treinador${v5CF(c)?'a':''} · ${'★'.repeat(c.q)}</span><h2 style="margin:4px 0 2px">${esc(c.n)}</h2><span class="small mut">${flag(c.c)} ${esc(COUNTRIES[c.c][1])} · ${v5CAge(c)} anos${c.ex?' · ex-jogador':''}</span></div></div>
  <p style="margin:12px 0 8px"><b style="font-family:var(--fd)">${tn}.</b> ${td}</p>
- <div class="v5cmp"><div><span>Estilo</span><b>${COACH_ST[c.st]}</b></div><div><span>Especialidade</span><b>${ATTR.find(a=>a[0]===c.sp)[1]}</b></div><div><span>Salário</span><b>${money(c.sal)}/sem</b></div><div><span>Treino</span><b>×${COACH[c.q].m}</b></div>${bot?`<div><span>Treina hoje</span><b>${esc(bot.n)} ${rkOf(bot.id)}</b></div>`:''}${CREQ[c.q]?`<div><span>Exige</span><b>top ${CREQ[c.q]}</b></div>`:''}</div>
+ <div class="v5cmp"><div><span>Estilo</span><b>${COACH_ST[c.st]}</b></div><div><span>Especialidade</span><b>${(ATTR.find(a=>a[0]===c.sp)||[0,'sem especialidade'])[1]}</b></div><div><span>Salário</span><b>${money(c.sal)}/sem</b></div><div><span>Treino</span><b>×${COACH[c.q].m}</b></div>${bot?`<div><span>Treina hoje</span><b>${esc(bot.n)} ${rkOf(bot.id)}</b></div>`:''}${CREQ[c.q]?`<div><span>Exige</span><b>top ${CREQ[c.q]}</b></div>`:''}</div>
  <div class="sec-t" style="margin-top:14px">Quem já treinou</div><div class="v5chl">${hist||'<p class="small mut">Primeiro trabalho como treinador.</p>'}</div>
- ${mine?(V5CF?`<p class="small" style="margin:14px 0 0">Dispensar ${esc(c.n.split(' ')[0])}? O contrato termina hoje e o treino volta a render sem treinador.</p><div class="g2" style="margin-top:10px"><button class="sec" onclick="V5CF=null;render()">Manter</button><button style="background:var(--bad);color:#fff" onclick="fireCoach()">Dispensar</button></div>`:`<div class="g2" style="margin-top:14px"><button class="sec" onclick="V5CO=null;render()">Fechar</button><button class="sec" onclick="V5CF=1;render()">Dispensar</button></div>`)
+ ${mine?(V5CF?`<p class="small" style="margin:14px 0 0">Dispensar ${esc(c.n.split(' ')[0])}? O contrato termina hoje e o técnico do clube volta a cuidar do seu treino.</p><div class="g2" style="margin-top:10px"><button class="sec" onclick="V5CF=null;render()">Manter</button><button style="background:var(--bad);color:#fff" onclick="fireCoach()">Dispensar</button></div>`:`<div class="g2" style="margin-top:14px"><button class="sec" onclick="V5CO=null;render()">Fechar</button><button class="sec" onclick="V5CF=1;render()">Dispensar</button></div>`)
  :`${!why?`<p class="small" style="margin:14px 0 0">${fee?`Multa para tirar de ${esc(bot.n)}: <b>${money(fee)}</b>. `:''}Salário: <b>${money(c.sal)}/sem</b>${m.coachId?` · substitui ${esc(myCoach().n)}`:''}.</p>`:`<p class="small" style="color:var(--bad);margin:14px 0 0">${why}</p>`}<div class="g2" style="margin-top:10px"><button class="sec" onclick="V5CO=null;render()">Fechar</button><button ${why?'disabled':''} onclick="hireCoach('${c.id}')">${fee?'Contratar e pagar multa':'Contratar'}</button></div>`}
  </div></div>`}
 // rosto do treinador no elenco
@@ -5910,7 +5910,7 @@ const BCSTSF={sacador:{grass:1,hard:.4,clay:-.8},fundo:{clay:1,hard:.2,grass:-.6
 function bcPersOf(m){m=m||(S&&S.me);if(!m)return 'normal';if(m.pers)return m.pers;const b=m.base??40;return b<=25?'calmo':b>=55?'explosivo':'normal'}
 function bcPersSp(){try{const p=bcPersOf();return p==='calmo'?1.1:p==='explosivo'?.92:1}catch(e){return 1}}
 // cartões de escolha com o que cada opção faz
-function bcPick(k){const P=BCPICK[k],cur=FORM[k];
+function bcPick(k){const P=BCPICK[k];if(k==='co0'&&!FORM.co0)FORM.co0='clube';const cur=FORM[k];
  return `<div class="sec-t">${P.t}</div><div class="bcpk bcpk-${k}">${Object.entries(P.o).map(([v,o])=>`<button class="opt bcpo ${cur===v?'on':''}" onclick="setF('${k}','${v}')"><span class="bcpi">${o.i}</span><b>${o.n}</b><small>${o.d}</small></button>`).join('')}</div>
  ${(()=>{const o=P.o[cur];if(!o)return'';return `<div class="bcpx"><div class="bcpxh">${o.i} ${o.n} na prática</div>${o.p.map(x=>`<div class="bcpp">＋ ${x}</div>`).join('')}${o.c.map(x=>`<div class="bcpc">− ${x}</div>`).join('')}</div>`})()}`}
 // prévia dos atributos iniciais conforme as escolhas
@@ -5949,6 +5949,39 @@ function bcPrev(){const F=FORM;if(F.coach)return'';const age=F.leg?(+F.age||31):
 {const _c=v5ArcCommit;v5ArcCommit=function(){if(!V5A||!V5A.end||!IM||!IM.E)return;return _c.apply(this,arguments)}}
 // caixa sempre em valores inteiros
 {const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);try{if(S&&S.me&&Number.isFinite(S.me.money))S.me.money=Math.round(S.me.money)}catch(e){}return r}}
+
+// =============== v6.3 · todo atleta tem técnico ===============
+BCPICK.co0={t:'Primeiro técnico',o:{
+ clube:{n:'Técnico do clube',i:'🏘️',d:'Quem cuida dos talentos do seu clube.',p:['Grátis.','Treino rende 20% mais do que treinar sozinho.'],c:['Sem especialidade.','Divide a atenção com outros alunos.']},
+ familia:{n:'Família',i:'👨‍👧',d:'Quem te ensinou a jogar.',p:['Grátis e confiança total.','Nunca pede aumento e nunca vai embora.'],c:['Conhecimento técnico limitado: treino rende só 10% a mais.']},
+ ex:{n:'Ex-jogador da região',i:'🎾',d:'Já jogou o circuito e conhece o caminho.',p:['Especialista em um golpe: esse treino rende 30% a mais.','Treino rende 20% mais no geral.'],c:['Cobra US$ 200 por semana.','Pode ir embora se a confiança cair.']}}};
+// treino: família rende menos que um técnico de verdade
+function bcCoM(){const c=myCoach();if(c&&c.fam)return 1.1;return COACH[S.me.coach||0].m}
+// técnico do clube: sempre disponível, sem custo
+function bcClubCo(){const m=S.me;let c=m.clubCo&&COI.get(m.clubCo);if(!c){c=mkCoach(1);c.club=1;c.sal=0;c.sp=null;c.st='equilibrado';c.c=m.c;c.n=genName(m.c,R()<.3);S.coaches.push(c);COI.set(c.id,c);m.clubCo=c.id}return c}
+function bcSetCo(c,silent){const m=S.me;m.coachId=c.id;m.coach=c.q;m.cTrust=c.fam?95:70;m.cUntil=S.w+52;if(!silent)news(`🧑‍🏫 ${c.fam?'Sua família':c.n} volta a cuidar do seu treino.`)}
+function bcEnsureCo(){try{if(!S||!S.me||S.cm||S.ended||!S.coaches)return;const m=S.me;if(m.coachId&&COI.get(m.coachId))return;const fam=m.famCo&&COI.get(m.famCo);bcSetCo(fam||bcClubCo())}catch(e){}}
+// pendência: lembra de trocar quando dá para pagar algo melhor
+function bcCoUp(){try{const m=S.me,c=myCoach();if(S.cm||!c)return false;if(!(c.club||c.fam))return false;if(meAge()<15)return false;return m.money>=COACH[2].c*26}catch(e){return false}}
+{const _ng=newGame;newGame=function(o){const r=_ng.apply(this,arguments);try{if(S&&S.me&&!(o&&o.coach)){const m=S.me,k=(o&&o.co0)||'clube';
+  if(o&&o.leg){let c=freeCoaches().filter(x=>x.q===3).sort(()=>R()-.5)[0];if(!c){c=mkCoach(3);S.coaches.push(c);COI.set(c.id,c)}if(c){bcSetCo(c,true);news(`🧑‍🏫 ${flag(c.c)} ${c.n} (${COACH[c.q].n}) é seu treinador.`)}}
+  else if(k==='familia'){const c=mkCoach(1);c.fam=1;c.club=1;c.sal=0;c.sp=null;c.c=m.c;const sn=(m.name||'').trim().split(' ').slice(1).join(' ');const fe=R()<.4;c.f=fe;c.n=(genName(m.c,fe).split(' ')[0])+(sn?' '+sn:'');S.coaches.push(c);COI.set(c.id,c);m.famCo=c.id;bcSetCo(c,true);news(`👨‍👧 ${fe?'Sua mãe':'Seu pai'}, ${c.n}, é ${fe?'sua treinadora':'seu treinador'}.`)}
+  else if(k==='ex'){const c=mkCoach(1);c.ex=true;c.sal=200;c.c=m.c;S.coaches.push(c);COI.set(c.id,c);bcSetCo(c,true);news(`🎾 ${c.n}, ex-jogador da região, é seu treinador. Especialidade: ${(ATTR.find(a=>a[0]===c.sp)||['',''])[1]}.`)}
+  else{bcSetCo(bcClubCo(),true);news(`🏘️ ${myCoach().n}, técnico do clube, cuida do seu treino.`)}}}catch(e){}return r}}
+// o técnico do clube e a família não renovam contrato nem pedem demissão
+{const _cw=coachWeek;coachWeek=function(){const c=myCoach();if(c&&(c.club||c.fam)){S.me.cUntil=S.w+52;return}return _cw.apply(this,arguments)}}
+// nunca fica sem técnico: ao dispensar, perder o técnico ou ficar sem dinheiro, volta o do clube
+{const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);bcEnsureCo();return r}}
+{const _f=fireCoach;fireCoach=function(){const r=_f.apply(this,arguments);bcEnsureCo();try{save();render()}catch(e){}return r}}
+// todos os atletas do circuito têm técnico (profissionais e juvenis)
+{const _a=assignCoaches;assignCoaches=function(){const r=_a.apply(this,arguments);try{const used=new Set();S.pro.concat(S.jr).forEach(p=>{if(p.co&&COI.get(p.co))used.add(p.co)});
+  // remove técnicos de clube que ficaram sem atleta (menos os seus)
+  const mine=new Set([S.me&&S.me.coachId,S.me&&S.me.clubCo,S.me&&S.me.famCo]);S.coaches=S.coaches.filter(c=>!c.club||used.has(c.id)||mine.has(c.id));COI=new Map();S.coaches.forEach(c=>COI.set(c.id,c));
+  for(const p of S.pro.concat(S.jr)){if(p.co&&COI.get(p.co))continue;const c=mkCoach(1);c.club=1;c.sal=0;c.c=p.c;S.coaches.push(c);COI.set(c.id,c);p.co=c.id}}catch(e){}return r}}
+// juvenis que entram no circuito ao longo do jogo também ganham técnico
+{const _ew2=endWeek;endWeek=function(){const r=_ew2.apply(this,arguments);try{if(S&&S.coaches&&S.w%4===0){for(const p of S.pro.concat(S.jr)){if(p.co&&COI.get(p.co))continue;const c=mkCoach(1);c.club=1;c.sal=0;c.c=p.c;S.coaches.push(c);COI.set(c.id,c);p.co=c.id}}}catch(e){}return r}}
+// saves antigos: garante técnico já na primeira tela
+{const _r=render;render=function(...a){try{if(S&&S.me&&!S.cm&&!S.ended&&S.coaches&&!S.me.coachId&&!MENU)bcEnsureCo()}catch(e){}return _r.apply(this,a)}}
 
 // =============== tutorial ===============
 const TUT=[
@@ -6441,7 +6474,7 @@ function createView(){
  </div><p class="xs mut">${F.age<=18?`Começa no circuito juvenil${F.age>14?' com algum ranking':''}. Só torneios juniores até os 17 anos; a partir daí você escolhe quando virar profissional (automático aos 19).`:`Começa direto no profissional, já mais ${F.circ==='WTA'?'desenvolvida':'desenvolvido'}, mas com ranking baixo (por volta de #${430-(F.age-19)*15}–#${560-(F.age-19)*15}) e menos tempo para evoluir.`}</p>
  ${bcPick('hand')}
  ${bcPick('style')}
- ${bcPick('pers')}${bcPrev()}
+ ${bcPick('pers')}${bcPrev()}${!FORM.coach&&!FORM.leg?bcPick('co0'):''}
  <div class="sec-t">Talento</div><div class="chips">${opt('tal',Object.entries(TALS).map(([k,v])=>[k,v[0]]))}</div><div class="xs mut">${TALS[F.tal||'sorte'][1]}</div>
  <div class="sec-t">🌍 Código do mundo (opcional)</div><input placeholder="Ex.: BREAK2027" maxlength="20" value="${esc(F.seed||'')}" oninput="FORM.seed=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')" style="width:100%"><div class="xs mut">Com o mesmo código, você e seus amigos começam no mesmo mundo: mesmos adversários, rival e torneios. Deixe em branco para um mundo aleatório.</div>
  <div class="sec-t">Duração</div><div class="chips">${opt('quick',[[0,'Carreira completa'],[1,'Carreira rápida (5 temporadas)']])}</div><div class="xs mut">${F.quick?'Cinco temporadas, calendário montado sozinho, partidas no modo simular direto e sem entrevistas nem mensagens obrigatórias. Boa para jogar em pausas curtas.':'A carreira inteira, até a aposentadoria, com todas as decisões.'}</div>
@@ -6539,12 +6572,12 @@ function calView(){
  <div class="chips"><button class="${CALALL?'':'on'}" onclick="CALALL=false;render()">Principais</button><button class="${CALALL?'on':''}" onclick="CALALL=true;render()">Todos (Challengers, ITF, juvenis)</button></div>
  ${h||'<div class="mut">Fim de temporada.</div>'}</div>`;
 }
-function coachLine(c,btn){const bot=S.pro.find(p=>p.co===c.id);return `<div class="spn"><div class="logo">${flag(c.c)}</div><div style="flex:1"><b>${esc(c.n)}</b> <span class="stars">${'★'.repeat(c.q)}</span>${c.ex?' <span class="chip t">ex-jogador</span>':''}<div class="xs mut">${COACH_ST[c.st]} · especialista em ${ATTR.find(a=>a[0]===c.sp)[1]} · ${money(c.sal)}/sem${CREQ[c.q]?` · exige top ${CREQ[c.q]}`:''}${bot?` · treina ${esc(bot.n)} (multa ${money(c.sal*10)})`:''}</div></div>${btn}</div>`}
+function coachLine(c,btn){const bot=S.pro.find(p=>p.co===c.id);return `<div class="spn"><div class="logo">${flag(c.c)}</div><div style="flex:1"><b>${esc(c.n)}</b> <span class="stars">${'★'.repeat(c.q)}</span>${c.ex?' <span class="chip t">ex-jogador</span>':''}<div class="xs mut">${COACH_ST[c.st]} · especialista em ${(ATTR.find(a=>a[0]===c.sp)||[0,'sem especialidade'])[1]} · ${money(c.sal)}/sem${CREQ[c.q]?` · exige top ${CREQ[c.q]}`:''}${bot?` · treina ${esc(bot.n)} (multa ${money(c.sal*10)})`:''}</div></div>${btn}</div>`}
 function coachCard(){
  const m=S.me,c=myCoach(),fr=freeCoaches().sort((a,b)=>b.q-a.q||a.sal-b.sal).slice(0,8);
  const stars5=S.coaches.filter(x=>x.q>=4&&S.pro.some(p=>p.co===x.id)).sort((a,b)=>b.q-a.q).slice(0,4);
  return `<div class="card"><h3>🧑‍🏫 Treinador</h3>
- ${c?coachLine(c,`<button class="sec" onclick="fireCoach()">Dispensar</button>`)+(()=>{cInit();return c.me?'':`<div class="small" style="margin:4px 0">🤝 Confiança do treinador: <b class="${m.cTrust<35?'loss':m.cTrust>=65?'win':''}">${Math.round(m.cTrust)}/100</b> · contrato até ${wkDate(m.cUntil)} ${year0(m.cUntil)}</div><div class="bar"><i style="width:${m.cTrust}%"></i></div><div class="xs mut" style="margin:4px 0 6px">Sobe quando você segue as dicas e vence. Abaixo de 18, ele pede demissão.</div>`})()+`<p class="xs mut">Treino ×${COACH[c.q].m}, +${(c.q*.35).toFixed(1)} de nível nas partidas, treino de ${ATTR.find(a=>a[0]===c.sp)[1]} rende 25% mais e ${c.st==='ofensivo'?'melhora o saque':c.st==='defensivo'?'melhora a devolução':'equilibra saque e devolução'}. Treinadores com ★★★ ou mais sugerem a melhor tática.</p>`:'<p class="small mut">Você está sem treinador.</p>'}
+ ${c?coachLine(c,`<button class="sec" onclick="fireCoach()">Dispensar</button>`)+(()=>{cInit();return c.me?'':`<div class="small" style="margin:4px 0">🤝 Confiança do treinador: <b class="${m.cTrust<35?'loss':m.cTrust>=65?'win':''}">${Math.round(m.cTrust)}/100</b> · contrato até ${wkDate(m.cUntil)} ${year0(m.cUntil)}</div><div class="bar"><i style="width:${m.cTrust}%"></i></div><div class="xs mut" style="margin:4px 0 6px">Sobe quando você segue as dicas e vence. Abaixo de 18, ele pede demissão.</div>`})()+`<p class="xs mut">Treino ×${COACH[c.q].m}, +${(c.q*.35).toFixed(1)} de nível nas partidas, treino de ${(ATTR.find(a=>a[0]===c.sp)||[0,'sem especialidade'])[1]} rende 25% mais e ${c.st==='ofensivo'?'melhora o saque':c.st==='defensivo'?'melhora a devolução':'equilibra saque e devolução'}. Treinadores com ★★★ ou mais sugerem a melhor tática.</p>`:'<p class="small mut">Você está sem treinador.</p>'}
  <div class="sec-t" style="margin-top:8px">Disponíveis</div>${fr.map(x=>coachLine(x,`<button class="sec" onclick="hireCoach('${x.id}')">Contratar</button>`)).join('')}
  <div class="sec-t" style="margin-top:8px">Treinadores de elite (trabalhando com outros jogadores)</div>${stars5.map(x=>coachLine(x,`<button class="sec" onclick="hireCoach('${x.id}')">Tirar dele</button>`)).join('')}</div>`;
 }

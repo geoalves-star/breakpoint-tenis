@@ -17,7 +17,7 @@ const BCSTSF={sacador:{grass:1,hard:.4,clay:-.8},fundo:{clay:1,hard:.2,grass:-.6
 function bcPersOf(m){m=m||(S&&S.me);if(!m)return 'normal';if(m.pers)return m.pers;const b=m.base??40;return b<=25?'calmo':b>=55?'explosivo':'normal'}
 function bcPersSp(){try{const p=bcPersOf();return p==='calmo'?1.1:p==='explosivo'?.92:1}catch(e){return 1}}
 // cartões de escolha com o que cada opção faz
-function bcPick(k){const P=BCPICK[k],cur=FORM[k];
+function bcPick(k){const P=BCPICK[k];if(k==='co0'&&!FORM.co0)FORM.co0='clube';const cur=FORM[k];
  return `<div class="sec-t">${P.t}</div><div class="bcpk bcpk-${k}">${Object.entries(P.o).map(([v,o])=>`<button class="opt bcpo ${cur===v?'on':''}" onclick="setF('${k}','${v}')"><span class="bcpi">${o.i}</span><b>${o.n}</b><small>${o.d}</small></button>`).join('')}</div>
  ${(()=>{const o=P.o[cur];if(!o)return'';return `<div class="bcpx"><div class="bcpxh">${o.i} ${o.n} na prática</div>${o.p.map(x=>`<div class="bcpp">＋ ${x}</div>`).join('')}${o.c.map(x=>`<div class="bcpc">− ${x}</div>`).join('')}</div>`})()}`}
 // prévia dos atributos iniciais conforme as escolhas
