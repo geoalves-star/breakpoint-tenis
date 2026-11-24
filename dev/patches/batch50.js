@@ -201,7 +201,7 @@ function v5Season(){const m=S.me,y=year(),y0=S.w-S.w%52,wk=S.w%52;
 // =============== v5.0 · estilo em todo o jogo ===============
 let EMOJI_T=null;
 deEmoji=function(root){if(!MIN||!root)return;if(!EMOJI_T)EMOJI_T=new RegExp(EMOJI_RE.source,'u');const tw=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentElement;if(!p||p.closest('.fl,svg,.thm,.v5keep,textarea,script,style,.ic'))return NodeFilter.FILTER_REJECT;return EMOJI_T.test(n.nodeValue)?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_SKIP}});const L=[];let n;while(n=tw.nextNode())L.push(n);
- for(const t of L){const v=t.nodeValue.replace(/(\d)\s?⚡/g,'$1 de energia').replace(EMOJI_RE,'');if(!v.trim()){const el=t.parentElement;if(!el||!el.textContent.replace(t.nodeValue,'').trim())continue}t.nodeValue=v}};
+ for(const t of L){const v=t.nodeValue.replace(/(\d)\s?⚡\s?energia/g,'$1 de energia').replace(/(\d)\s?⚡/g,'$1 de energia').replace(EMOJI_RE,'');if(!v.trim()){const el=t.parentElement;if(!el||!el.textContent.replace(t.nodeValue,'').trim())continue}t.nodeValue=v}};
 const v5Head=(k,t,l)=>`<section class="v5head"><span class="v5k a">${k}</span><h1 class="v5h1 v5h1s">${t}</h1>${l?`<p class="v5lede">${l}</p>`:''}</section>`;
 const v5tabify=s=>s.replace('<div class="chips" style="margin-top:0">','<div class="chips v5tabs" style="margin-top:0">');
 // barra de ação em todas as abas
