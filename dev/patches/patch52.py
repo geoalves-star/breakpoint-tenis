@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='6.8.1';")
+    R("const VERSION='5.5';","const VERSION='6.8.2';")
     # v6.2: estilo, mão e personalidade explicados
     R("""<div class="sec-t">Mão</div><div class="chips">${opt('hand',[['destro','Destro'],['canhoto','Canhoto (+saque)']])}</div>""","""${bcPick('hand')}""")
     R("""<div class="sec-t">Estilo de jogo</div><div class="chips">${opt('style',[['fundo','Fundo de quadra'],['sacador','Sacador'],['contra','Contra-golpeador'],['completo','Completo']])}</div>""","""${bcPick('style')}""")
@@ -74,3 +74,6 @@ def apply(s,R):
     # v6.8: dificuldade com cartões explicados
     R("""<div class="sec-t">Dificuldade</div><div class="chips">${opt('diff',Object.entries(DIFF).map(([k,v])=>[k,v[0]]))}</div><div class="xs mut">${DIFF[F.diff||'normal'][1]}</div>""","""${bcPick('diff')}""")
     R('<div class="xs mut" style="margin-top:6px">Criado por <b>Geovanne</b></div>','<div class="xs mut" style="margin-top:6px">Criado por <b>Geovanne</b></div><div class="xs mut" style="margin-top:4px">O site conta as visitas de forma anônima, sem cookies.</div>')
+    # v6.8.2: o erro de abertura da carreira deixa de ser engolido em silêncio; o resumo do slot guarda quando foi salvo
+    R("if(!S.ch)seedHistory();return true}}catch(e){}return false}","if(!S.ch)seedHistory();return true}}catch(e){window.LOADERR=e;console.error(e)}return false}")
+    R("return{cid:S.cid,name:m.name,","return{cid:S.cid,ts:Date.now(),name:m.name,")
