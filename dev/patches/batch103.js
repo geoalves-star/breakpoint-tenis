@@ -28,7 +28,7 @@ function bcRivWeek(){const c=S.cm;if(!bcV2())return;bcRivInit();const rc=bcRiv()
    else S.modals.push({k:'Duelo de técnicos',e:'⚔️',ti:`Disputa por ${p.n}`,q:`${flag(p.c)} ${p.n}, ${ageOf(p)} anos (olheiros: ${scoutTxt(p.pot)}), está entre você e ${rc.n}. Uma proposta melhor pode decidir.`,o:[{l:'Fazer proposta',t:`US$ 5 mil da sua conta · chance maior com mais reputação e nível`,fx:{bcTal:[p.id,1]}},{l:`Deixar para ${rc.n.split(' ')[0]}`,t:'Sem custo, mas o rival fica mais forte',fx:{bcTal:[p.id,0]}}]})}}
  // fim de temporada: o rival sobe de nível quando os atletas dele evoluem
  if(S.w%52===0){const best=Math.min(...bcRivA().map(p=>RK.pro[p.id]||RK.jr[p.id]*3||999));if(best<=150&&rc.lv<10&&R()<.7){rc.lv++;news(`⚔️ ${rc.n}, seu rival, subiu para o nível ${rc.lv}.`)}}}
-{const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);try{bcRivWeek()}catch(e){console.error(e)}return r}}
+{const _ew=endWeek;endWeek=function(){const w0=S&&S.w;const r=_ew.apply(this,arguments);try{if(S&&S.w!==w0)bcRivWeek()}catch(e){console.error(e)}return r}}
 {const _af=applyFx;applyFx=function(fx){const r=_af.apply(this,arguments);try{if(fx&&fx.bcTal){const [id,bid]=fx.bcTal,c=S.cm,rc=bcRiv(),p=IDX.get(id);if(!p||!rc)return r;
  if(bid&&c.wallet>=5000){c.wallet-=5000;const pr=clamp(.5+(cmRep()-Math.ceil(rc.lv/2))*.12+(bcMyLv()-rc.lv)*.04,.15,.85);if(R()<pr){cmAddPup(id);news(`⚔️ Você venceu a disputa: ${p.n} escolheu treinar com você.`)}else{c.rvA.push(id);p.co=rc.id;news(`⚔️ ${p.n} preferiu ${rc.n}. Fica para a próxima.`)}}
  else{if(bid)TOAST='Você não tem US$ 5 mil na sua conta.';c.rvA.push(id);p.co=rc.id;news(`⚔️ ${p.n} agora treina com ${rc.n}.`)}}}catch(e){console.error(e)}return r}}

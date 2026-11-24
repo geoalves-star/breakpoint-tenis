@@ -39,7 +39,7 @@ function bcPanPlay(acc){const m=S.me,y=year(),[city,iso]=bcPanHost(y);S.pan={y,d
 {const _af=applyFx;applyFx=function(fx){const r=_af.apply(this,arguments);try{if(fx&&fx.bcPanSh){const k=fx.bcPanSh,m=S.me,y=year();setTimeout(()=>bcShareCard({kick:'Jogos Pan-Americanos',tag:String(y),icon:k==='ouro'?'🥇':k==='prata'?'🥈':'🥉',title:`Medalha de ${k}`,big:bcPanHost(y)[0],name:m.name,sub:`${COUNTRIES[m.c][1]} · tênis, simples`,file:`breakpoint_pan_${y}`}),0)}}catch(e){}return r}}
 {const _r=render;render=function(...a){const v=_r.apply(this,a);try{if(S&&S.me&&!MENU&&TAB==='home'&&!S.tour&&!S.modals.length&&!document.querySelector('.bcpan')){const h=bcPanCard();if(h){const wk=document.querySelector('.bcwk');if(wk)wk.insertAdjacentHTML('afterend',h)}}}catch(e){console.error(e)}return v}}
 // a semana do Pan não passa em branco: se o jogador avançar sem responder, conta como recusa silenciosa
-{const _ew=endWeek;endWeek=function(){try{if(bcPanOk())S.pan={y:year(),done:1}}catch(e){}return _ew.apply(this,arguments)}}
+{const _ew=endWeek;endWeek=function(){try{if(!S.modals.length&&!S.tour&&bcPanOk())S.pan={y:year(),done:1}}catch(e){}return _ew.apply(this,arguments)}}
 
 // ---------- técnico capitão da seleção (modo treinador) ----------
 BCMIL.push(['capt','🇺🇳','Capitão campeão','Sua seleção vence a competição por equipes com você de capitão.',40000,2]);
@@ -47,7 +47,7 @@ const bcCapC=()=>{try{const c=S.cm;return c&&c.cap&&c.cap.y===year()?c.cap.c:nul
 {const _t=tie;tie=function(ca,cb,log){const cc=bcCapC();if(cc==null||(ca!==cc&&cb!==cc))return _t.apply(this,arguments);
  const lv=bcMyLv(),bo=1+.2*lv,ids=teamOf(cc).filter(id=>id!=='me');ids.forEach(id=>{const p=IDX.get(id);if(p)p.r+=bo});let w;
  try{w=_t.apply(this,arguments)}finally{ids.forEach(id=>{const p=IDX.get(id);if(p)p.r-=bo})}
- const won=ca===cc?w:!w,opp=ca===cc?cb:ca,c=S.cm;c.cap.res=c.cap.res||[];c.cap.res.push({w:S.w,o:opp,win:won?1:0,f:S.w%52===SPW().f?1:0});
+ const won=ca===cc?w:!w,opp=ca===cc?cb:ca,c=S.cm;c.cap.res=c.cap.res||[];c.cap.res.push({w:S.w,o:opp,win:won?1:0,f:S.w%52===SPW().f?1:0});if(S.w%52===SPW().q&&c.cap.q==null)c.cap.q=won?1:0;
  if(won){c.txp=(c.txp||0)+12}return w}}
 function bcCapInvite(){const c=S.cm,y=year(),sp=SPW(),wk=S.w%52;if(!bcV2()||S.ended||bcMyLv()<4)return;c.capInv=c.capInv||{};if(c.capInv[y])return;
  if(wk!==((sp.q-2+52)%52))return;c.capInv[y]=1;const ci=c.c??S.me.c;if(teamOf(ci).length<3)return;
@@ -67,7 +67,7 @@ function bcCapQual(wk){const c=S.cm,cc=bcCapC();if(cc==null||c.cap.q!=null||wk!=
 // fecha a campanha: título de capitão e reputação
 function bcCapClose(wk){const c=S.cm,cc=bcCapC();if(cc==null||c.cap.fin||wk!==SPW().f)return;c.cap.fin=1;const F=(c.cap.res||[]).filter(x=>x.f);const champ=F.length>=3&&F.every(x=>x.win);
  if(champ){if(!bcHas('capt'))bcGive('capt',year(),`Seleção ${flag(cc)} campeã com você no comando.`);else{c.wallet+=40000;news(`🇺🇳 Seleção ${flag(cc)} campeã de novo com ${c.n} no comando! Bônus de ${money(40000)}.`)}c.trust=clamp(c.trust+5,0,100)}
- else if(F.length)news(`🇺🇳 Campanha da seleção ${flag(cc)} encerrada: ${F.filter(x=>x.win).length} vitória${F.filter(x=>x.win).length===1?'':'s'} nas Finais.`)}
-{const _ew=endWeek;endWeek=function(){const wk=S.w%52;try{if(bcV2()&&!S.ended)bcCapQual(wk)}catch(e){console.error(e)}const r=_ew.apply(this,arguments);try{if(bcV2()&&!S.ended){bcCapClose(wk);bcCapInvite()}}catch(e){console.error(e)}return r}}
+ else if(!F.length&&c.cap.q)news(`🇺🇳 A seleção ${flag(cc)} se classificou, mas ficou fora da chave das Finais deste ano.`);else if(F.length)news(`🇺🇳 Campanha da seleção ${flag(cc)} encerrada: ${F.filter(x=>x.win).length} vitória${F.filter(x=>x.win).length===1?'':'s'} nas Finais.`)}
+{const _ew=endWeek;endWeek=function(){const w0=S.w,wk=S.w%52;const r=_ew.apply(this,arguments);try{if(S.w!==w0&&bcV2()&&!S.ended){bcCapQual(wk);bcCapClose(wk);bcCapInvite()}}catch(e){console.error(e)}return r}}
 // painel da equipe: faixa da seleção
 {const _tp=bcTeamPanel;bcTeamPanel=function(){let h=_tp();try{const c=S.cm,cc=bcCapC();if(cc!=null){const R0=c.cap.res||[];const s=`<div class="bcrv bccap"><b>🇺🇳 Capitã${c.f?'':'o'} da seleção ${flag(cc)} · ${TEAMN()} ${year()}</b><span>${c.cap.q==null?'Qualificatória em breve':c.cap.q?'Classificados para as Finais':'Eliminados na qualificatória'} · confrontos ${R0.filter(x=>x.win).length}-${R0.filter(x=>!x.win).length}</span></div>`;const i=h.lastIndexOf('</div>');h=h.slice(0,i)+s+h.slice(i)}else if(bcV2()&&bcMyLv()<4){}}catch(e){}return h}}

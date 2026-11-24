@@ -2,14 +2,14 @@
 const BCSTF={
  pf:{i:'💪',n:'Preparador físico',c:[0,250,550,1100],d:lv=>lv?`Alunos evoluem cerca de ${8*lv}% mais rápido. Treino físico do atleta principal +${10*lv}% e os demais +${3*lv}%.`:'Ninguém cuida da parte física da equipe.'},
  fis:{i:'🩺',n:'Fisioterapeuta',c:[0,200,450,900],d:lv=>lv?`Atleta principal: lesões ${10*lv}% menos frequentes e +${lv} de energia por semana. Alunos perdem ${25*lv}% menos confiança quando você não está no box.`:'Sem acompanhamento de lesões e recuperação.'},
- sc:{i:'🔭',n:'Olheiro',c:[0,150,350,700],d:lv=>lv?`Um relatório de jovem talento a cada ${[0,6,5,4][lv]} semanas, com estimativa de potencial ${['','aproximada','boa','muito precisa'][lv]}.`:'Sem relatórios de talentos.'}};
+ sc:{i:'🔭',n:'Olheiro',c:[0,150,350,700],d:lv=>lv?`Um relatório de jovem talento a cada ${[0,6,5,4][lv]} semanas, com estimativa de potencial ${['','aproximada','boa','muito precisa'][lv]}.`:(bcSlots()<1?'Sem relatórios de talentos. Para contratar, você precisa de vaga para alunos: construa a academia ou suba a habilidade Gestão.':'Sem relatórios de talentos.')}};
 const bcSt=()=>{const c=S.cm;c.st=c.st||{pf:0,fis:0,sc:0};return c.st};
 const bcStLv=k=>{try{return bcV2()?(bcSt()[k]||0):0}catch(e){return 0}};
 const bcStCost=()=>{const s=bcSt();return Object.keys(BCSTF).reduce((t,k)=>t+BCSTF[k].c[s[k]||0],0)};
-function bcStSet(k,lv){const s=bcSt(),c=S.cm;lv=clamp(lv,0,3);if(lv>(s[k]||0)&&c.wallet<BCSTF[k].c[lv]*2){TOAST=`Sua conta precisa de pelo menos ${money(BCSTF[k].c[lv]*2)} para contratar.`;render();return}
+function bcStSet(k,lv){const s=bcSt(),c=S.cm;lv=clamp(lv,0,3);if(k==='sc'&&lv>(s.sc||0)&&bcSlots()<1){TOAST='O olheiro só ajuda quando você tem vaga para alunos. Construa a academia ou suba a habilidade Gestão.';render();return}if(lv>(s[k]||0)&&c.wallet<BCSTF[k].c[lv]*2){TOAST=`Sua conta precisa de pelo menos ${money(BCSTF[k].c[lv]*2)} para contratar.`;render();return}
  const up=lv>(s[k]||0);s[k]=lv;news(up?`🧰 ${BCSTF[k].n} ${lv>1?'promovido ao nível '+lv:'contratado'} (${money(BCSTF[k].c[lv])}/sem).`:lv?`🧰 ${BCSTF[k].n} rebaixado ao nível ${lv}.`:`🧰 Você dispensou o ${BCSTF[k].n.toLowerCase()}.`);if(k==='sc'&&up&&!c.scW)c.scW=S.w;save();render()}
 // salário semanal e efeitos
-{const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);try{if(bcV2()&&!S.ended){const c=S.cm,s=bcSt(),cost=bcStCost();if(cost){c.wallet-=cost;if(c.wallet<0){const k=Object.keys(BCSTF).filter(k=>s[k]).sort((a,b)=>BCSTF[b].c[s[b]]-BCSTF[a].c[s[a]])[0];if(k){s[k]=0;news(`💸 Sem dinheiro na conta: o ${BCSTF[k].n.toLowerCase()} deixou a equipe.`)}}}
+{const _ew=endWeek;endWeek=function(){const w0=S.w;const r=_ew.apply(this,arguments);try{if(S.w!==w0&&bcV2()&&!S.ended){const c=S.cm,s=bcSt(),cost=bcStCost();if(cost){c.wallet-=cost;if(c.wallet<0){const k=Object.keys(BCSTF).filter(k=>s[k]).sort((a,b)=>BCSTF[b].c[s[b]]-BCSTF[a].c[s[a]])[0];if(k){s[k]=0;news(`💸 Sem dinheiro na conta: o ${BCSTF[k].n.toLowerCase()} deixou a equipe.`)}}}
   if(s.fis)S.me.energy=clamp(S.me.energy+s.fis,0,100);bcScWeek()}}catch(e){console.error(e)}return r}}
 {const _p=cmPupWeek;cmPupWeek=function(){const r=_p.apply(this,arguments);try{if(bcV2()){const c=S.cm,s=bcSt();for(const x of (c.pup||[])){const p=IDX.get(x.id);if(!p)continue;if(s.pf&&p.r<p.pot)p.r=Math.min(p.pot,p.r+.0035*s.pf*(x.foc==='treino'?1.5:1));if(s.fis&&String(c.box)!==String(x.id))x.tr=clamp((x.tr??60)+.02*s.fis,0,100)}}}catch(e){}return r}}
 {const _g=gain;gain=function(k,base){const lv=bcStLv('pf');return _g.call(this,k,lv?base*(k==='fi'?1+.1*lv:1+.03*lv):base)}}

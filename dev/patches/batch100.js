@@ -24,7 +24,7 @@ function bcLvUp(lv,mine,c){const nm=mine?S.cm.n:c.n,tn=bcLvName(lv);
  if(mine){const fx=[`treino ${Math.round((bcLvMul(lv)-1)*100)}% mais rendoso`];if(lv===4||lv===8)fx.push('+1 vaga na equipe');if(lv===6)fx.push('+1 estrela de reputação');
   news(`📈 Você subiu para o nível ${lv}: ${G('técnico','técnica')} ${tn.toLowerCase()}.`);S.modals.push({k:'Nível',e:'📈',ti:`Nível ${lv} · ${tn}`,q:`Sua experiência no circuito cresceu. Agora: ${fx.join(', ')}.`,o:[{l:'Continuar',t:'Mais experiência vem de vitórias, títulos e prêmios',fx:{}}]})}
  else{news(`🧑‍🏫 ${nm} subiu para o nível ${lv} (${tn.toLowerCase()}): o treino rende mais${c.sal>0?` e o salário vai para ${money(c.sal)}/sem`:''}.`);TOAST=`${nm.split(' ')[0]} subiu para o nível ${lv}.`}}
-{const _ew=endWeek;endWeek=function(){const r=_ew.apply(this,arguments);try{if(S&&S.me&&!S.ended)bcLvWeek()}catch(e){console.error(e)}return r}}
+{const _ew=endWeek;endWeek=function(){const w0=S&&S.w;const r=_ew.apply(this,arguments);try{if(S&&S.me&&!S.ended&&S.w!==w0)bcLvWeek()}catch(e){console.error(e)}return r}}
 // painel do nível
 function bcLvBar(lv,x,need,cap,lbl){const top=lv>=cap;return `<div class="bclv"><div class="bclvh"><b>Nível ${lv}</b><span>${bcLvName(lv)}</span>${lbl?`<em>${lbl}</em>`:''}</div><div class="bclvt">${[1,2,3,4,5,6,7,8,9,10].map(i=>`<u class="${i<=lv?'on':''}${i>cap?' x':''}"></u>`).join('')}</div><div class="xs mut">${top?(lv>=10?'Nível máximo.':'Chegou ao teto deste técnico.'):`${Math.round(x)}/${need} de experiência para o nível ${lv+1}.`}</div></div>`}
 // carreira: nível do seu técnico na aba Equipe
