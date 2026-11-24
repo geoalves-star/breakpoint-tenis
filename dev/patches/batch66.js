@@ -7,7 +7,7 @@ const v5CurEv=()=>{try{return S.tour?weekEvents(S.w).find(e=>e.key===S.tour.key)
 {const _a=award;award=function(id,t,idx){let arr=null;try{arr=id==='me'?(t.cat==='pro'?S.me.ptsPro:S.me.ptsJr):(id!=null&&IDX.get(id)?IDX.get(id).pts:null)}catch(e){}const n0=arr?arr.length:0;const r=_a(id,t,idx);
  try{if(arr&&arr.length>n0){const e=arr[arr.length-1];if(e.length<3){const ev=(id==='me'?v5CurEv():null)||CUR_EV;e.push(t.cat==='jr'?'J':v5PK(ev))}}}catch(e){}return r}}
 // ranking: Slams + obrigatórios + melhores resultados até 18 (ATP Finals/WTA Finals como bônus)
-function v5Split(a){const lo=S.w-52,B={G:[],M:[],N:[],F:[],O:[],J:[]};for(const e of a||[]){if(e[0]<=lo)continue;(B[e[2]]||B.O).push(e)}return B}
+function v5Split(a){const lo=S.w-53,B={G:[],M:[],N:[],F:[],O:[],J:[]};for(const e of a||[]){if(e[0]<=lo)continue;(B[e[2]]||B.O).push(e)}return B}
 function v5Count(a){const B=v5Split(a),W=CIRC()==='WTA',d=x=>x.slice().sort((p,q)=>q[1]-p[1]);const used=[],out=[];
  if(B.J.length&&!B.G.length&&!B.M.length){return{used:B.J.concat(B.O),out:[],tot:[...B.J,...B.O].reduce((s,e)=>s+e[1],0),fin:0,mand:0}}
  B.G.forEach(e=>used.push(e));let other=B.O.slice();
