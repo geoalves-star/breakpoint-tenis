@@ -139,7 +139,7 @@ function v5Res(){const L=LIVE,r=L.res,a=r.st.a,b=r.st.b,p=IDX.get(L.opp),m=S.me,
  const note=v5Notable(L);if(note)L.v5j=1;
  const stats=`${statRow('Aces',a.ace,b.ace)}${statRow('Duplas faltas',a.df,b.df,null,null,false)}${statRow('1º saque em quadra',pc(a.f1,a.sp),pc(b.f1,b.sp),pc(a.f1,a.sp)+'%',pc(b.f1,b.sp)+'%')}${statRow('Pontos com 1º saque',pc(a.f1w,a.f1),pc(b.f1w,b.f1),pc(a.f1w,a.f1)+'%',pc(b.f1w,b.f1)+'%')}${statRow('Pontos com 2º saque',pc(a.s2w,a.s2),pc(b.s2w,b.s2),pc(a.s2w,a.s2)+'%',pc(b.s2w,b.s2)+'%')}${statRow('Break points',a.bpw,b.bpw,`${a.bpw}/${a.bpo}`,`${b.bpw}/${b.bpo}`)}${statRow('Winners',a.win,b.win)}${statRow('Erros não forçados',a.ue,b.ue,null,null,false)}${statRow('Pontos ganhos',a.pts,b.pts)}`;
  return `<div class="v5res"><div class="v5pat"></div><div class="v5resin">
- <span class="v5k" style="color:var(--acc)">${esc(L.ev.name)} · ${esc(L.stage)} · ${Math.floor(r.st.dur/60)}h${String(r.st.dur%60).padStart(2,'0')}</span>
+ <span class="v5k" style="color:var(--acc)">${esc(L.ev.name)} · ${esc(L.stage)}${typeof bcCourtTag==='function'?bcCourtTag(L.ev,L.stage,L.opp):''} · ${Math.floor(r.st.dur/60)}h${String(r.st.dur%60).padStart(2,'0')}</span>
  <div class="v5big ${win?'w':'l'}">${win?'Vitória':r.ret?'Abandono':'Derrota'}${stamp?`<span class="v5stamp2">${stamp}</span>`:''}</div>
  <table class="v5sb">${row(true)}${row(false)}</table>
  ${next?`<div class="v5next">${esc(next)}</div>`:''}

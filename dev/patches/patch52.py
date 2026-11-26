@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='7.6';")
+    R("const VERSION='5.5';","const VERSION='7.7';")
     R(open('p31/fav_old.txt').read(),open('p31/fav_new.txt').read())
     R("S.me.spons.some(x=>x.id==='vortex')","S.me.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
     R("m.spons.some(x=>x.id==='vortex')","m.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
@@ -82,3 +82,14 @@ def apply(s,R):
     R("return{cid:S.cid,name:m.name,","return{cid:S.cid,ts:Date.now(),name:m.name,")
     # v6.9: defesa de pontos como no circuito: os pontos do ano passado valem até o fim da semana do torneio
     R("function sumPts(a){const lo=S.w-52;","function sumPts(a){const lo=S.w-53;")
+    # v7.7: aposentadoria e declínio mais realistas; teto, sessão noturna e nome das quadras
+    R("p.rt=clamp(Math.round(35+fit*10+gauss()*1.5),35,45);if(age!=null&&p.rt<=age)p.rt=Math.min(45,age+ri(1,3))","p.rt=clamp(Math.round(30+fit*5+gauss()*2),28,40);if(age!=null&&p.rt<=age)p.rt=Math.min(41,age+ri(1,3))")
+    R("else r=-(.9+.6*(a-pk))*(1.4-fit*.6);","else r=-(a-pk<1?.1:(.15+.32*(a-pk-1)))*(1.3-fit*.5);")
+    R("if(a<pk){r=(a<19?6:a<23?5:1.8)","if(a<pk){r=(a<19?7:a<22?6:a<24?3.5:1.8)")
+    R("p.rt=Math.max(35,(p.rt||38)-ri(1,4))","p.rt=Math.max(Math.min(ageOf(p)+1,40),(p.rt||34)-ri(1,3))")
+    R("const roundName=n=>","let roundName=n=>")
+    R("IM.roof=['GS','M1000','FIN'].includes(ev.tier)&&/Final|Semi|Quartas/.test(stage)","IM.roof=bcRoofOf(ev,stage,IM.opp)")
+    R("night=cl==='indoor'?0:(I.ev.key.length%3===0&&I.stage.match(/Final|Semi/))?1:0","night=bcNight(I.ev,I.stage,cl,I.opp)")
+    R("night=cl==='indoor'?0:(I.ev.key.length%3===0&&/Final|Semi/.test(I.stage))?1:0","night=bcNight(I.ev,I.stage,cl,I.opp)")
+    R("${esc(I.ev.name)} · ${esc(I.stage)}","${esc(I.ev.name)} · ${esc(I.stage)}${bcCourtTag(I.ev,I.stage,I.opp)}")
+    R("${esc(L.ev.name)} · ${esc(L.stage)}","${esc(L.ev.name)} · ${esc(L.stage)}${bcCourtTag(L.ev,L.stage,L.opp)}",2)
