@@ -30,8 +30,10 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='7.4';")
+    R("const VERSION='5.5';","const VERSION='7.5';")
     R(open('p31/fav_old.txt').read(),open('p31/fav_new.txt').read())
+    R("S.me.spons.some(x=>x.id==='vortex')","S.me.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
+    R("m.spons.some(x=>x.id==='vortex')","m.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
     # v6.2: estilo, mão e personalidade explicados
     R("""<div class="sec-t">Mão</div><div class="chips">${opt('hand',[['destro','Destro'],['canhoto','Canhoto (+saque)']])}</div>""","""${bcPick('hand')}""")
     R("""<div class="sec-t">Estilo de jogo</div><div class="chips">${opt('style',[['fundo','Fundo de quadra'],['sacador','Sacador'],['contra','Contra-golpeador'],['completo','Completo']])}</div>""","""${bcPick('style')}""")
