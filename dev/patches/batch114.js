@@ -8,7 +8,7 @@ allocWeek=function(){S.draws={};S.played={};const evs=weekEvents(S.w);
   for(const tier of ord){const grp=list.filter(e=>e.tier===tier);if(!grp.length)continue;const n=1<<(TIERS[tier].pts.length-1);
    if(tier==='OLY'){const cnt={},d=[];for(const id of ORD.pro){if(id==='me')continue;const c=IDX.get(id).c;cnt[c]=(cnt[c]||0);if(cnt[c]<4){cnt[c]++;d.push(id)}if(d.length>=64)break}S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
    if(tier==='EXH'){const d=ORD.pro.filter(x=>x!=='me').slice(0,8);S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
-   if(tier==='FIN'){const d=raceOrd().filter(x=>x.id!=='me').slice(0,8).map(x=>x.id);S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
+   if(tier==='FIN'){const d=raceOrd().filter(x=>x.id!=='me'&&!(IDX.get(x.id)&&IDX.get(x.id).inj>0)).slice(0,8).map(x=>x.id);S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
    const need=n*grp.length,lim=(BCLIM[cat]||{})[tier]||0;
    // quem é forte demais para o nível fica de fora (só entra se faltar gente)
    let keep=[];if(lim){keep=avail.filter(id=>(RK[cat][id]||9999)<=lim);avail=avail.filter(id=>(RK[cat][id]||9999)>lim)}
