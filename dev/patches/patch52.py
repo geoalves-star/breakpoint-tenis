@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='7.9.1';")
+    R("const VERSION='5.5';","const VERSION='8.0';")
     R(open('p31/fav_old.txt').read(),open('p31/fav_new.txt').read())
     R("S.me.spons.some(x=>x.id==='vortex')","S.me.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
     R("m.spons.some(x=>x.id==='vortex')","m.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
@@ -102,5 +102,9 @@ def apply(s,R):
     R("else if((E.ga>=6||E.gb>=6)&&Math.abs(E.ga-E.gb)>=2){","else if((E.ga>=(bcFmt()?bcFmt().sg:6)||E.gb>=(bcFmt()?bcFmt().sg:6))&&Math.abs(E.ga-E.gb)>=2){")
     R("const gA=E.a>=4&&E.a-E.b>=2,gB=E.b>=4&&E.b-E.a>=2;","const gA=E.a>=4&&(E.a-E.b>=2||!!(bcFmt()&&bcFmt().na)),gB=E.b>=4&&(E.b-E.a>=2||!!(bcFmt()&&bcFmt().na));")
     # v7.9: duplas com pontos reais (iguais aos de simples nas fases finais, zero na estreia) e aviso de agenda pesada
-    R("Math.round((t.pts[idx]||0)*(champ?.6:.5)),pr=Math.round(((t.prize||[])[idx]||0)*.3)","(won===0?0:Math.round((t.pts[idx]||0)*(idx>=3?.9:1))),pr=Math.round(((t.prize||[])[idx]||0)*.16)")
+    R("Math.round((t.pts[idx]||0)*(champ?.6:.5)),pr=Math.round(((t.prize||[])[idx]||0)*.3)","bcDblUserPts(ev,won,R0),pr=Math.round(((t.prize||[])[idx]||0)*.16)")
+    R("L=t.pts.length,R0=Math.min(5,L-1);let won=0;","L=t.pts.length,R0=bcDblRounds(ev);let won=0;")
+    R("const lbl=champ?'🏆 Campeões':['1ª rodada','2ª rodada','Quartas','Semifinal','Final'][won]||'Final';","const lbl=champ?'🏆 Campeões':bcDblRN(R0,won);")
+    R("return{id:p.id,p:Math.round((PTS.pro[p.id]||0)*p.dk*((RK.pro[p.id]||999)<=20?.45:1)+(p.dk>1.15?2200*p.dk:0))}","return{id:p.id,p:bcDblPtsOf(p)}")
+    R("if(!S.ended)L.push({id:'me',p:sumPts(S.me.ptsDbl||[])});","if(!S.ended)L.push({id:'me',p:(S.dblSim?bcBest18(S.me.ptsDbl||[]):sumPts(S.me.ptsDbl||[]))});")
     R("Você pode mudar a agenda quando quiser: toque em Agendar ou Agendado.</p>","Você pode mudar a agenda quando quiser: toque em Agendar ou Agendado.${bcPlanWarn(base,off)}</p>")

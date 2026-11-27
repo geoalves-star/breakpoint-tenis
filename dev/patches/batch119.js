@@ -77,11 +77,11 @@ const BCLVC=[['Berlim','DE'],['São Francisco','US'],['Londres','GB'],['Boston',
 function bcLaver(){const m=S.me,eu=c=>EUR.includes(COUNTRIES[c][0]),mine=eu(m.c);const pool=x=>ORD.pro.filter(id=>id!=='me'&&IDX.get(id)&&!(IDX.get(id).inj>0)&&eu(IDX.get(id).c)===x);
  let own,opp;if(typeof bcLvTeams==='function'){const T=bcLvTeams();own=T.own.slice();opp=T.opp.slice()}else{own=pool(mine).slice(0,5).concat(['me']).sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999)).slice(0,6);opp=pool(!mine).slice(0,6)}if(!own.includes('me')){own.pop();own.push('me')}while(own.length<6)own.push(pool(mine).find(x=>!own.includes(x)));while(opp.length<6)opp.push(pool(!mine).find(x=>!opp.includes(x)))
  const yi=((year()-2024)%BCLVC.length+BCLVC.length)%BCLVC.length,[city,iso]=BCLVC[yi],log=[],rat=id=>id==='me'?ovr():IDX.get(id).r;let pa=0,pb=0;const myM={w:0,l:0};
- const nm=id=>id==='me'?'você':`${flag(IDX.get(id).c)} ${IDX.get(id).n}`;
+ const nm=id=>id==='me'?`<b>${esc(S.me.name)}</b>`:`${flag(IDX.get(id).c)} ${IDX.get(id).n}`;
  const sing=(a,b,pts,day)=>{let w;if(a==='me'||b==='me'){const o=a==='me'?b:a;const win=matchUp('me',o,log,iso);w=a==='me'?win:!win;win?myM.w++:myM.l++}else w=R()<aiP(a,b,false,'hard');w?pa+=pts:pb+=pts;
-  if(a!=='me'&&b!=='me')log.push(`<span class="mut">Dia ${day} · simples: ${w?'✅':'❌'} ${nm(w?a:b)} venceu ${nm(w?b:a)} (+${pts} para ${w?'o seu time':'os rivais'})</span>`);};
+  if(a!=='me'&&b!=='me')log.push(`<span class="mut">Dia ${day} · simples: ${w?'✅':'❌'} ${nm(w?a:b)} venceu ${nm(w?b:a)} · +${pts} para ${w?'o seu time':'os rivais'}</span>`);};
  const dbl=(a1,a2,b1,b2,pts,day)=>{const ra=(rat(a1)+rat(a2))/2,rb=(rat(b1)+rat(b2))/2,w=R()<1/(1+Math.pow(10,-(ra-rb)/9));w?pa+=pts:pb+=pts;const me=[a1,a2].includes('me');
-  log.push(`${me?'':'<span class="mut">'}Dia ${day} · duplas: ${nm(a1)} e ${nm(a2)} ${w?'venceram':'perderam para'} ${nm(b1)} e ${nm(b2)} (${bcDblScore(w,false)}) (+${pts} para ${w?'o seu time':'os rivais'})${me?'':'</span>'}`)};
+  log.push(`${me?'':'<span class="mut">'}Dia ${day} · duplas: ${nm(a1)} / ${nm(a2)} ${w?'venceram':'perderam para'} ${nm(b1)} / ${nm(b2)} · ${bcDblScore(w,false)} · +${pts} para ${w?'o seu time':'os rivais'}${me?'':'</span>'}`)};
  const end=()=>pa>=13||pb>=13;
  const plan=[[1,[[5,4],[4,5],[3,3]],[1,4,1,4]],[2,[[2,2],[1,0],[0,1]],[0,3,0,3]],[3,[[0,0],[1,1],[2,2]],[2,5,2,5]]];
  for(const[day,S3,D]of plan){log.push(`<b>Dia ${day} · cada vitória vale ${day} ponto${day>1?'s':''}</b>`);if(day===3&&!end())dbl(own[D[0]],own[D[1]],opp[D[2]],opp[D[3]],3,3);

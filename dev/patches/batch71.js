@@ -3,33 +3,33 @@ let V5DB=null,V5DBA=null;
 const V5DRN=['1ª rodada','2ª rodada','Quartas de final','Semifinal','Final'];
 {const _dr=doublesRun;doublesRun=function(ev){const T=S.tour;if(!T||!T.dbl||T.dblDone||QUIET||SIMALL||OPTS.dblPlay===false)return _dr(ev);
  const m=S.me,t=TIERS[ev.tier],pt=partnerOf();if(!pt)return _dr(ev);T.dblDone=1;const d=S.draws[ev.key]||[];const field=d.length?d.reduce((s,id)=>s+(id==='me'?ovr():IDX.get(id).r),0)/d.length:60;
- const chem=((m.chem||{})[pt.id]||0),team=(ovr()*.7+m.attrs.vo*.3+pt.r)/2+(myCoach()?myCoach().q*.2:0)+chem*.025+DFORM[m.dform||'cls'][2](m.attrs)*.5,L=t.pts.length,R0=Math.min(5,L-1);
+ const chem=((m.chem||{})[pt.id]||0),team=(ovr()*.7+m.attrs.vo*.3+pt.r)/2+(myCoach()?myCoach().q*.2:0)+chem*.025+DFORM[m.dform||'cls'][2](m.attrs)*.5,L=t.pts.length,R0=bcDblRounds(ev);
  V5DB={evKey:ev.key,ev,pt:pt.id,field,team,R0,L,k:0,won:0,stage:'intro',opp:v5DbOpp(field,0)};setTimeout(v5DbShow,350)}}
 function v5DbOpp(field,k){const L=ORD.pro.map(id=>IDX.get(id)).filter(p=>p&&p.id!==S.me.dpart&&Math.abs(p.r-(field*.4+52+k*2.2))<6);const a=L.length>3?L[Math.floor(R()*L.length)]:IDX.get(ORD.pro[ri(40,300)]);let b=L.length>3?L[Math.floor(R()*L.length)]:IDX.get(ORD.pro[ri(40,300)]);if(b===a)b=IDX.get(ORD.pro[ri(40,300)]);return[a.id,b.id]}
 function v5DbP(){const D=V5DB,t=TIERS[D.ev.tier],opp=D.field*.4+52+D.k*2.2+(t.w>=2.5?2:0);D.oppR=D.oppR??(opp+gauss()*3);return 1/(1+Math.pow(10,-(D.team-D.oppR)/10))}
 function v5DbShow(){const D=V5DB;let el=document.getElementById('v5dbo');if(!D){if(el)el.remove();return}if(!el){el=document.createElement('div');el.id='v5dbo';el.className='v5dbo';document.body.appendChild(el)}
- const pt=IDX.get(D.pt),[a,b]=D.opp.map(id=>IDX.get(id)),p0=Math.round(v5DbP()*100),rn=D.k===D.R0-1?'Final':V5DRN[D.k]||'Rodada';
+ const pt=IDX.get(D.pt),[a,b]=D.opp.map(id=>IDX.get(id)),p0=Math.round(v5DbP()*100),rn=D.k===D.R0-1?'Final':bcDblRN(D.R0,D.k)||'Rodada';
  let body='';if(D.stage==='intro')body=`<p class="small mut" style="margin:0 0 10px">Você e ${flag(pt.c)} <b>${esc(pt.n)}</b> contra ${flag(a.c)} ${esc(a.n.split(' ').slice(-1)[0])} e ${flag(b.c)} ${esc(b.n.split(' ').slice(-1)[0])}. Chance de vitória: <b>${p0}%</b>.</p><p class="xs mut" style="margin:0 0 10px">Você joga 5 pontos decisivos em tempo real: as bolas que vêm para o seu lado (direita) são suas; as do lado esquerdo, seu parceiro joga. Cada ponto ganho aumenta a chance de vencer a partida.</p>
   <button class="full big" onclick="v5DbPlay()">Jogar os pontos decisivos</button><div class="g2" style="margin-top:8px"><button class="sec" onclick="v5DbSim()">Simular esta partida</button><button class="sec" onclick="v5DbSimAll()">Simular o resto</button></div>`;
  else if(D.stage==='play')body=`<div class="row sb small" style="margin:0 0 6px"><span>Ponto ${Math.min(5,D.pn+1)} de 5</span><b>Vocês ${D.pw} × ${D.pl} eles</b></div><canvas id="v5dbc" class="v5arc v5dbc" role="img" aria-label="Quadra de duplas: deslize para rebater"></canvas><div class="xs mut" style="margin-top:6px">Toque no tempo certo. Deslize para o lado para mirar, para cima para atacar, para baixo para defender.</div>`;
- else if(D.stage==='res')body=`<p style="margin:0 0 10px">${D.last}</p>${D.out?`<button class="full big" onclick="v5DbClose()">Fechar</button>`:`<button class="full big" onclick="v5DbNext()">Próxima: ${D.k===D.R0-1?'Final':V5DRN[D.k]}</button><button class="sec full" style="margin-top:8px" onclick="v5DbSimAll()">Simular o resto</button>`}`;
+ else if(D.stage==='res')body=`<p style="margin:0 0 10px">${D.last}</p>${D.out?`<button class="full big" onclick="v5DbClose()">Fechar</button>`:`<button class="full big" onclick="v5DbNext()">Próxima: ${D.k===D.R0-1?'Final':bcDblRN(D.R0,D.k)}</button><button class="sec full" style="margin-top:8px" onclick="v5DbSimAll()">Simular o resto</button>`}`;
  const cel=D.stage==='res'&&D.champ?`<div class="v5cel${D.ev.tier==='GS'?' gs':''}" style="height:min(46vh,340px);margin:0 0 12px"><canvas id="v5celc" role="img" aria-label="Comemoração: vocês levantam o troféu"></canvas></div>`:'';
  el.innerHTML=`<div class="v5dbb"><div class="v5k a">Duplas · ${esc(D.ev.name)}</div><h2 style="margin:4px 0 8px">${D.stage==='res'?(D.out?(D.champ?'Campeões de duplas!':'Fim das duplas'):'Vitória!'):rn}</h2>${cel}${body}</div>`;
  if(cel&&!D.cel){D.cel=1;setTimeout(()=>{try{const pt=IDX.get(D.pt);v5CelStart({ev:D.ev,res:null,pt:pt.av||aiAv(pt)})}catch(e){}},40)}else if(cel)setTimeout(()=>requestAnimationFrame(v5CelFrame),40);
  if(D.stage==='play'){const cv=document.getElementById('v5dbc');cv.addEventListener('pointerdown',e=>{V5DBA&&(V5DBA.pd={x:e.clientX,y:e.clientY});e.preventDefault()});cv.addEventListener('pointerup',v5DbUp);requestAnimationFrame(v5DbFrame)}}
-function v5DbRoundEnd(win){const D=V5DB,m=S.me;m.energy=clamp(m.energy-3,0,100);m.load=clamp((m.load||0)+2,0,100);D.oppR=null;const rn=D.k===D.R0-1?'final':(V5DRN[D.k]||'rodada').toLowerCase();
+function v5DbRoundEnd(win){const D=V5DB,m=S.me;m.energy=clamp(m.energy-3,0,100);m.load=clamp((m.load||0)+2,0,100);D.oppR=null;const rn=D.k===D.R0-1?'final':(bcDblRN(D.R0,D.k)||'rodada').toLowerCase();
  if(win){D.won++;D.k++;if(D.k>=D.R0){D.out=1;D.champ=1;D.last=`Vocês venceram a final e são campeões de duplas em ${esc(D.ev.name)}!`;v5DbFinish()}else{D.last=`Vocês venceram a ${rn}.`;D.opp=v5DbOpp(D.field,D.k)}}
  else{D.out=1;D.last=`Vocês perderam na ${rn}.`;v5DbFinish()}D.stage='res';v5DbShow()}
 function v5DbFinish(){const D=V5DB,m=S.me,ev=D.ev,t=TIERS[ev.tier],T=S.tour,pt=IDX.get(D.pt),won=D.won,R0=D.R0,L=D.L;
  m.chem=m.chem||{};m.chem[pt.id]=clamp((m.chem[pt.id]||0)+4+won*2,0,100);if(!m.dpart)m.dpart=pt.id;
- const champ=won===R0,idx=champ?0:Math.min(L-1,R0-won);const v=ev.tier==='OLY'?0:(won===0?0:Math.round((t.pts[idx]||0)*(idx>=3?.9:1))),pr=Math.round(((t.prize||[])[idx]||0)*.16);
+ const champ=won===R0,idx=champ?0:Math.min(L-1,R0-won);const v=ev.tier==='OLY'?0:bcDblUserPts(ev,won,R0),pr=Math.round(((t.prize||[])[idx]||0)*.16);
  if(v>0)(m.ptsDbl=m.ptsDbl||[]).push([S.w,v]);m.money+=pr;m.st.prize+=pr;
- const lbl=champ?'🏆 Campeões':['1ª rodada','2ª rodada','Quartas','Semifinal','Final'][won]||'Final';
+ const lbl=champ?'🏆 Campeões':bcDblRN(R0,won);
  if(T)T.log.push({c:champ?'win':'mut',t:`👥 Duplas com ${flag(pt.c)} ${pt.n}: ${lbl}${v?' · +'+v+' pts':''}${pr?' · '+money(pr):''}`});
  if(champ){(m.st.dblT=m.st.dblT||[]).push({y:year(),n:ev.name,p:pt.n,tier:ev.tier});news(`👥 Título de duplas em ${ev.name} ao lado de ${pt.n}!`);m.fol=Math.round(m.fol*1.01);if(ev.tier==='OLY')medal('ouro (duplas)',ev)}
  {const pp=[];if(v)pp.push('+'+v+' pts no ranking de duplas');if(pr)pp.push(money(pr));if(pp.length)D.last+=' '+pp.join(' · ')+'.'}save()}
 function v5DbSim(){const D=V5DB;v5DbRoundEnd(R()<v5DbP())}
-function v5DbSimAll(){const D=V5DB;while(V5DB&&!D.out){const w=R()<v5DbP();const m=S.me;m.energy=clamp(m.energy-3,0,100);D.oppR=null;if(w){D.won++;D.k++;if(D.k>=D.R0){D.out=1;D.champ=1;D.last='Vocês foram campeões de duplas!'}else D.opp=v5DbOpp(D.field,D.k)}else{D.out=1;D.last=`Vocês caíram na ${(V5DRN[D.k]||'rodada').toLowerCase()}.`}}v5DbFinish();D.stage='res';v5DbShow()}
+function v5DbSimAll(){const D=V5DB;while(V5DB&&!D.out){const w=R()<v5DbP();const m=S.me;m.energy=clamp(m.energy-3,0,100);D.oppR=null;if(w){D.won++;D.k++;if(D.k>=D.R0){D.out=1;D.champ=1;D.last='Vocês foram campeões de duplas!'}else D.opp=v5DbOpp(D.field,D.k)}else{D.out=1;D.last=`Vocês caíram na ${(bcDblRN(D.R0,D.k)||'rodada').toLowerCase()}.`}}v5DbFinish();D.stage='res';v5DbShow()}
 function v5DbNext(){V5DB.stage='intro';v5DbShow()}
 function v5DbClose(){V5DB=null;V5DBA=null;v5DbShow();render()}
 // se a semana avançar com as duplas abertas, termina simulando
