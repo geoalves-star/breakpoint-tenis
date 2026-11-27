@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='8.0';")
+    R("const VERSION='5.5';","const VERSION='8.1';")
     R(open('p31/fav_old.txt').read(),open('p31/fav_new.txt').read())
     R("S.me.spons.some(x=>x.id==='vortex')","S.me.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
     R("m.spons.some(x=>x.id==='vortex')","m.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
@@ -108,3 +108,5 @@ def apply(s,R):
     R("return{id:p.id,p:Math.round((PTS.pro[p.id]||0)*p.dk*((RK.pro[p.id]||999)<=20?.45:1)+(p.dk>1.15?2200*p.dk:0))}","return{id:p.id,p:bcDblPtsOf(p)}")
     R("if(!S.ended)L.push({id:'me',p:sumPts(S.me.ptsDbl||[])});","if(!S.ended)L.push({id:'me',p:(S.dblSim?bcBest18(S.me.ptsDbl||[]):sumPts(S.me.ptsDbl||[]))});")
     R("Você pode mudar a agenda quando quiser: toque em Agendar ou Agendado.</p>","Você pode mudar a agenda quando quiser: toque em Agendar ou Agendado.${bcPlanWarn(base,off)}</p>")
+    # v8.1: você joga a chave real de duplas
+    R("for(let k=0;k<R0;k++){const opp=field*.4+52+k*2.2+(t.w>=2.5?2:0)+gauss()*3,p=1/(1+Math.pow(10,-(team-opp)/10));m.energy=clamp(m.energy-3,0,100);m.load=clamp((m.load||0)+2,0,100);if(R()<p)won++;else break}","won=bcDblUserRun(ev,pt,team,R0);")
