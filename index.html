@@ -1463,7 +1463,7 @@ body.bc .bcinjn{margin:6px 0 8px;padding:9px 12px;border-radius:12px;background:
 .bcupd{position:fixed;left:12px;right:12px;bottom:calc(76px + env(safe-area-inset-bottom));z-index:9999;display:flex;align-items:center;gap:10px;justify-content:space-between;background:#111;color:#fff;border:1px solid var(--gold,#e8c547);border-radius:12px;padding:10px 12px;font-size:13px;box-shadow:0 6px 24px #0006}.bcupd button{flex:none;width:auto;padding:8px 14px;margin:0}
 .bcbar{position:sticky;top:-16px;z-index:15;display:flex;align-items:center;gap:10px;margin:-16px -16px 10px;padding:10px 16px;background:var(--app,#f4f3ef);border-bottom:1px solid var(--line,#0002);box-shadow:0 2px 10px #0001}
 .modal .box .bcbar{top:-18px;margin:-18px -18px 12px;padding:10px 18px;border-radius:22px 22px 0 0}
-.bcback{flex:none;width:auto!important;margin:0!important;padding:8px 14px!important;font-size:14px!important;font-weight:700;border-radius:999px!important}
+.bcbkb{flex:none;width:auto!important;margin:0!important;padding:8px 14px!important;font-size:14px!important;font-weight:700;border-radius:999px!important}
 .bcbart{font-size:12px;opacity:.65;flex:1;text-align:right}
 .liveov.bcfocus{display:flex;flex-direction:column}
 .bcfocus>*{order:20;flex-shrink:0}
@@ -1476,6 +1476,11 @@ body.v5 .bcfocus .v5arc{height:clamp(300px,calc(100dvh - 268px),640px)}
 .bcpace button{width:auto!important;margin:0!important;padding:5px 10px!important;font-size:12px!important;border-radius:999px!important;background:transparent!important;color:inherit!important;border:1px solid var(--line,#0003)!important;box-shadow:none!important}
 .bcpace button.on{background:var(--acc,#1d5c3c)!important;color:#fff!important;border-color:transparent!important}
 .bcimback{position:fixed;left:12px;right:12px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:9998;width:auto;margin:0;padding:12px 14px;border-radius:14px;font-size:14px;box-shadow:0 6px 24px #0005;animation:cardIn .25s}
+.bcmini{flex:1;text-align:right;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.bcmini i{font-style:normal;opacity:.7;margin:0 4px}.bcmini .bcmpt{background:var(--acc,#1d5c3c);color:#fff;border-radius:6px;padding:2px 6px;margin:0 4px}
+.bcbkbar{position:sticky;top:0;z-index:12;display:flex;align-items:center;padding:8px 0;margin:-4px 0 6px;background:var(--app,#f4f3ef)}
+.pcard>.bcbkbar{padding:8px 12px;margin:0 0 6px;border-radius:0}
+.pcard{z-index:25!important}.pcard .box>.bcbkbar{top:-18px;margin:-18px -18px 10px;padding:10px 18px;border-radius:22px 22px 0 0}
+.bcbkb{background:var(--card,#fff)!important;color:var(--acc,#1d5c3c)!important;border:1px solid var(--line,#0002)!important;box-shadow:none!important;text-transform:none!important;letter-spacing:0!important}
 </style>
 </head>
 <body>
@@ -3410,7 +3415,7 @@ let EXPIMG=null;
 function expView(){return `<div class="modal" onclick="if(event.target===this){EXPIMG=null;render()}"><div class="box" style="text-align:center"><h3>${EXPT||'📸 Card da carreira'}</h3><img src="${EXPIMG}" style="width:100%;border-radius:12px"><p class="xs mut">No celular, toque e segure na imagem para salvar ou compartilhar.</p><button class="full" style="margin:4px 0 8px" onclick="expShare()">📤 Compartilhar (WhatsApp e outros)</button><div class="g2"><a class="btn" href="${EXPIMG}" download="${EXPFN||'breakpoint_carreira.png'}" style="text-align:center;padding:12px;background:var(--acc);color:var(--acctxt);border-radius:12px;font-weight:800;text-decoration:none">⬇️ Baixar</a><button class="sec" onclick="EXPIMG=null;render()">Fechar</button></div></div></div>`}
 
 // =============== opções do jogador ===============
-const VERSION='7.9';
+const VERSION='7.9.1';
 let OPTS=(()=>{try{return Object.assign({skipInt:false,fz:1,eco:false,vol:.8},JSON.parse(localStorage.getItem('breakpoint_opts')||'{}'))}catch(e){return{skipInt:false,fz:1,eco:false,vol:.8}}})();
 function setOptG(k,v){OPTS[k]=v;try{localStorage.setItem('breakpoint_opts',JSON.stringify(OPTS))}catch(e){}applyOpts();render()}
 function applyOpts(){document.body.style.zoom=OPTS.fz;document.body.classList.toggle('eco',!!OPTS.eco);if(MGN)MGN.gain.value=OPTS.vol}
@@ -4750,7 +4755,7 @@ function v5BgBuild(W,H,dpr,ev,P,top){const st=v5Stadium(ev),sc=SURFC[ev.surf]||S
   // muro de fundo com o nome do torneio
   g.fillStyle=st.wall;g.fillRect(0,wallT,W,wallB-wallT+2);g.fillStyle=st.acc;g.fillRect(0,wallT,W,2);g.fillStyle=V5INK;g.fillRect(0,wallB,W,2);
   g.font=`800 ${Math.round(Math.max(9,H*.026))}px Barlow Condensed, sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillStyle=V5PAP;const nm=(ev.name||'').toUpperCase();
-  try{g.letterSpacing='2px'}catch(e){}g.fillText(nm.length>30?nm.slice(0,30)+'…':nm,W/2,(wallT+wallB)/2+1);g.font=`700 ${Math.round(Math.max(7,H*.018))}px 'Barlow Condensed', sans-serif`;g.fillStyle=st.acc;{const _ft=(t,x)=>{const y=(wallT+wallB)/2+1,mw=W*.2,w=g.measureText(t).width;if(w>mw){g.save();g.translate(x,y);g.scale(mw/w,1);g.fillText(t,0,0);g.restore()}else g.fillText(t,x,y)};_ft((typeof bcBanner==='function'?bcBanner(ev):'BREAKPOINT'),W*.11);_ft((ev.city||'').toUpperCase(),W*.89)}try{g.letterSpacing='0px'}catch(e){}g.textBaseline='alphabetic';
+  try{g.letterSpacing='2px'}catch(e){}g.fillText(nm.length>30?nm.slice(0,30)+'…':nm,W/2,(wallT+wallB)/2+1);g.font=`700 ${Math.round(Math.max(7,H*.018))}px 'Barlow Condensed', sans-serif`;g.fillStyle=st.acc;{const _ft=(t,x)=>{const y=(wallT+wallB)/2+1,mw=W*.165,w=g.measureText(t).width;if(w>mw){g.save();g.translate(x,y);g.scale(mw/w,1);g.fillText(t,0,0);g.restore()}else g.fillText(t,x,y)};_ft((typeof bcBanner==='function'?bcBanner(ev):'BREAKPOINT'),W*.11);_ft((ev.city||'').toUpperCase(),W*.89)}try{g.letterSpacing='0px'}catch(e){}g.textBaseline='alphabetic';
   // chão em volta
   const q=(x0,y0,x1,y1)=>{const a=P(x0,y0),b=P(x1,y0),c=P(x1,y1),d=P(x0,y1);g.beginPath();g.moveTo(...a);g.lineTo(...b);g.lineTo(...c);g.lineTo(...d);g.closePath()};
   const outC=ev.surf==='hard'?sc[1]:shade(sc[0],-.12),inC=sc[0];g.fillStyle=outC;g.fillRect(0,wallB+2,W,H);
@@ -5449,7 +5454,7 @@ let V5OVK=null;
  if(i<0)return s;e=v5DivEnd(s,i);if(e<0)return s;if(I.brk){const j=s.indexOf('<div class="choices">',e);if(j>=0&&j-e<40){const e2=v5DivEnd(s,j);if(e2>0)e=e2}}
  const panel=s.slice(i,e);s=s.slice(0,i)+s.slice(e);const canvas=s.slice(ci,ce);
  s=s.slice(0,ci)+`<div class="v5arcw">${canvas}<div class="v5arcov">${panel}</div></div>`+s.slice(ce);
- const k=[I.toss,!!I.sig,I.cramp,!!I.rainP,!!I.brk,!!I.chal,I.E.TL.length].join('|');if(V5OVK!==k){V5OVK=k;setTimeout(()=>{const el=document.querySelector('.v5arcw');if(el)el.scrollIntoView({block:'center',behavior:'smooth'})},60)}}catch(e){console.error(e)}return s}}
+ const k=[I.toss,!!I.sig,I.cramp,!!I.rainP,!!I.brk,!!I.chal,I.E.TL.length].join('|');if(V5OVK!==k){V5OVK=k;setTimeout(()=>{const el=document.querySelector('.v5arcov');if(el&&el.children.length){const r=el.getBoundingClientRect();if(r.top<0||r.bottom>innerHeight)el.scrollIntoView({block:'nearest',behavior:'smooth'})}},60)}}catch(e){console.error(e)}return s}}
 
 // =============== v5.8: clareza — fonte legível, explicações em cada parte e guia "O que é cada coisa" ===============
 const V5GLO=[
@@ -8128,12 +8133,12 @@ let BCPTEND=0,BCPTWAIT=0,BCPTGAME=false;
  BCPTEND=0;BCPTGAME=false;return _s.apply(this,arguments)}}
 
 // ---------------------------------------------------------------- 2) tela da quadra: placar e quadra juntos no topo
-function bcBar(label,action,extra){return`<div class="bcbar"><button class="bcback" onclick="${action}">${label}</button>${extra||''}</div>`}
+function bcBar(label,action,extra){return`<div class="bcbar"><button class="bcbkb" onclick="${action}">${label}</button>${extra||''}</div>`}
 function bcLeaveCourt(){if(!IM)return;try{if(V5A&&!V5A.end)V5A=null}catch(e){}IM.hid=1;render();window.scrollTo(0,0)}
 function bcBackCourt(){if(!IM)return;IM.hid=0;render()}
 {const _cv=courtView;courtView=function(){if(IM&&IM.hid)return'';let s=_cv.apply(this,arguments);try{
  const pk=bcPaceK(),pace=`<div class="bcpace"><span>Ritmo dos pontos</span>${Object.entries(BCPACE).map(([k,v])=>`<button class="${k===pk?'on':''}" onclick="bcSetPace('${k}')">${v.l}</button>`).join('')}</div>`;
- s=s.replace(/^(\s*<div class="liveov courtov[^"]*">)/,`$1${bcBar('← Sair da quadra','bcLeaveCourt()','<span class="bcbart">a partida fica pausada</span>')}`);
+ s=s.replace(/^(\s*<div class="liveov courtov[^"]*">)/,`$1${bcBar('← Sair','bcLeaveCourt()',bcMiniScore())}`);
  s=s.replace('<div class="liveov courtov"','<div class="liveov courtov bcfocus"');
  s=s.replace(/(<div class="lastpt)/,pace+'$1')}catch(e){}return s}}
 // partida pausada: atalho fixo para voltar à quadra
@@ -8163,12 +8168,42 @@ function bcWkStreak(){const m=S.me;const W=new Set((m.plw||[]));let k=0;for(let 
 
 // ---------------------------------------------------------------- 6) Laver Cup: 3 pelo ranking e 3 escolhidos pelo capitão
 function bcLvTeams(){const y=year();if(S.lvT&&S.lvT.y===y)return S.lvT;const eu=c=>EUR.includes(COUNTRIES[c][0]),m=S.me,mine=eu(m.c);
- const pool=x=>{const L=ORD.pro.filter(id=>id!=='me'&&IDX.get(id)&&!(IDX.get(id).inj>0)&&eu(IDX.get(id).c)===x).slice(0,20);if(x===mine&&isPro()&&RK.pro.me&&!(m.injury>0))L.push('me');return L.sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999))};
+ const pool=x=>{const L=ORD.pro.filter(id=>id!=='me'&&IDX.get(id)&&!(IDX.get(id).inj>0)&&eu(IDX.get(id).c)===x).slice(0,20);if(x===mine&&isPro()&&RK.pro.me&&!(m.injury>0)&&(L.length<20||RK.pro.me<(RK.pro[L[L.length-1]]||999))){L.push('me');L.sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999));L.length=Math.min(L.length,20)}return L.sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999))};
  const pick6=L=>{const t=L.slice(0,3),rest=L.slice(3),fame=id=>id==='me'?Math.log10(10+(m.fol||0))*1.2+(m.app??50)/50:1.5+R()*1.5;
   const sc=rest.map(id=>({id,s:20/(RK.pro[id]||50)+fame(id)*.6+R()*1.2}));sc.sort((a,b)=>b.s-a.s);return t.concat(sc.slice(0,3).map(x=>x.id)).sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999))};
  const own=pick6(pool(mine)),opp=pick6(pool(!mine)).filter(x=>x!=='me');S.lvT={y,own,opp,pick:own.includes('me')&&own.indexOf('me')>=0&&pool(mine).indexOf('me')>=3};return S.lvT}
 {const _st=specialToday;specialToday=function(){const r=_st.apply(this,arguments);try{const sp=SPW();if(S&&S.me&&S.w%52===sp.lv&&!S.ended&&CIRC()==='ATP'&&!(S.dv&&S.dv.done[S.w%52])){const T=bcLvTeams();return T.own.includes('me')&&!(S.me.injury>0)?'lv':(r==='lv'?null:r)}}catch(e){}return r}}
 {const _sc=specialCard;specialCard=function(){let s=_sc.apply(this,arguments);try{if(specialToday()==='lv'&&S.lvT&&S.lvT.pick)s=s.replace(/(<\/div>)/,`$1<p class="small" style="margin:4px 0 0">🎖️ Você foi escolhido pelo capitão: não estava entre os 3 classificados pelo ranking.</p>`)}catch(e){}return s}}
+
+// placar compacto na barra fixa: fica visível mesmo se a tela rolar
+function bcMiniScore(){try{const I=IM,E=I.E,p=IDX.get(I.opp),sA=eSrv(E),[pa,pb]=ptS(E.a,E.b,E.tb);const sets=E.sets.map(x=>`${x[0]}-${x[1]}`).join(' ');
+ const nm=s=>esc(String(s).split(' ').slice(-1)[0]);
+ return`<span class="bcmini"><b>${sA?'🎾 ':''}${nm(S.me.name.split(' ')[0])}</b> <i>${sets?sets+' · ':''}${E.ga}-${E.gb}</i> <b class="bcmpt">${E.tb?'TB ':''}${pa===''?'–':pa}-${pb===''?'–':pb}</b> <b>${nm(p?p.n:'')}${sA?'':' 🎾'}</b></span>`}catch(e){return''}}
+
+// ---------------------------------------------------------------- 7) botão voltar em todos os menus (e o "voltar" do celular)
+const BCNAVK=['TAB','TOURTAB','SOCTAB','RKTAB','PROFTAB','MENU','MVIEW','INMENU','PCARD','DRAWV','V5PREP'];
+let BCNAV=[],BCNAVLAST=null,BCNAVBUSY=false,BCNAVPUSHED=0;
+function bcNavGet(){const o={};for(const k of BCNAVK){try{o[k]=(0,eval)(k)}catch(e){o[k]=undefined}}return o}
+function bcNavSet(o){for(const k of BCNAVK){if(o[k]===undefined)continue;try{(0,eval)(`${k}=${JSON.stringify(o[k])}`)}catch(e){}}}
+const bcNavEq=(a,b)=>!!a&&!!b&&BCNAVK.every(k=>a[k]===b[k]);
+const bcNavRoot=o=>o&&!o.MENU&&!o.INMENU&&o.TAB==='home'&&!o.PCARD&&!o.DRAWV&&!o.V5PREP;
+function bcNavLabel(o){if(!o)return'';if(o.MENU)return'Menu';if(o.INMENU)return'Menu';if(o.PCARD)return'Jogador';if(o.DRAWV)return'Chave';if(o.V5PREP)return'Preparação';
+ return({home:'Semana',tour:'Torneios',train:'Equipe',me:'Carreira',social:'Social',rank:'Ranking',hist:'Histórico'})[o.TAB]||'Voltar'}
+function bcBack(fromPop){if(fromPop&&BCNAVPUSHED>0)BCNAVPUSHED--;const prev=BCNAV.pop();if(!prev){if(!fromPop){bcNavSet({TAB:'home',MENU:false,INMENU:false,PCARD:null,DRAWV:false,V5PREP:0})}else return}else bcNavSet(prev);
+ BCNAVBUSY=true;try{render()}finally{BCNAVBUSY=false}BCNAVLAST=bcNavGet();window.scrollTo(0,0)}
+function bcBackBtn(){if(BCNAVPUSHED>0){try{history.back();return}catch(e){}}bcBack(false)}
+window.addEventListener('popstate',()=>{try{if(IM&&!IM.hid){bcLeaveCourt();return}if(LIVE){closeLive();return}if(S&&S.modals&&S.modals.length)return;bcBack(true)}catch(e){}});
+{const _r=render;render=function(...a){const v=_r.apply(this,a);try{if(!S||!S.me){BCNAV=[];BCNAVLAST=null;return v}
+  const cur=bcNavGet();if(!BCNAVBUSY&&BCNAVLAST&&!bcNavEq(cur,BCNAVLAST)){BCNAV.push(BCNAVLAST);if(BCNAV.length>40)BCNAV.shift();if(bcNavRoot(cur))BCNAV=[];
+   else{try{history.pushState({bc:1},'');BCNAVPUSHED++}catch(e){}}}
+  BCNAVLAST=cur;
+  // barra de voltar fixa no topo do conteúdo
+  const old=document.getElementById('bcbkbar');if(old)old.remove();
+  if(IM&&!IM.hid||LIVE||S.modals&&S.modals.length)return v;
+  if(bcNavRoot(cur))return v;
+  const prev=BCNAV[BCNAV.length-1],host=document.querySelector('#app .pcard .box')||document.querySelector('#app .pcard')||document.querySelector('#app .cnt')||document.querySelector('#app');if(!host)return v;
+  const bar=document.createElement('div');bar.id='bcbkbar';bar.className='bcbkbar';bar.innerHTML=`<button class="bcbkb" onclick="bcBackBtn()">← ${esc(prev?bcNavLabel(prev):'Semana')}</button>`;
+  host.insertBefore(bar,host.firstChild);if(!host.closest('.pcard')){const h=document.querySelector('#app .hdr');if(h&&getComputedStyle(h).position==='sticky')bar.style.top=h.offsetHeight+'px'}}catch(e){console.error(e)}return v}}
 
 // =============== tutorial ===============
 const TUT=[
