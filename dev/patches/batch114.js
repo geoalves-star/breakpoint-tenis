@@ -10,7 +10,7 @@ allocWeek=function(){S.draws={};S.played={};const evs=weekEvents(S.w);
    if(tier==='EXH'){const d=ORD.pro.filter(x=>x!=='me').slice(0,8);S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
    if(tier==='NGF'){const d=ORD.pro.filter(id=>id!=='me'&&IDX.get(id)&&ageOf(IDX.get(id))<=20&&!(IDX.get(id).inj>0)).slice(0,8);S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
    if(tier==='FIN'){const d=raceOrd().filter(x=>x.id!=='me'&&!(IDX.get(x.id)&&IDX.get(x.id).inj>0)).slice(0,8).map(x=>x.id);S.draws[grp[0].key]=d;avail=avail.filter(id=>!d.includes(id));continue}
-   const need=((typeof BCDRAWN!=='undefined'&&BCDRAWN[tier])||n)*grp.length,lim=(BCLIM[cat]||{})[tier]||0;
+   const caps=grp.map(e=>typeof bcDrawN==='function'?bcDrawN(e):n),need=caps.reduce((a,b)=>a+b,0),lim=(BCLIM[cat]||{})[tier]||0;
    // quem é forte demais para o nível fica de fora (só entra se faltar gente)
    let keep=[];if(lim){keep=avail.filter(id=>(RK[cat][id]||9999)<=lim);avail=avail.filter(id=>(RK[cat][id]||9999)>lim)}
    const tg=(BCTGT[cat]||{})[tier];
@@ -19,13 +19,13 @@ allocWeek=function(){S.draws={};S.played={};const evs=weekEvents(S.w);
    else if(RANDOM_FILL.includes(tier))shuffle(avail);
    let take=avail.splice(0,need);
    if(take.length<need&&keep.length){keep.sort((a,b)=>(RK[cat][b]||9999)-(RK[cat][a]||9999));take=take.concat(keep.splice(0,need-take.length))}
-   avail=keep.concat(avail);grp.forEach(e=>S.draws[e.key]=[]);take.forEach((id,i)=>S.draws[grp[i%grp.length].key].push(id))}}};
+   avail=keep.concat(avail);grp.forEach(e=>S.draws[e.key]=[]);{let k=0;for(const id of take){let tr=0;while(S.draws[grp[k%grp.length].key].length>=caps[k%grp.length]&&tr++<grp.length)k++;S.draws[grp[k%grp.length].key].push(id);k++}}}}};
 // ---------- 2) entrada na chave: rival sem "marmelada" ----------
 insertMe=function(){const T=S.tour,ev=curEv(),t=TIERS[ev.tier],n=1<<(t.pts.length-1);let d=[...S.draws[ev.key]].filter(x=>x!=='me');
  const rv=S.rival,rvOk=rv!=null&&RK[t.cat][rv]!==undefined&&S[t.cat].some(p=>p.id===rv);let addRv=false;
  if(rvOk&&!d.includes(rv)&&ev.tier!=='FIN'){const rks=d.map(id=>RK[t.cat][id]||9999).sort((a,b)=>a-b),lo=rks[0]||1,hi=rks[rks.length-1]||9999,r=RK[t.cat][rv]||9999,fits=r>=lo*.7&&r<=hi*1.2,met=S.hist.filter(h=>h.o===rv&&h.w>S.w-52).length;
   if(R()<(fits?(met<2?.4:.12):.06)){for(const k in S.draws)if(k!==ev.key)S.draws[k]=S.draws[k].filter(x=>x!==rv);addRv=true}}
- const cap=(typeof BCDRAWN!=='undefined'&&BCDRAWN[ev.tier])||n;while(d.length>=cap)d.pop();d.push('me');if(addRv){if(d.length>=cap){let wi=-1,wr=-1;d.forEach((id,i)=>{if(id==='me')return;const r=RK[t.cat][id]||9999;if(r>wr){wr=r;wi=i}});if(wi>=0)d.splice(wi,1)}d.push(rv)}
+ const cap=typeof bcDrawN==='function'?bcDrawN(ev):n;while(d.length>=cap)d.pop();d.push('me');if(addRv){if(d.length>=cap){let wi=-1,wr=-1;d.forEach((id,i)=>{if(id==='me')return;const r=RK[t.cat][id]||9999;if(r>wr){wr=r;wi=i}});if(wi>=0)d.splice(wi,1)}d.push(rv)}
  S.draws[ev.key]=d;T.br=makeBracket(d,t.cat,n);T.round=0;
  // de vez em quando o rival cai no mesmo quarto da chave (nunca forçado na estreia)
  {const br=T.br,ui=br.indexOf('me'),rvi=br.indexOf(rv);if(addRv&&rvi>=0&&n>=16&&R()<.25){const q=n/4,base=Math.floor(ui/q)*q;const sm=seedMap(br,t.cat),cand=[];for(let i=base;i<base+q;i++)if(i!==ui&&i!==(ui^1)&&br[i]!=null&&!sm[br[i]])cand.push(i);if(cand.length){const tg=cand[Math.floor(R()*cand.length)];[br[tg],br[rvi]]=[br[rvi],br[tg]]}}}

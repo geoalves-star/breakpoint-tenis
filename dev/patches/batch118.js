@@ -102,7 +102,7 @@ function bcFakeSets(ls){const S1=()=>{const r=R();return r<.18?[7,6]:r<.4?[7,5]:
 function bcRRSim(a,b,ev){const w=R()<aiP(a,b,false,ev.surf)?a:b,ls=R()<.38?1:0,sets=bcFakeSets(ls);return{a,b,w,ls,sets}}
 function bcRRMatchRec(rr,m){rr.res.push(m)}
 function bcRRTable(rr,gi){const G=rr.g[gi],st={};G.forEach(id=>st[id]={id,w:0,l:0,sw:0,sl:0,gw:0,gl:0});
- for(const m of rr.res){if(!st[m.a]||!st[m.b])continue;const wn=m.w,lo=m.w===m.a?m.b:m.a;st[wn].w++;st[lo].l++;st[wn].sw+=2;st[wn].sl+=m.ls;st[lo].sw+=m.ls;st[lo].sl+=2;
+ for(const m of rr.res){if(!st[m.a]||!st[m.b])continue;const wn=m.w,lo=m.w===m.a?m.b:m.a;st[wn].w++;st[lo].l++;{const ws=m.sets.filter(x=>x[0]>x[1]).length,ls=m.sets.length-ws;st[wn].sw+=ws;st[wn].sl+=ls;st[lo].sw+=ls;st[lo].sl+=ws}
   for(const s of m.sets){const[x,y]=s;if(x>y){st[wn].gw+=x;st[lo].gl+=x;st[wn].gl+=y;st[lo].gw+=y}else{st[lo].gw+=y;st[wn].gl+=y;st[lo].gl+=x;st[wn].gw+=x}}}
  const L=Object.values(st);const h2h=(a,b)=>{const m=rr.res.find(x=>(x.a===a&&x.b===b)||(x.a===b&&x.b===a));return m?(m.w===a?-1:1):0};
  const pct=(x,y)=>x+y?x/(x+y):0;
@@ -149,16 +149,17 @@ function bcRRPlay(pre){const T=S.tour;if(!T||T.over||S.modals.length||LIVE||(IM&
   if(a==null||a.v===0&&a.pr===0)a={v:rr.pts,pr:rr.pr}}}catch(e){console.error(e)}return _ft.call(this,label,a)}}
 {const _ch=champion;champion=function(ev){try{const T=S.tour;if(T&&T.rr)S.lastRR=Object.assign(S.lastRR||{},{[ev.tier]:{y:year(),g:T.rr.g,res:T.rr.res,ch:'me'}})}catch(e){}return _ch.apply(this,arguments)}}
 // mata-mata das Finals: bônus por vitória (semifinal e final); bye ganha ponto da 1ª rodada; abandonos e W.O. entre a IA
-const BCBYE={};
+const BCWON={};
 function bcInjSet(p,why){if(!p||p.id==='me')return;const d=bcInjDur?bcInjDur():2;p.inj=Math.max(p.inj||0,d);p.injN=p.inj;p.injT=p.injT||BCINJT[Math.floor(R()*BCINJT.length)];p.injW=S.w;(p.injH=p.injH||[]).push([S.w,d,p.injT]);if(p.injH.length>6)p.injH.shift()}
 {const _pr=playRound;playRound=function(br,ev,round,userWon){const t=TIERS[ev.tier];let b2=br;
  try{if(t&&!bcIsRR(ev.tier)&&ev.tier!=='OLY'){b2=br.slice();for(let i=0;i<b2.length;i+=2){const a=b2[i],b=b2[i+1];if(a==null||b==null||a==='me'||b==='me')continue;
    for(const k of[i,i+1]){const p=IDX.get(b2[k]);if(p&&p.inj>0&&p.injW===S.w){const o=IDX.get(b2[k^1]);if((RK.pro[p.id]||999)<=20)news(`🩹 ${flag(p.c)} ${p.n} deu W.O. em ${ev.name}${o?' e '+o.n+' avançou sem jogar':''}.`);b2[k]=null;break}}}
-  if(round===0){const s=BCBYE[ev.key]=new Set();for(let i=0;i<b2.length;i+=2){if(b2[i]==null&&b2[i+1]!=null)s.add(b2[i+1]);if(b2[i+1]==null&&b2[i]!=null)s.add(b2[i])}}}}catch(e){console.error(e)}
- const L=t?t.pts.length:0,snap={};
- try{if(round===1&&BCBYE[ev.key])for(const id of BCBYE[ev.key]){if(id==='me'||!b2.includes(id))continue;const p=IDX.get(id);if(p)snap[id]=p.pts.length}}catch(e){}
+  }}catch(e){console.error(e)}
+ const L=t?t.pts.length:0,snap={},W=BCWON[ev.key]||(BCWON[ev.key]=new Set());if(round===0)W.clear();
+ try{if(round>0&&t&&!bcIsRR(ev.tier))for(let i=0;i<b2.length;i+=2){const a=b2[i],b=b2[i+1];if(a==null||b==null)continue;for(const id of[a,b]){if(id==='me'||W.has(id))continue;const p=IDX.get(id);if(p)snap[id]=p.pts.length}}}catch(e){}
  const nx=_pr(b2,ev,round,userWon);
- try{// quem teve bye e perdeu na estreia leva os pontos da 1ª rodada
+ try{// quem perde sem ter vencido nenhum jogo (estreou depois de bye/W.O.) leva os pontos da 1ª rodada
+  for(let i=0;i<b2.length;i+=2){const a=b2[i],b=b2[i+1];if(a!=null&&b!=null&&nx[i/2]!=null)W.add(nx[i/2])}
   for(const id in snap){const p=IDX.get(+id)||IDX.get(id);if(!p||nx.includes(p.id))continue;if(p.pts.length>snap[id]){const e=p.pts[p.pts.length-1];e[1]=t.pts[L-1]||0;if(!e[1])p.pts.pop()}}
   if(t&&bcIsRR(ev.tier)){const kind=b2.length===4?'sf':b2.length===2?'f':null;if(kind)for(const w of nx)bcRRPay(w,ev,kind)}
   else if(t&&ev.tier!=='OLY'){for(let i=0;i<b2.length;i+=2){const a=b2[i],b=b2[i+1];if(a==null||b==null||a==='me'||b==='me')continue;const w=nx[i/2],lo=w===a?b:a,p=IDX.get(lo);
@@ -166,7 +167,7 @@ function bcInjSet(p,why){if(!p||p.id==='me')return;const d=bcInjDur?bcInjDur():2
     else{const pw=IDX.get(w);if(pw&&R()<.003)bcInjSet(pw)}}}}catch(e){console.error(e)}
  return nx}}
 // você: bye + derrota na estreia também vale os pontos da 1ª rodada
-{const _a=award;award=function(id,t,idx){if(id==='me'&&t&&S.tour&&S.tour.byeMe&&S.tour.round===1&&t.pts&&idx===t.pts.length-2&&t===TIERS[curEv().tier]){const arr=t.cat==='pro'?S.me.ptsPro:S.me.ptsJr,n0=arr.length;const r=_a(id,t,idx);
+{const _a=award;award=function(id,t,idx){if(id==='me'&&t&&S.tour&&!S.tour.meWon&&!S.tour.q&&!S.tour.rr&&S.tour.round>0&&t.pts&&idx===t.pts.length-1-S.tour.round&&t===TIERS[curEv().tier]){const arr=t.cat==='pro'?S.me.ptsPro:S.me.ptsJr,n0=arr.length;const r=_a(id,t,idx);
   try{if(arr.length>n0){const e=arr[arr.length-1],v=t.pts[t.pts.length-1]||0;if(v)e[1]=v;else arr.pop();if(r)r.v=v}}catch(e){}return r}return _a(id,t,idx)}}
 // W.O. do seu adversário (lesionado na semana ou desistência de última hora)
 function bcWOCheck(){const T=S.tour;if(!T||T.over||T.q||T.rr||!T.br)return null;const i=T.br.indexOf('me');if(i<0)return null;const opp=T.br[i^1];if(opp==null){if(T.round===0)T.byeMe=1;return null}
@@ -189,7 +190,7 @@ function bcHeatIM(){const I=IM;if(!I||I._heat)return;I._heat=1;const h=bcHeatRol
  try{if(T&&!T.over&&!S.modals.length&&!LIVE&&(!IM||pre)){if(!pre)bcWOCheck();if(T.q)q0={step:T.q.step,ev:curEv()};
    if(!pre){const ev=curEv(),opp=T.q?T.q.opp:oppOf();if(opp!=null)h=bcHeatRoll(ev,T.q?'Quali':roundName(T.br.length),opp)}}}catch(e){console.error(e)}
  const r=_pm.apply(this,arguments);
- try{if(T&&S.tour===T){bcWOLog(T);
+ try{if(T&&S.tour===T){bcWOLog(T);if(T.log.slice(n0).some(e=>e.c==='win'&&/: V vs /.test(e.t)&&!/^Quali/.test(e.t)))T.meWon=1;
    if(q0){const lost=T.log.slice(n0).some(e=>e.c==='loss'&&/^Quali R\d/.test(e.t));if(lost)bcQualiPay(T,q0.ev,q0.step)}
    if(h&&T.log.length>n0){T.log.splice(n0,0,{c:'mut xs',t:bcHeatTxt(h)});S.me.energy=clamp(S.me.energy+3,0,100)}}}catch(e){console.error(e)}
  return r}}
@@ -245,9 +246,18 @@ function bcUCPlay(){const m=S.me,{T,best}=bcUCTeams();if(!T.includes(m.c))return
 {const _ps=playSpecial;playSpecial=function(kind,accept){if(kind!=='uc')return _ps.apply(this,arguments);S.dv.done.uc=1;if(accept){try{bcUCPlay()}catch(e){console.error(e)}}else news('Você abriu mão da United Cup para jogar o circuito nesta semana.');save();render()}}
 
 // ---------------------------------------------------------------- 10) compromisso do top 30: bônus de fim de ano
+// juvenis fortes viram profissionais antes dos 19 e chegam com pontos de ITF/Challenger já somados
+function bcSeedPts(p){const pos=S.pro.filter(q=>q!==p&&q.r>p.r).length+1,T=Math.round(11000*Math.pow(pos,-.7)*.55);if(T<1)return;const ws=[];for(let j=0;j<8;j++)ws.push(R()+.3);const s=ws.reduce((a,b)=>a+b);p.pts=ws.map(x=>[S.w-ri(1,50),Math.max(1,Math.round(T*x/s))])}
+{const _ny=newYear;newYear=function(){let early=[],grads=[];try{if(S&&S.jr){grads=S.jr.filter(p=>ageOf(p)>=19);early=S.jr.filter(p=>{const a=ageOf(p);return a<19&&((a>=18&&p.r>=58)||(a>=17&&p.r>=63)||(a>=16&&p.r>=68))});
+  if(early.length){S.jr=S.jr.filter(p=>!early.includes(p));for(const p of early){p.pts=[];S.pro.push(p)}}}}catch(e){console.error(e)}
+ const r=_ny.apply(this,arguments);
+ try{// nível do circuito estável ao longo dos anos (sem inflação de rating)
+  const rs=S.pro.map(p=>p.r).sort((a,b)=>b-a);if(rs.length>=100){const d=clamp(75-rs[99],-3,3)*.7;if(Math.abs(d)>.05){for(const p of S.pro.concat(S.jr)){p.r+=d;if(p.pot!=null)p.pot=Math.min(97,p.pot+d)}}}}catch(e){}
+ try{for(const p of early.concat(grads))if(S.pro.includes(p)&&!(p.pts&&p.pts.length))bcSeedPts(p);if(early.length>2){const b=early.sort((a,b)=>b.r-a.r)[0];news(`🌱 ${early.length} juvenis viraram profissionais antes dos 19 anos, entre eles ${flag(b.c)} ${b.n} (${ageOf(b)} anos).`)}}catch(e){console.error(e)}
+ return r}}
 // quem ainda está bem no ranking adia a aposentadoria; quem caiu muito pendura a raquete mais cedo
 {const _ny=newYear;newYear=function(){try{if(S&&S.pro)for(const p of S.pro){const a=ageOf(p),r=RK.pro[p.id]||9999;
-  if(a+1>=(p.rt||34)&&r<=100&&(p.rt||34)<40&&R()<(r<=30?.75:.55))p.rt=(p.rt||34)+1;
+  if(a+1>=(p.rt||34)&&r<=100&&(p.rt||34)<40&&R()<(r<=30?.92:r<=60?.85:.7))p.rt=(p.rt||34)+1;
   else if(a>=29&&r>300&&R()<.22)p.rt=Math.min(p.rt||34,a)}}catch(e){}return _ny.apply(this,arguments)}}
 const BCBONUS=[2000000,1600000,1300000,1100000,950000,820000,720000,640000,570000,510000,460000,420000];
 {const _ny=newYear;newYear=function(){try{const m=S.me;if(m&&!S.ended&&isPro()){const r=myRank('pro');const y0=S.w-52;
