@@ -30,7 +30,7 @@ def apply(s,R):
     # v5.7: metatags absolutas para compartilhar no X
     R('<meta property="og:image" content="og-image.jpg">','<meta property="og:url" content="https://breakpoint-vercel-one.vercel.app/"><meta property="og:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61"><meta name="twitter:title" content="Breakpoint Tênis · jogo de carreira"><meta name="twitter:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador."><meta name="twitter:image" content="https://breakpoint-vercel-one.vercel.app/og-image.jpg?v=61">')
     R('<meta property="og:description" content="Do juvenil ao número 1 do mundo. Jogue grátis no navegador ou instale no celular.">','<meta property="og:description" content="Jogue cada ponto em tempo real. Do juvenil ao número 1 do mundo. Grátis no navegador ou instale no celular.">')
-    R("const VERSION='5.5';","const VERSION='7.8';")
+    R("const VERSION='5.5';","const VERSION='7.9';")
     R(open('p31/fav_old.txt').read(),open('p31/fav_new.txt').read())
     R("S.me.spons.some(x=>x.id==='vortex')","S.me.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
     R("m.spons.some(x=>x.id==='vortex')","m.spons.some(x=>x.id==='vortex'||(typeof bcSpCat==='function'&&bcSpCat(x)==='rq'))")
@@ -83,9 +83,9 @@ def apply(s,R):
     # v6.9: defesa de pontos como no circuito: os pontos do ano passado valem até o fim da semana do torneio
     R("function sumPts(a){const lo=S.w-52;","function sumPts(a){const lo=S.w-53;")
     # v7.7: aposentadoria e declínio mais realistas; teto, sessão noturna e nome das quadras
-    R("p.rt=clamp(Math.round(35+fit*10+gauss()*1.5),35,45);if(age!=null&&p.rt<=age)p.rt=Math.min(45,age+ri(1,3))","p.rt=clamp(Math.round(30+fit*5+gauss()*2),28,40);if(age!=null&&p.rt<=age)p.rt=Math.min(41,age+ri(1,3))")
-    R("else r=-(.9+.6*(a-pk))*(1.4-fit*.6);","else r=-(a-pk<2?.05:(.1+.26*(a-pk-2)))*(1.3-fit*.5);")
-    R("if(a<pk){r=(a<19?6:a<23?5:1.8)","if(a<pk){r=(a<19?7.3:a<22?6.8:a<24?3.8:1.8)*(a<23?clamp(.8+((p.pot||70)-60)/100,.75,1.17):1)")
+    R("p.rt=clamp(Math.round(35+fit*10+gauss()*1.5),35,45);if(age!=null&&p.rt<=age)p.rt=Math.min(45,age+ri(1,3))","p.rt=clamp(Math.round(31+fit*5+gauss()*2),28,40);if(age!=null&&p.rt<=age)p.rt=Math.min(41,age+ri(1,3))")
+    R("else r=-(.9+.6*(a-pk))*(1.4-fit*.6);","else r=-(a-pk<2?.05:(.08+.18*(a-pk-2)))*(1.3-fit*.5);")
+    R("if(a<pk){r=(a<19?6:a<23?5:1.8)","if(a<pk){r=(a<19?8.2:a<22?7:a<24?3.8:1.8)*(a<23?clamp(.8+((p.pot||70)-60)/100,.75,1.2):1)")
     R("while(S.jr.length<300)S.jr.push(mkAI(22+R()*14,14,0,true));","while(S.jr.length<300)S.jr.push(mkAI(25+R()*15,14,0,true));")
     R("p.rt=Math.max(35,(p.rt||38)-ri(1,4))","p.rt=Math.max(Math.min(ageOf(p)+1,40),(p.rt||34)-ri(1,3))")
     R("const roundName=n=>","let roundName=n=>")
@@ -101,3 +101,6 @@ def apply(s,R):
     R("if(E.ga===6&&E.gb===6){","if(E.ga===(bcFmt()?bcFmt().tb:6)&&E.gb===(bcFmt()?bcFmt().tb:6)){")
     R("else if((E.ga>=6||E.gb>=6)&&Math.abs(E.ga-E.gb)>=2){","else if((E.ga>=(bcFmt()?bcFmt().sg:6)||E.gb>=(bcFmt()?bcFmt().sg:6))&&Math.abs(E.ga-E.gb)>=2){")
     R("const gA=E.a>=4&&E.a-E.b>=2,gB=E.b>=4&&E.b-E.a>=2;","const gA=E.a>=4&&(E.a-E.b>=2||!!(bcFmt()&&bcFmt().na)),gB=E.b>=4&&(E.b-E.a>=2||!!(bcFmt()&&bcFmt().na));")
+    # v7.9: duplas com pontos reais (iguais aos de simples nas fases finais, zero na estreia) e aviso de agenda pesada
+    R("Math.round((t.pts[idx]||0)*(champ?.6:.5)),pr=Math.round(((t.prize||[])[idx]||0)*.3)","(won===0?0:Math.round((t.pts[idx]||0)*(idx>=3?.9:1))),pr=Math.round(((t.prize||[])[idx]||0)*.16)")
+    R("Você pode mudar a agenda quando quiser: toque em Agendar ou Agendado.</p>","Você pode mudar a agenda quando quiser: toque em Agendar ou Agendado.${bcPlanWarn(base,off)}</p>")

@@ -22,7 +22,7 @@ function v5DbRoundEnd(win){const D=V5DB,m=S.me;m.energy=clamp(m.energy-3,0,100);
  else{D.out=1;D.last=`Vocês perderam na ${rn}.`;v5DbFinish()}D.stage='res';v5DbShow()}
 function v5DbFinish(){const D=V5DB,m=S.me,ev=D.ev,t=TIERS[ev.tier],T=S.tour,pt=IDX.get(D.pt),won=D.won,R0=D.R0,L=D.L;
  m.chem=m.chem||{};m.chem[pt.id]=clamp((m.chem[pt.id]||0)+4+won*2,0,100);if(!m.dpart)m.dpart=pt.id;
- const champ=won===R0,idx=champ?0:Math.min(L-1,R0-won);const v=ev.tier==='OLY'?0:Math.round((t.pts[idx]||0)*(champ?.6:.5)),pr=Math.round(((t.prize||[])[idx]||0)*.3);
+ const champ=won===R0,idx=champ?0:Math.min(L-1,R0-won);const v=ev.tier==='OLY'?0:(won===0?0:Math.round((t.pts[idx]||0)*(idx>=3?.9:1))),pr=Math.round(((t.prize||[])[idx]||0)*.16);
  if(v>0)(m.ptsDbl=m.ptsDbl||[]).push([S.w,v]);m.money+=pr;m.st.prize+=pr;
  const lbl=champ?'🏆 Campeões':['1ª rodada','2ª rodada','Quartas','Semifinal','Final'][won]||'Final';
  if(T)T.log.push({c:champ?'win':'mut',t:`👥 Duplas com ${flag(pt.c)} ${pt.n}: ${lbl}${v?' · +'+v+' pts':''}${pr?' · '+money(pr):''}`});

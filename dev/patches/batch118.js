@@ -43,7 +43,7 @@ function bcCircSync(){if(!S)return;const W=S.circ==='WTA';if(BCCS===(W?'W':'A'))
 {const _rd=render;render=function(){try{if(S){if(BCCS!==(S.circ==='WTA'?'W':'A'))bcCircSync();if(!S._v77)bcMig77()}}catch(e){}return _rd.apply(this,arguments)}}
 function bcMig77(){if(!S||S._v77)return;S._v77=1;
  // aposentadoria média perto dos 33, como no circuito real
- for(const p of S.pro.concat(S.jr)){if((p.rt||0)>=36){const fit=p.fit??.5,n=clamp(Math.round(30+fit*5+gauss()*2),28,40);p.rt=Math.max(n,ageOf(p)+1)}}}
+ for(const p of S.pro.concat(S.jr)){if((p.rt||0)>=36){const fit=p.fit??.5,n=clamp(Math.round(31+fit*5+gauss()*2),28,40);p.rt=Math.max(n,ageOf(p)+1)}}}
 
 // ---------------------------------------------------------------- 2) chave com bye para os cabeças
 // Masters de 96 e ATP 250 de 28: os primeiros cabeças estreiam na 2ª rodada
@@ -247,8 +247,8 @@ function bcUCPlay(){const m=S.me,{T,best}=bcUCTeams();if(!T.includes(m.c))return
 
 // ---------------------------------------------------------------- 10) compromisso do top 30: bônus de fim de ano
 // juvenis fortes viram profissionais antes dos 19 e chegam com pontos de ITF/Challenger já somados
-function bcSeedPts(p){const pos=S.pro.filter(q=>q!==p&&q.r>p.r).length+1,T=Math.round(11000*Math.pow(pos,-.7)*.55);if(T<1)return;const ws=[];for(let j=0;j<8;j++)ws.push(R()+.3);const s=ws.reduce((a,b)=>a+b);p.pts=ws.map(x=>[S.w-ri(1,50),Math.max(1,Math.round(T*x/s))])}
-{const _ny=newYear;newYear=function(){let early=[],grads=[];try{if(S&&S.jr){grads=S.jr.filter(p=>ageOf(p)>=19);early=S.jr.filter(p=>{const a=ageOf(p);return a<19&&((a>=18&&p.r>=58)||(a>=17&&p.r>=63)||(a>=16&&p.r>=68))});
+function bcSeedPts(p){const pos=S.pro.filter(q=>q!==p&&q.r>p.r).length+1,T=Math.round(11000*Math.pow(pos,-.7)*.85);if(T<1)return;const ws=[];for(let j=0;j<8;j++)ws.push(R()+.3);const s=ws.reduce((a,b)=>a+b);p.pts=ws.map(x=>[S.w-ri(1,50),Math.max(1,Math.round(T*x/s))])}
+{const _ny=newYear;newYear=function(){let early=[],grads=[];try{if(S&&S.jr){grads=S.jr.filter(p=>ageOf(p)>=19);early=S.jr.filter(p=>{const a=ageOf(p);return a<19&&((a>=18&&p.r>=56)||(a>=17&&p.r>=60)||(a>=16&&p.r>=65))});
   if(early.length){S.jr=S.jr.filter(p=>!early.includes(p));for(const p of early){p.pts=[];S.pro.push(p)}}}}catch(e){console.error(e)}
  const r=_ny.apply(this,arguments);
  try{// nível do circuito estável ao longo dos anos (sem inflação de rating)
@@ -289,7 +289,7 @@ function bcNight(ev,stage,cl,opp){if(cl==='indoor'||!ev)return 0;const ct=bcCour
  return h<(ev.tier==='GS'?4:ev.tier==='M1000'||ev.tier==='A500'?3:2)?1:0}
 function bcCourtTag(ev,stage,opp){try{const ct=bcCourtOf(ev,stage,opp),cl=climateOf(ev,S.w);const n=bcNight(ev,stage,cl,opp);return` · ${ct}${n?' · 🌙 sessão noturna':''}`}catch(e){return''}}
 function bcBanner(ev){try{const L=(SPONSORS||[]).filter(s=>s.cat&&['relogio','carro','banco','aerea','bebida','tech'].includes(s.cat)&&s.n);if(!L.length)return'BREAKPOINT';
- const s=L[seedHash((ev&&ev.name)||'x')%L.length];return String(s.n).toUpperCase().slice(0,14)}catch(e){return'BREAKPOINT'}}
+ const s=L[seedHash((ev&&ev.name)||'x')%L.length];return String(s.n).toUpperCase()}catch(e){return'BREAKPOINT'}}
 
 // ---------------------------------------------------------------- 12) duplas: no-ad e match tie-break [10]
 function bcDblScore(win,gs){const S1=()=>{const r=R();return r<.2?[7,6]:r<.42?[7,5]:[6,ri(1,4)]};let sets;

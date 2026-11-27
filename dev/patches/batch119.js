@@ -75,13 +75,13 @@ bcUCTie=function(ca,cb,best,stage,log,acc){const a=best[ca],b=best[cb],mine=a===
 // ---------------------------------------------------------------- 6) Laver Cup no formato real: 3 dias, 1/2/3 pontos por jogo, quem chegar a 13 vence
 const BCLVC=[['Berlim','DE'],['São Francisco','US'],['Londres','GB'],['Boston','US'],['Praga','CZ'],['Chicago','US'],['Genebra','CH'],['Vancouver','CA']];
 function bcLaver(){const m=S.me,eu=c=>EUR.includes(COUNTRIES[c][0]),mine=eu(m.c);const pool=x=>ORD.pro.filter(id=>id!=='me'&&IDX.get(id)&&!(IDX.get(id).inj>0)&&eu(IDX.get(id).c)===x);
- const own=pool(mine).slice(0,5).concat(['me']).sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999)).slice(0,6),opp=pool(!mine).slice(0,6);if(!own.includes('me')){own.pop();own.push('me')}
+ let own,opp;if(typeof bcLvTeams==='function'){const T=bcLvTeams();own=T.own.slice();opp=T.opp.slice()}else{own=pool(mine).slice(0,5).concat(['me']).sort((a,b)=>(RK.pro[a]||999)-(RK.pro[b]||999)).slice(0,6);opp=pool(!mine).slice(0,6)}if(!own.includes('me')){own.pop();own.push('me')}while(own.length<6)own.push(pool(mine).find(x=>!own.includes(x)));while(opp.length<6)opp.push(pool(!mine).find(x=>!opp.includes(x)))
  const yi=((year()-2024)%BCLVC.length+BCLVC.length)%BCLVC.length,[city,iso]=BCLVC[yi],log=[],rat=id=>id==='me'?ovr():IDX.get(id).r;let pa=0,pb=0;const myM={w:0,l:0};
  const nm=id=>id==='me'?'você':`${flag(IDX.get(id).c)} ${IDX.get(id).n}`;
  const sing=(a,b,pts,day)=>{let w;if(a==='me'||b==='me'){const o=a==='me'?b:a;const win=matchUp('me',o,log,iso);w=a==='me'?win:!win;win?myM.w++:myM.l++}else w=R()<aiP(a,b,false,'hard');w?pa+=pts:pb+=pts;
-  if(a!=='me'&&b!=='me')log.push(`<span class="mut">Dia ${day} · simples: ${nm(w?a:b)} venceu ${nm(w?b:a)} (+${pts})</span>`);};
+  if(a!=='me'&&b!=='me')log.push(`<span class="mut">Dia ${day} · simples: ${w?'✅':'❌'} ${nm(w?a:b)} venceu ${nm(w?b:a)} (+${pts} para ${w?'o seu time':'os rivais'})</span>`);};
  const dbl=(a1,a2,b1,b2,pts,day)=>{const ra=(rat(a1)+rat(a2))/2,rb=(rat(b1)+rat(b2))/2,w=R()<1/(1+Math.pow(10,-(ra-rb)/9));w?pa+=pts:pb+=pts;const me=[a1,a2].includes('me');
-  log.push(`${me?'':'<span class="mut">'}Dia ${day} · duplas: ${nm(a1)} e ${nm(a2)} ${w?'venceram':'perderam para'} ${nm(b1)} e ${nm(b2)} (${bcDblScore(w,false)}) ${w?'+'+pts:''}${me?'':'</span>'}`)};
+  log.push(`${me?'':'<span class="mut">'}Dia ${day} · duplas: ${nm(a1)} e ${nm(a2)} ${w?'venceram':'perderam para'} ${nm(b1)} e ${nm(b2)} (${bcDblScore(w,false)}) (+${pts} para ${w?'o seu time':'os rivais'})${me?'':'</span>'}`)};
  const end=()=>pa>=13||pb>=13;
  const plan=[[1,[[5,4],[4,5],[3,3]],[1,4,1,4]],[2,[[2,2],[1,0],[0,1]],[0,3,0,3]],[3,[[0,0],[1,1],[2,2]],[2,5,2,5]]];
  for(const[day,S3,D]of plan){log.push(`<b>Dia ${day} · cada vitória vale ${day} ponto${day>1?'s':''}</b>`);if(day===3&&!end())dbl(own[D[0]],own[D[1]],opp[D[2]],opp[D[3]],3,3);
@@ -121,3 +121,12 @@ function bcAmRefund(won){const T=S.tour;if(!T||!won)return 0;const ev=curEv();le
 {const _en=enter;enter=function(){const o=SIMALL;SIMALL=true;try{return _en.apply(this,arguments)}finally{SIMALL=o}}}
 // clima: Golfo e norte da África só são "calor forte" de abril a outubro (Doha e Dubai em fevereiro são amenos)
 {const _cl=climateOf;climateOf=function(ev,w){const c=_cl(ev,w);try{if(c==='quente'&&ev&&['QA','AE','SA','EG','TN','MA'].includes(ev.iso)){const wk=w%52;if(wk<14||wk>41)return'ameno'}}catch(e){}return c}}
+
+// ---------------------------------------------------------------- 10) placar: tie-break com nome certo e ponto decisivo no no-ad
+if(typeof bcBoardHead==='function'){const _bh=bcBoardHead;bcBoardHead=function(nDone,live){let h=_bh.apply(this,arguments);try{if(live&&IM&&IM.E&&IM.E.tb)h=h.replace('<td>Game</td>','<td>Tie-break</td>')}catch(e){}return h}}
+if(typeof bcExplain==='function'){const _bx=bcExplain;bcExplain=function(o){let h=_bx.apply(this,arguments);try{if(bcFmt()&&bcFmt().na)h=h.replace('Iguais (40-40): precisa ganhar 2 pontos seguidos.','Iguais (40-40), sem vantagem: quem ganhar o próximo ponto leva o game.')}catch(e){}return h}}
+// ---------------------------------------------------------------- 11) aviso de versão nova (o app aberto há horas continua com o código antigo)
+function bcVerCheck(){try{if(!/^https?:$/.test(location.protocol)||!/vercel\.app$/.test(location.hostname))return;
+ fetch('index.html?v='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{const mm=t&&t.match(/const VERSION='([\d.]+)'/);if(!mm||mm[1]===VERSION||document.getElementById('bcupd'))return;
+  const d=document.createElement('div');d.id='bcupd';d.className='bcupd';d.innerHTML=`<span>Nova versão ${mm[1]} disponível. ${IM||LIVE?'Atualize quando terminar a partida.':'Seu progresso fica salvo.'}</span><button onclick="try{save()}catch(e){};location.reload()">Atualizar</button>`;document.body.appendChild(d)}).catch(()=>{})}catch(e){}}
+setTimeout(bcVerCheck,5000);setInterval(bcVerCheck,15*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)bcVerCheck()});
